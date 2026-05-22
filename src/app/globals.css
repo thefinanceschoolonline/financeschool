@@ -5,39 +5,28 @@
 
 @layer base {
   :root {
-    --background: 21 14% 6%;
+    --background: 220 33% 4%;
     --foreground: 0 0% 98%;
-    --card: 21 14% 8%;
+    --card: 220 33% 6%;
     --card-foreground: 0 0% 98%;
-    --popover: 21 14% 6%;
+    --popover: 220 33% 4%;
     --popover-foreground: 0 0% 98%;
-    --primary: 19 89% 52%;
+    --primary: 24 95% 53%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 19 20% 15%;
+    --secondary: 220 20% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 21 14% 12%;
-    --muted-foreground: 21 10% 65%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 65%;
     --accent: 359 78% 56%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 21 14% 15%;
-    --input: 21 14% 15%;
-    --ring: 19 89% 52%;
-    --chart-1: 19 89% 52%;
+    --border: 220 15% 15%;
+    --input: 220 15% 15%;
+    --ring: 24 95% 53%;
+    --chart-1: 24 95% 53%;
     --chart-2: 359 78% 56%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.75rem;
-    --sidebar-background: 21 14% 4%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 19 89% 52%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 21 14% 12%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 21 14% 15%;
-    --sidebar-ring: 19 89% 52%;
+    --radius: 1.25rem;
   }
 }
 
@@ -53,14 +42,20 @@
   }
 }
 
-.glass {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10;
-}
-
-.orange-gradient {
-  background: linear-gradient(135deg, hsl(19 89% 52%) 0%, hsl(359 78% 56%) 100%);
-}
-
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-400 to-accent;
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
