@@ -1,8 +1,6 @@
-
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Target, Award, Quote } from "lucide-react";
 import Image from "next/image";
 
@@ -20,7 +18,7 @@ export function AboutSection() {
             <div className="relative aspect-square rounded-3xl overflow-hidden">
               <Image 
                 src="https://picsum.photos/seed/trading-team/800/800" 
-                alt="Our Academy" 
+                alt="Our School" 
                 fill 
                 className="object-cover"
                 data-ai-hint="stock trader office"
@@ -33,9 +31,9 @@ export function AboutSection() {
                 "We don't just teach trading, we build the mindset required to survive and thrive in volatile markets."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">L</div>
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">F</div>
                 <div>
-                  <p className="font-bold text-sm">Lume Founder</p>
+                  <p className="font-bold text-sm">Finance School Founder</p>
                   <p className="text-xs text-muted-foreground">Certified Research Analyst</p>
                 </div>
               </div>
@@ -49,7 +47,7 @@ export function AboutSection() {
           >
             <h2 className="text-3xl md:text-5xl font-headline font-bold mb-6">Helping You Learn <span className="text-primary">Stock Market Trading</span> the Right Way</h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              At Lume Finance Academy, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.
+              At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.
             </p>
             
             <div className="grid sm:grid-cols-2 gap-6">

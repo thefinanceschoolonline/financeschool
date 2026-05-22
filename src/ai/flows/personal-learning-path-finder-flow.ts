@@ -60,7 +60,7 @@ const prompt = ai.definePrompt({
   name: 'personalLearningPathFinderPrompt',
   input: {schema: PersonalLearningPathFinderInputSchema},
   output: {schema: PersonalLearningPathFinderOutputSchema},
-  prompt: `You are an expert financial education advisor at Lume Finance Academy. Your goal is to provide a personalized learning path and course recommendations to students based on their background and financial goals. You must analyze the student's input and recommend the most suitable courses from the list below, explaining your choices clearly.
+  prompt: `You are an expert financial education advisor at The Finance School. Your goal is to provide a personalized learning path and course recommendations to students based on their background and financial goals. You must analyze the student's input and recommend the most suitable courses from the list below, explaining your choices clearly.
 
 Here are the available courses:
 

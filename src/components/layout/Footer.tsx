@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -14,7 +13,7 @@ export function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <TrendingUp size={20} />
               </div>
-              <span className="font-headline text-xl font-bold">Lume<span className="text-primary">Academy</span></span>
+              <span className="font-headline text-xl font-bold">Finance<span className="text-primary">School</span></span>
             </Link>
             <p className="text-muted-foreground leading-relaxed">
               Empowering the next generation of Indian traders through practical education and institutional-grade strategies.
@@ -57,7 +56,7 @@ export function Footer() {
             <ul className="space-y-4 text-muted-foreground">
               <li className="flex gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>support@lumefinance.edu</span>
+                <span>support@thefinanceschool.online</span>
               </li>
               <li className="flex gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
@@ -73,7 +72,7 @@ export function Footer() {
         
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Lume Finance Academy. All rights reserved.
+            © {new Date().getFullYear()} The Finance School. All rights reserved.
           </p>
           <div className="flex gap-8 text-xs font-bold text-muted-foreground uppercase tracking-widest">
             <Link href="#" className="hover:text-white">Privacy Policy</Link>

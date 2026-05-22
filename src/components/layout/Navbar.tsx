@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -14,7 +13,7 @@ export function Navbar() {
             <TrendingUp size={20} />
           </div>
           <span className="font-headline text-xl font-bold tracking-tight">
-            Lume<span className="text-primary">Academy</span>
+            Finance<span className="text-primary">School</span>
           </span>
         </Link>
 

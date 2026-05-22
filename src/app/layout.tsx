@@ -1,10 +1,9 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Lume Finance Academy | Master Financial Markets',
-  description: 'Learn practical trading strategies, clear NISM certifications, and build real market skills with Lume Finance Academy.',
+  title: 'The Finance School | Master Financial Markets',
+  description: 'Learn practical trading strategies, clear NISM certifications, and build real market skills with The Finance School.',
 };
 
 export default function RootLayout({
