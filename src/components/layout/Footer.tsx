@@ -2,9 +2,11 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, Instagram, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { TrendingUp, Instagram, Youtube, Send, Facebook, Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+  
   return (
     <footer id="contact" className="bg-background pt-24 pb-12 border-t border-white/5">
       <div className="container mx-auto px-4">
@@ -16,68 +18,70 @@ export function Footer() {
               </div>
               <span className="font-headline text-xl font-bold">Finance<span className="text-primary">School</span></span>
             </Link>
-            <p className="text-muted-foreground leading-relaxed">
-              Empowering the next generation of Indian traders through practical education and institutional-grade strategies.
+            <p className="text-muted-foreground leading-relaxed text-sm">
+              Empowering the next generation of Indian traders through practical education and institutional-grade strategies. Consistency over hype.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary/10 hover:border-primary/50 transition-all">
-                <Instagram size={20} />
+              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+                <Instagram size={18} className="group-hover:text-white" />
               </Link>
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary/10 hover:border-primary/50 transition-all">
-                <Twitter size={20} />
+              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+                <Send size={18} className="group-hover:text-white" />
               </Link>
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary/10 hover:border-primary/50 transition-all">
-                <Linkedin size={20} />
+              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+                <Youtube size={18} className="group-hover:text-white" />
+              </Link>
+              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+                <Facebook size={18} className="group-hover:text-white" />
               </Link>
             </div>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-primary">Quick Links</h4>
-            <ul className="space-y-4 text-muted-foreground">
-              <li><Link href="#courses" className="hover:text-primary transition-colors">Course Marketplace</Link></li>
-              <li><Link href="#consultation" className="hover:text-primary transition-colors">Mentorship</Link></li>
-              <li><Link href="#about" className="hover:text-primary transition-colors">Our Story</Link></li>
+            <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-primary">Contact</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground">
+              <li className="flex gap-3">
+                <Mail className="w-4 h-4 text-primary shrink-0" />
+                <span>thefinanceschool461@gmail.com</span>
+              </li>
+              <li className="flex gap-3">
+                <Phone className="w-4 h-4 text-primary shrink-0" />
+                <span>+91 956 037 7562</span>
+              </li>
+              <li className="flex gap-3">
+                <MapPin className="w-4 h-4 text-primary shrink-0" />
+                <span>India</span>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-primary">Certifications</h4>
-            <ul className="space-y-4 text-muted-foreground">
-              <li><Link href="#" className="hover:text-primary transition-colors">NISM Series 8</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">NISM Series 15</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Crypto Trading Pro</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Research Analyst</Link></li>
+            <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-primary">Pages</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground font-medium">
+              <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
+              <li><Link href="/courses" className="hover:text-primary transition-colors">Courses</Link></li>
+              <li><Link href="/#consultation" className="hover:text-primary transition-colors">Consultation</Link></li>
+              <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-primary">Contact Us</h4>
-            <ul className="space-y-4 text-muted-foreground">
-              <li className="flex gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>support@thefinanceschool.online</span>
-              </li>
-              <li className="flex gap-3">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>+91 98765 43210</span>
-              </li>
-              <li className="flex gap-3">
-                <MapPin className="w-5 h-5 text-primary shrink-0" />
-                <span>Navi Mumbai, Maharashtra, India</span>
-              </li>
+            <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-primary">Legal</h4>
+            <ul className="space-y-4 text-sm text-muted-foreground font-medium">
+              <li><Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
         
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} The Finance School. All rights reserved.
+          <p className="text-xs text-muted-foreground font-medium">
+            Copyright © 2026 The Finance School. All rights reserved.
           </p>
-          <div className="flex gap-8 text-xs font-bold text-muted-foreground uppercase tracking-widest">
-            <Link href="#" className="hover:text-white">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white">Terms of Service</Link>
-            <Link href="#" className="hover:text-white">Cookie Policy</Link>
+          <div className="flex gap-8 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
+            <span>Empowering Traders</span>
+            <span>Built for Results</span>
           </div>
         </div>
       </div>

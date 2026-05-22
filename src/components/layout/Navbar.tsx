@@ -25,14 +25,14 @@ export function Navbar() {
           <Link href="/#consultation" className="text-sm font-medium transition-colors hover:text-primary">
             Consultation
           </Link>
-          <Link href="/#about" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
             About Us
           </Link>
           <Link href="/#contact" className="text-sm font-medium transition-colors hover:text-primary">
             Contact
           </Link>
           <Link href="/courses">
-            <Button size="sm" className="bg-primary hover:bg-primary/90">
+            <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl px-6 font-bold shadow-lg shadow-primary/20">
               Get Started
             </Button>
           </Link>
