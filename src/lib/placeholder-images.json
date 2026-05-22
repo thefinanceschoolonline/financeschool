@@ -1,22 +1,40 @@
 {
   "placeholderImages": [
     {
-      "id": "course-nism8",
-      "description": "NISM Series 8 Equity Derivatives",
-      "imageUrl": "https://picsum.photos/seed/nism8/600/400",
+      "id": "course-nism8-full",
+      "description": "NISM Series 8 Equity Derivatives Combo",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_29_58-PM.png",
       "imageHint": "finance trading"
     },
     {
-      "id": "course-nism15",
+      "id": "course-nism15-full",
       "description": "NISM Series 15 Research Analyst",
-      "imageUrl": "https://picsum.photos/seed/nism15/600/400",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_28_24-PM.png",
       "imageHint": "data analysis"
     },
     {
-      "id": "course-crypto",
+      "id": "course-crypto-az-full",
       "description": "Ultimate Crypto Trading Course",
-      "imageUrl": "https://picsum.photos/seed/crypto/600/400",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_57_42-PM-1024x576.png",
       "imageHint": "cryptocurrency bitcoin"
+    },
+    {
+      "id": "course-lw-strategy",
+      "description": "LW Strategy Master Course",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_40_27-PM-1024x576.png",
+      "imageHint": "trading strategy"
+    },
+    {
+      "id": "course-crypto-live",
+      "description": "Crypto Live Classes 1-on-1",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_55_17-PM.png",
+      "imageHint": "online mentorship"
+    },
+    {
+      "id": "course-combo-personalized",
+      "description": "Crypto and Stock Combo Course",
+      "imageUrl": "https://thefinanceschool.online/wp-content/uploads/2026/05/ChatGPT-Image-May-4-2026-03_52_45-PM.png",
+      "imageHint": "financial markets"
     },
     {
       "id": "hero-bg",

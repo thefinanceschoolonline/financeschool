@@ -14,26 +14,28 @@ export function Navbar() {
             <TrendingUp size={20} />
           </div>
           <span className="font-headline text-xl font-bold tracking-tight">
-            Finance<span className="text-primary">School</span>
+            The Finance<span className="text-primary">School</span>
           </span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="#courses" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/courses" className="text-sm font-medium transition-colors hover:text-primary">
             Courses
           </Link>
-          <Link href="#consultation" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/#consultation" className="text-sm font-medium transition-colors hover:text-primary">
             Consultation
           </Link>
-          <Link href="#about" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/#about" className="text-sm font-medium transition-colors hover:text-primary">
             About Us
           </Link>
-          <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/#contact" className="text-sm font-medium transition-colors hover:text-primary">
             Contact
           </Link>
-          <Button size="sm" className="bg-primary hover:bg-primary/90">
-            Get Started
-          </Button>
+          <Link href="/courses">
+            <Button size="sm" className="bg-primary hover:bg-primary/90">
+              Get Started
+            </Button>
+          </Link>
         </div>
 
         <button className="md:hidden">
