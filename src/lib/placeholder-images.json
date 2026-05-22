@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "course-nism8",
+      "description": "NISM Series 8 Equity Derivatives",
+      "imageUrl": "https://picsum.photos/seed/nism8/600/400",
+      "imageHint": "finance trading"
+    },
+    {
+      "id": "course-nism15",
+      "description": "NISM Series 15 Research Analyst",
+      "imageUrl": "https://picsum.photos/seed/nism15/600/400",
+      "imageHint": "data analysis"
+    },
+    {
+      "id": "course-crypto",
+      "description": "Ultimate Crypto Trading Course",
+      "imageUrl": "https://picsum.photos/seed/crypto/600/400",
+      "imageHint": "cryptocurrency bitcoin"
+    },
+    {
+      "id": "hero-bg",
+      "description": "Dark Financial Chart Background",
+      "imageUrl": "https://picsum.photos/seed/finance-hero/1920/1080",
+      "imageHint": "stock chart"
+    }
+  ]
 }
