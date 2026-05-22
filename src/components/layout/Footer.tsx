@@ -1,7 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, Instagram, Youtube, Send, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Youtube, Send, Facebook, Mail, Phone, MapPin } from "lucide-react";
+
+function LogoIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M8 15l2-2 3 3 3-3" />
+    </svg>
+  );
+}
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,7 +30,7 @@ export function Footer() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <TrendingUp size={20} />
+                <LogoIcon className="h-5 w-5" />
               </div>
               <span className="font-headline text-xl font-bold">Finance<span className="text-primary">School</span></span>
             </Link>
