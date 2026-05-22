@@ -1,7 +1,8 @@
+
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, Instagram, Twitter, Linkedin, Github, Mail, MapPin, Phone } from "lucide-react";
+import { TrendingUp, Instagram, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 export function Footer() {
   return (
@@ -35,7 +36,6 @@ export function Footer() {
             <h4 className="font-bold mb-6 uppercase tracking-widest text-sm text-primary">Quick Links</h4>
             <ul className="space-y-4 text-muted-foreground">
               <li><Link href="#courses" className="hover:text-primary transition-colors">Course Marketplace</Link></li>
-              <li><Link href="#ai-finder" className="hover:text-primary transition-colors">AI Path Finder</Link></li>
               <li><Link href="#consultation" className="hover:text-primary transition-colors">Mentorship</Link></li>
               <li><Link href="#about" className="hover:text-primary transition-colors">Our Story</Link></li>
             </ul>

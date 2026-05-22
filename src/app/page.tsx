@@ -2,7 +2,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroSection } from "@/components/sections/Hero";
 import { CoursesSection } from "@/components/sections/Courses";
-import { AIPathFinder } from "@/components/sections/AIPathFinder";
 import { ConsultationSection } from "@/components/sections/Consultation";
 import { AboutSection } from "@/components/sections/About";
 import { Footer } from "@/components/layout/Footer";
@@ -18,10 +17,6 @@ export default function Home() {
           <CoursesSection />
         </div>
         
-        <div id="ai-finder">
-          <AIPathFinder />
-        </div>
-        
         <div id="consultation">
           <ConsultationSection />
         </div>
@@ -30,7 +25,7 @@ export default function Home() {
           <AboutSection />
         </div>
         
-        {/* Testimonial / Social Proof Ticker Mockup */}
+        {/* Testimonial / Social Proof Ticker */}
         <section className="py-12 bg-primary/10 overflow-hidden whitespace-nowrap border-y border-primary/20">
           <div className="flex animate-marquee items-center gap-12 text-lg font-headline font-bold uppercase tracking-tighter text-primary/50">
             <span>TRUSTED BY 1000+ LEARNERS</span>

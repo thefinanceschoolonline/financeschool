@@ -72,9 +72,9 @@ export function HeroSection() {
               <ArrowRight className="h-5 w-5" />
             </Button>
           </Link>
-          <Link href="#ai-finder">
+          <Link href="#consultation">
             <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
-              Find My Career Path
+              Book a Consultation
             </Button>
           </Link>
         </motion.div>
