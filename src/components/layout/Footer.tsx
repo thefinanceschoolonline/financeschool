@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -8,7 +7,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer id="contact" className="bg-background pt-24 pb-12 border-t border-white/5">
+    <footer className="bg-background pt-24 pb-12 border-t border-white/5">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
@@ -62,6 +61,7 @@ export function Footer() {
               <li><Link href="/courses" className="hover:text-primary transition-colors">Courses</Link></li>
               <li><Link href="/#consultation" className="hover:text-primary transition-colors">Consultation</Link></li>
               <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -77,7 +77,7 @@ export function Footer() {
         
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-xs text-muted-foreground font-medium">
-            Copyright © 2026 The Finance School. All rights reserved.
+            Copyright © {currentYear} The Finance School. All rights reserved.
           </p>
           <div className="flex gap-8 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
             <span>Empowering Traders</span>
