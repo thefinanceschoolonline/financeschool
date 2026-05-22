@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -16,10 +15,8 @@ import {
 } from "@/components/ui/accordion";
 import { 
   ArrowRight, 
-  CheckCircle2, 
   ChevronRight, 
   BookOpen, 
-  Users, 
   Zap, 
   CircleCheck,
   HelpCircle
@@ -111,6 +108,8 @@ const faqs = [
   }
 ];
 
+const FALLBACK_IMAGE = "https://picsum.photos/seed/finance-placeholder/1024/576";
+
 export default function CoursesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -165,7 +164,7 @@ export default function CoursesPage() {
               >
                 <div className={`relative aspect-video rounded-3xl overflow-hidden group border border-white/5 shadow-2xl ${course.layout === 'right' ? 'lg:order-2' : ''}`}>
                   <Image 
-                    src={course.image || ""} 
+                    src={course.image || FALLBACK_IMAGE} 
                     alt={course.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"

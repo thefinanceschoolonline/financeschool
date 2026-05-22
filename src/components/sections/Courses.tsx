@@ -16,7 +16,7 @@ const courses = [
     price: "599",
     oldPrice: "1,499",
     features: ["NISM Series 8 Complete Syllabus", "Equity & Derivatives Concepts", "Recorded Video Lectures", "Study Material Included", "Beginner Friendly"],
-    image: PlaceHolderImages.find(img => img.id === "course-nism8")?.imageUrl,
+    image: PlaceHolderImages.find(img => img.id === "course-nism8-full")?.imageUrl,
     tag: "Certification",
     icon: BookOpen
   },
@@ -27,7 +27,7 @@ const courses = [
     price: "599",
     oldPrice: "1,499",
     features: ["NISM Series 15 Full Syllabus", "Equity Research & Valuation", "Financial Statement Analysis", "SEBI Regulations Covered", "Hindi + Easy Explanation"],
-    image: PlaceHolderImages.find(img => img.id === "course-nism15")?.imageUrl,
+    image: PlaceHolderImages.find(img => img.id === "course-nism15-full")?.imageUrl,
     tag: "Professional",
     icon: Layers,
     popular: true
@@ -39,11 +39,13 @@ const courses = [
     price: "2,999",
     oldPrice: "9,999",
     features: ["Beginner to Advanced Crypto", "LW Strategy Included", "Market Structure & Liquidity", "Trade Setup & Execution", "Real Market Insights"],
-    image: PlaceHolderImages.find(img => img.id === "course-crypto")?.imageUrl,
+    image: PlaceHolderImages.find(img => img.id === "course-crypto-az-full")?.imageUrl,
     tag: "Advanced",
     icon: Terminal
   }
 ];
+
+const FALLBACK_IMAGE = "https://picsum.photos/seed/finance-placeholder/800/600";
 
 export function CoursesSection() {
   return (
@@ -74,7 +76,7 @@ export function CoursesSection() {
                 
                 <div className="relative h-48 overflow-hidden">
                   <Image 
-                    src={course.image || ""} 
+                    src={course.image || FALLBACK_IMAGE} 
                     alt={course.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

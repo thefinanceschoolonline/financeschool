@@ -28,6 +28,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'thefinanceschool.online',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'thefinanceschool.online',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
