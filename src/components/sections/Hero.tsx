@@ -51,8 +51,8 @@ export function HeroSection() {
       style={{
         backgroundImage:
           "url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
-        backgroundSize: "75%",
-        backgroundPosition: "center 75%",
+        backgroundSize: "contain",
+        backgroundPosition: "center bottom",
         backgroundRepeat: "no-repeat",
       }}
     >
