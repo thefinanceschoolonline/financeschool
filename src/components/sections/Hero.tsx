@@ -148,7 +148,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Featured Banner Image */}
+        {/* Standalone Featured Banner Image Section */}
         <motion.div 
           variants={itemVariants}
           className="mt-20 md:mt-32 w-full max-w-6xl mx-auto group"
