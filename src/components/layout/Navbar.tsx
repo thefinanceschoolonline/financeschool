@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -60,19 +59,29 @@ export function Navbar() {
           scrolled ? "bg-background/95 backdrop-blur-md shadow-sm border-white/5" : "bg-background border-white/10"
         )}
       >
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative h-10 w-10 overflow-hidden transition-transform group-hover:scale-105">
-              <Image 
-                src={logoUrl} 
-                alt="The Finance School Logo" 
-                fill 
-                className="object-contain"
-              />
+        <div className="container mx-auto flex h-20 items-center justify-between px-4">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative h-12 w-12 flex items-center justify-center">
+              {/* Logo Glow */}
+              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse group-hover:bg-primary/30 transition-colors" />
+              {/* Logo Container */}
+              <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:border-primary/50">
+                <Image 
+                  src={logoUrl} 
+                  alt="The Finance School Logo" 
+                  fill 
+                  className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
             </div>
-            <span className="font-headline text-xl font-bold tracking-tight hidden sm:inline-block">
-              The Finance<span className="text-primary">School</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="font-headline text-xl font-bold tracking-tight leading-none">
+                The Finance<span className="text-primary">School</span>
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground group-hover:text-primary transition-colors">
+                Legacy of Excellence
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -135,7 +144,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-16 left-0 w-full bg-background border-b border-white/5 z-10 hidden md:block"
+            className="absolute top-20 left-0 w-full bg-background border-b border-white/5 z-10 hidden md:block"
             onMouseEnter={() => setIsShopSubOpen(true)}
             onMouseLeave={() => setIsShopSubOpen(false)}
             onClick={(e) => e.stopPropagation()}
