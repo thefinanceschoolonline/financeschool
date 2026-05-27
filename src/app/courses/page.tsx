@@ -88,15 +88,29 @@ const coursesList = [
 ];
 
 export default function CoursesPage() {
+  const bannerImage = PlaceHolderImages.find(img => img.id === "banner-courses");
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
       
-      <main className="flex-grow">
-        {/* Header Section */}
-        <section className="relative pt-32 pb-24 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10" />
-          <div className="container mx-auto px-4 text-center">
+      <main className="flex-grow pt-16">
+        {/* Header Section with Banner */}
+        <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden border-b border-white/5">
+          {bannerImage && (
+            <div className="absolute inset-0">
+              <Image 
+                src={bannerImage.imageUrl} 
+                alt={bannerImage.description}
+                fill
+                className="object-cover"
+                priority
+                data-ai-hint={bannerImage.imageHint}
+              />
+              <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
+            </div>
+          )}
+          <div className="container relative z-10 mx-auto px-4 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

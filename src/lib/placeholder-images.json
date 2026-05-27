@@ -41,6 +41,24 @@
       "description": "Dark Financial Chart Background",
       "imageUrl": "https://picsum.photos/seed/finance-hero/1920/1080",
       "imageHint": "stock chart"
+    },
+    {
+      "id": "banner-about",
+      "description": "About Us Page Banner",
+      "imageUrl": "https://picsum.photos/seed/stock-about-banner/1920/600",
+      "imageHint": "stock exchange"
+    },
+    {
+      "id": "banner-contact",
+      "description": "Contact Us Page Banner",
+      "imageUrl": "https://picsum.photos/seed/stock-contact-banner/1920/600",
+      "imageHint": "trading desk"
+    },
+    {
+      "id": "banner-courses",
+      "description": "Courses Page Banner",
+      "imageUrl": "https://picsum.photos/seed/stock-courses-banner/1920/600",
+      "imageHint": "market analysis"
     }
   ]
 }
