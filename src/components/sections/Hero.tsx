@@ -15,7 +15,6 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -104,21 +103,17 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Banner image - EMBEDDED IN FLOW BEFORE STATS */}
+        {/* Visual area using CSS Background Image */}
         <motion.div 
           variants={itemVariants}
-          className="w-full max-w-6xl mb-20 px-4"
+          className="w-full max-w-6xl mb-20 aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] transition-transform duration-500 hover:scale-[1.01] relative overflow-hidden"
+          style={{
+            backgroundImage: `url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         >
-          <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] group transition-transform duration-500 hover:scale-[1.01]">
-            <Image 
-              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
-              alt="Trading Dashboard"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
         </motion.div>
 
         {/* Stats section */}
