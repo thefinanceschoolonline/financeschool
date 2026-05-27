@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -115,6 +117,23 @@ export function HeroSection() {
                 </Link>
               ))}
             </div>
+          </div>
+        </motion.div>
+
+        {/* Hero Banner Image */}
+        <motion.div 
+          variants={itemVariants}
+          className="relative w-full max-w-5xl mx-auto mb-20 px-4 group"
+        >
+          <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_50px_-12px_rgba(249,115,22,0.4)] transition-transform duration-500 group-hover:scale-[1.01]">
+            <Image
+              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
+              alt="The Finance School Trading Strategy"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
           </div>
         </motion.div>
 
