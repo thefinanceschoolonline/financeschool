@@ -60,7 +60,7 @@ export function HeroSection() {
         animate="visible"
         className="container mx-auto flex flex-col items-center justify-center px-4 text-center"
       >
-        {/* 1. Badge (Optional, kept for premium feel) */}
+        {/* Badge */}
         <motion.div variants={itemVariants} className="mb-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
             <Sparkles className="h-4 w-4" />
@@ -68,7 +68,7 @@ export function HeroSection() {
           </span>
         </motion.div>
 
-        {/* 1. Heading */}
+        {/* Heading */}
         <motion.h1
           variants={itemVariants}
           className="mb-6 font-headline text-5xl font-bold tracking-tight md:text-8xl leading-tight"
@@ -78,7 +78,7 @@ export function HeroSection() {
           <span className="text-gradient">With Precision</span>
         </motion.h1>
 
-        {/* 2. Description text */}
+        {/* Description text */}
         <motion.p
           variants={itemVariants}
           className="mb-10 max-w-3xl text-lg md:text-xl text-muted-foreground"
@@ -87,7 +87,23 @@ export function HeroSection() {
           without the hype. Professional education for the modern investor.
         </motion.p>
 
-        {/* 3. CTA buttons */}
+        {/* Banner image - PLACED DIRECTLY UNDER TEXT */}
+        <motion.div 
+          variants={itemVariants}
+          className="w-full max-w-5xl mb-12 px-4"
+        >
+          <div className="relative aspect-[16/9] rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] group transition-transform duration-500 hover:scale-[1.01]">
+            <Image 
+              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
+              alt="Trading Dashboard"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        </motion.div>
+
+        {/* CTA buttons */}
         <motion.div variants={itemVariants} className="mb-16">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="#courses">
@@ -104,23 +120,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* 4. Banner image (Directly under buttons/text) */}
-        <motion.div 
-          variants={itemVariants}
-          className="w-full max-w-5xl mb-20 px-4"
-        >
-          <div className="relative aspect-[16/9] rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] group transition-transform duration-500 hover:scale-[1.01]">
-            <Image 
-              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
-              alt="Trading Dashboard"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </motion.div>
-
-        {/* 5. Stats section (Below the banner) */}
+        {/* Stats section */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-12 border-t border-white/10 w-full max-w-4xl"
@@ -149,7 +149,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Social Media (Moved to bottom of section) */}
+        {/* Social Media */}
         <motion.div variants={itemVariants} className="mt-16 flex flex-col items-center gap-4">
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Follow Our Community</span>
           <div className="flex gap-4">
