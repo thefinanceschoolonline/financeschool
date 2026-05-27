@@ -8,15 +8,14 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { 
   ArrowRight, 
   ChevronRight, 
   CheckCheck,
-  Star,
   Zap,
   BookOpen,
-  CircleCheck,
-  TrendingUp
+  CircleCheck
 } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NumberFlow from "@number-flow/react";
@@ -31,8 +30,7 @@ const coursesList = [
     tags: ["NISM Prep", "Beginner", "Recorded Lectures"],
     enrollLink: "https://imjo.in/tZhckj",
     image: PlaceHolderImages.find(img => img.id === "course-nism8-full")?.imageUrl,
-    features: ["Full Certification Syllabus", "Recorded High-Quality Lectures", "Study Material Books Combo", "Mock Test Guidance"],
-    layout: "left"
+    features: ["Full Certification Syllabus", "Recorded High-Quality Lectures", "Study Material Books Combo", "Mock Test Guidance"]
   },
   {
     id: "nism-series-15",
@@ -43,8 +41,7 @@ const coursesList = [
     tags: ["Research Analyst", "Hindi", "SEBI"],
     enrollLink: "https://imjo.in/yKSphX",
     image: PlaceHolderImages.find(img => img.id === "course-nism15-full")?.imageUrl,
-    features: ["Hindi Language Medium", "Equity Research Modules", "Financial Statement Analysis", "SEBI Regulations"],
-    layout: "right"
+    features: ["Hindi Language Medium", "Equity Research Modules", "Financial Statement Analysis", "SEBI Regulations"]
   },
   {
     id: "crypto-az",
@@ -56,19 +53,17 @@ const coursesList = [
     enrollLink: "https://imjo.in/QgnbDY",
     badge: "Most Popular",
     image: PlaceHolderImages.find(img => img.id === "course-crypto-az-full")?.imageUrl,
-    features: ["A to Z Market Mastery", "Proprietary LW Strategy", "Liquidity & Order Blocks", "Real Market Execution"],
-    layout: "left"
+    features: ["A to Z Market Mastery", "Proprietary LW Strategy", "Liquidity & Order Blocks", "Real Market Execution"]
   },
   {
     id: "lw-strategy",
     title: "LW Strategy: Master Course",
-    price: null, // Contact for pricing
+    price: null,
     description: "Deep-dive into the LW Strategy — a proprietary trading methodology focused on liquidity, market structure, and precision entries. Designed for traders who want a systematic edge.",
     tags: ["Advanced", "Proprietary", "Systematic"],
     enrollLink: "https://imjo.in/evyGME",
     image: PlaceHolderImages.find(img => img.id === "course-lw-strategy")?.imageUrl,
-    features: ["Precision Entry Models", "Institutional Liquidity", "Advanced Market Structure", "Private Strategy Community"],
-    layout: "right"
+    features: ["Precision Entry Models", "Institutional Liquidity", "Advanced Market Structure", "Private Strategy Community"]
   },
   {
     id: "crypto-live",
@@ -78,8 +73,7 @@ const coursesList = [
     tags: ["Mentorship", "Personalized", "Live"],
     enrollLink: "https://imjo.in/pC6qZp",
     image: PlaceHolderImages.find(img => img.id === "course-crypto-live")?.imageUrl,
-    features: ["Custom Learning Path", "1-on-1 Live Mentorship", "Direct Query Resolution", "Practical Market Trading"],
-    layout: "left"
+    features: ["Custom Learning Path", "1-on-1 Live Mentorship", "Direct Query Resolution", "Practical Market Trading"]
   },
   {
     id: "combo-personalized",
@@ -89,8 +83,7 @@ const coursesList = [
     tags: ["Combo", "1-to-1", "Full Spectrum"],
     enrollLink: "https://imjo.in/AcxnDv",
     image: PlaceHolderImages.find(img => img.id === "course-combo-personalized")?.imageUrl,
-    features: ["Dual Market Knowledge", "Inter-Market Analysis", "Personalized Mentorship", "Career Support"],
-    layout: "right"
+    features: ["Dual Market Knowledge", "Inter-Market Analysis", "Personalized Mentorship", "Career Support"]
   }
 ];
 
@@ -137,94 +130,100 @@ export default function CoursesPage() {
           </div>
         </section>
 
-        {/* Course Rows */}
+        {/* Course Cards */}
         <section className="pb-32">
-          <div className="container mx-auto px-4 space-y-32">
+          <div className="container mx-auto px-4 space-y-12">
             {coursesList.map((course, idx) => (
               <motion.div
                 key={course.id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, margin: "-100px" }}
-                className={`grid lg:grid-cols-2 gap-16 items-center`}
               >
-                <div className={`relative aspect-video rounded-[2rem] overflow-hidden group border border-white/5 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] ${course.layout === 'right' ? 'lg:order-2' : ''}`}>
-                  <Image 
-                    src={course.image || "https://picsum.photos/seed/finance/800/450"} 
-                    alt={course.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    data-ai-hint="finance trading"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
-                  {course.badge && (
-                    <div className="absolute top-8 left-8">
-                      <Badge className="bg-primary text-white font-bold py-2 px-6 shadow-2xl shadow-primary/40 border-0">
-                        {course.badge}
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-
-                <div className={`space-y-8 ${course.layout === 'right' ? 'lg:order-1' : ''}`}>
-                  <div className="flex flex-wrap gap-3">
-                    {course.tags.map((tag, i) => (
-                      <span key={i} className="text-[10px] font-bold uppercase tracking-widest text-primary/80 bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-3xl md:text-5xl font-headline font-bold leading-tight hover:text-primary transition-colors cursor-pointer">
-                      <Link href={`/courses/${course.id}`}>{course.title}</Link>
-                    </h3>
-                    <div className="flex items-baseline gap-4">
-                      {course.price ? (
-                        <div className="flex items-center gap-3">
-                          <span className="text-4xl font-bold text-foreground">
-                            ₹<NumberFlow value={course.price} />
-                          </span>
-                          {course.oldPrice && (
-                            <span className="text-xl text-muted-foreground line-through opacity-50">₹{course.oldPrice}</span>
-                          )}
+                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-[2.5rem] group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                  <div className="flex flex-col lg:flex-row min-h-full">
+                    {/* Thumbnail Section */}
+                    <div className="lg:w-2/5 relative aspect-video lg:aspect-auto min-h-[250px] overflow-hidden">
+                      <Image 
+                        src={course.image || "https://picsum.photos/seed/finance/800/450"} 
+                        alt={course.title}
+                        fill
+                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-40 lg:hidden" />
+                      {course.badge && (
+                        <div className="absolute top-6 left-6">
+                          <Badge className="bg-primary text-white font-bold py-1.5 px-4 shadow-2xl shadow-primary/40 border-0">
+                            {course.badge}
+                          </Badge>
                         </div>
-                      ) : (
-                        <span className="text-2xl font-bold text-primary">Contact for Pricing</span>
                       )}
                     </div>
-                  </div>
 
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {course.description}
-                  </p>
-
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {course.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-3 group/item">
-                        <div className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                          <CheckCheck className="h-3.5 w-3.5 text-primary" />
+                    {/* Content Section */}
+                    <div className="lg:w-3/5 p-8 md:p-12 flex flex-col justify-center space-y-8">
+                      <div className="space-y-4">
+                        <div className="flex flex-wrap gap-2">
+                          {course.tags.map((tag, i) => (
+                            <span key={i} className="text-[10px] font-bold uppercase tracking-widest text-primary/80 bg-primary/5 px-3 py-1 rounded-full border border-primary/10">
+                              {tag}
+                            </span>
+                          ))}
                         </div>
-                        <span className="text-sm font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                        
+                        <div className="space-y-2">
+                          <h3 className="text-2xl md:text-4xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">
+                            <Link href={`/courses/${course.id}`}>{course.title}</Link>
+                          </h3>
+                          <div className="flex items-baseline gap-4">
+                            {course.price ? (
+                              <div className="flex items-center gap-3">
+                                <span className="text-3xl font-bold text-foreground">
+                                  ₹<NumberFlow value={course.price} />
+                                </span>
+                                {course.oldPrice && (
+                                  <span className="text-lg text-muted-foreground line-through opacity-50 font-medium">₹{course.oldPrice}</span>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-xl font-bold text-primary">Contact for Pricing</span>
+                            )}
+                          </div>
+                        </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Link href={course.enrollLink} target="_blank" className="flex-1">
-                      <Button className="w-full h-14 rounded-2xl bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 text-lg font-bold group transition-all">
-                        Enroll Now
-                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </Link>
-                    <Link href={`/courses/${course.id}`} className="flex-1">
-                      <Button variant="outline" className="w-full h-14 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 text-lg font-bold">
-                        Learn More
-                      </Button>
-                    </Link>
+                        <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                          {course.description}
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                        {course.features.slice(0, 4).map((feature, i) => (
+                          <div key={i} className="flex items-center gap-3 group/item">
+                            <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                              <CheckCheck className="h-3 w-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-4 pt-4 mt-auto">
+                        <Link href={course.enrollLink} target="_blank" className="flex-1">
+                          <Button className="w-full h-14 rounded-2xl bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 text-lg font-bold group transition-all">
+                            Enroll Now
+                            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                          </Button>
+                        </Link>
+                        <Link href={`/courses/${course.id}`} className="flex-1">
+                          <Button variant="outline" className="w-full h-14 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 text-lg font-bold">
+                            Learn More
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -239,9 +238,7 @@ export default function CoursesPage() {
             </div>
             
             <div className="relative">
-              {/* Connecting line */}
               <div className="hidden lg:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent -z-10" />
-              
               <div className="grid lg:grid-cols-3 gap-16">
                 {[
                   { step: "01", title: "Choose Your Course", desc: "Select from our specialized NISM certifications or Advanced Crypto modules.", icon: BookOpen },
@@ -327,7 +324,7 @@ export default function CoursesPage() {
                   Get Started
                 </Button>
               </Link>
-              <Link href="/#contact">
+              <Link href="/contact">
                 <Button size="lg" variant="outline" className="h-16 px-12 text-xl font-bold rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
                   Contact Us
                 </Button>
