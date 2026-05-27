@@ -15,6 +15,7 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -30,7 +31,7 @@ export function HeroSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.1,
       },
     },
@@ -46,7 +47,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-24 md:pt-48 md:pb-32">
+    <section className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
       {/* Background Decor */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
@@ -90,30 +91,32 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="mb-16">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="#courses">
-              <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2 rounded-2xl">
+              <Button size="lg" className="h-14 px-10 text-lg font-bold bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/25 gap-2 rounded-2xl">
                 Start Learning Now
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
             <Link href="#consultation">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl">
+              <Button size="lg" variant="outline" className="h-14 px-10 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl">
                 Book a Consultation
               </Button>
             </Link>
           </div>
         </motion.div>
 
-        {/* Visual area using CSS Background Image */}
+        {/* Featured Dashboard Image - As seen in your reference screenshot */}
         <motion.div 
           variants={itemVariants}
-          className="w-full max-w-6xl mb-20 aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] transition-transform duration-500 hover:scale-[1.01] relative overflow-hidden"
-          style={{
-            backgroundImage: `url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+          className="relative w-full max-w-5xl mb-24 aspect-[16/8] md:aspect-[16/7.5] rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_80px_-20px_rgba(249,115,22,0.4)] group transition-transform duration-700 hover:scale-[1.01]"
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
+          <Image 
+            src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
+            alt="Trading Dashboard Preview"
+            fill
+            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none" />
         </motion.div>
 
         {/* Stats section */}
@@ -124,24 +127,24 @@ export function HeroSection() {
           <div className="flex flex-col items-center gap-1">
             <div className="text-3xl font-bold text-foreground">1,200+</div>
             <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3" /> Students
+              <ShieldCheck className="w-3 h-3 text-primary" /> Students
             </div>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="text-3xl font-bold text-foreground">6+</div>
             <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
-              <Zap className="w-3 h-3" /> Years
+              <Zap className="w-3 h-3 text-primary" /> Years
             </div>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="text-3xl font-bold text-foreground">42+</div>
             <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
-              <TrendingUp className="w-3 h-3" /> Live Sessions
+              <TrendingUp className="w-3 h-3 text-primary" /> Live Sessions
             </div>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="text-3xl font-bold text-foreground">100%</div>
-            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold">Practical</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold text-primary">Practical</div>
           </div>
         </motion.div>
 
