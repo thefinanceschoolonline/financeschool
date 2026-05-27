@@ -46,7 +46,16 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
+    <section
+      className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32"
+      style={{
+        backgroundImage:
+          "url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+        backgroundSize: "75%",
+        backgroundPosition: "center 75%",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* Background Decor */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
