@@ -141,20 +141,20 @@ export default function CoursesPage() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-[2.5rem] group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-3xl group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
                   <div className="flex flex-col lg:flex-row min-h-full">
                     {/* Thumbnail Section */}
-                    <div className="lg:w-2/5 relative aspect-video lg:aspect-auto min-h-[250px] overflow-hidden">
+                    <div className="lg:w-2/5 relative aspect-[16/10] lg:aspect-auto min-h-[220px] overflow-hidden">
                       <Image 
                         src={course.image || "https://picsum.photos/seed/finance/800/450"} 
                         alt={course.title}
                         fill
                         className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-40 lg:hidden" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-60 lg:hidden" />
                       {course.badge && (
-                        <div className="absolute top-6 left-6">
-                          <Badge className="bg-primary text-white font-bold py-1.5 px-4 shadow-2xl shadow-primary/40 border-0">
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-2xl shadow-primary/40 border-0 text-[10px]">
                             {course.badge}
                           </Badge>
                         </div>
@@ -162,7 +162,7 @@ export default function CoursesPage() {
                     </div>
 
                     {/* Content Section */}
-                    <div className="lg:w-3/5 p-8 md:p-12 flex flex-col justify-center space-y-8">
+                    <div className="lg:w-3/5 p-6 md:p-10 flex flex-col justify-center space-y-6">
                       <div className="space-y-4">
                         <div className="flex flex-wrap gap-2">
                           {course.tags.map((tag, i) => (
@@ -173,50 +173,50 @@ export default function CoursesPage() {
                         </div>
                         
                         <div className="space-y-2">
-                          <h3 className="text-2xl md:text-4xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">
+                          <h3 className="text-2xl md:text-3xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">
                             <Link href={`/courses/${course.id}`}>{course.title}</Link>
                           </h3>
                           <div className="flex items-baseline gap-4">
                             {course.price ? (
                               <div className="flex items-center gap-3">
-                                <span className="text-3xl font-bold text-foreground">
+                                <span className="text-2xl font-bold text-foreground">
                                   ₹<NumberFlow value={course.price} />
                                 </span>
                                 {course.oldPrice && (
-                                  <span className="text-lg text-muted-foreground line-through opacity-50 font-medium">₹{course.oldPrice}</span>
+                                  <span className="text-base text-muted-foreground line-through opacity-50 font-medium">₹{course.oldPrice}</span>
                                 )}
                               </div>
                             ) : (
-                              <span className="text-xl font-bold text-primary">Contact for Pricing</span>
+                              <span className="text-lg font-bold text-primary">Contact for Pricing</span>
                             )}
                           </div>
                         </div>
 
-                        <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
                           {course.description}
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                         {course.features.slice(0, 4).map((feature, i) => (
-                          <div key={i} className="flex items-center gap-3 group/item">
-                            <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                              <CheckCheck className="h-3 w-3 text-primary" />
+                          <div key={i} className="flex items-center gap-2 group/item">
+                            <div className="h-4 w-4 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                              <CheckCheck className="h-2.5 w-2.5 text-primary" />
                             </div>
-                            <span className="text-xs font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
+                            <span className="text-[11px] font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
                           </div>
                         ))}
                       </div>
 
-                      <div className="flex flex-col sm:flex-row gap-4 pt-4 mt-auto">
+                      <div className="flex flex-col sm:flex-row gap-4 pt-2 mt-auto">
                         <Link href={course.enrollLink} target="_blank" className="flex-1">
-                          <Button className="w-full h-14 rounded-2xl bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 text-lg font-bold group transition-all">
+                          <Button className="w-full h-12 rounded-2xl bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 font-bold group transition-all">
                             Enroll Now
-                            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </Button>
                         </Link>
                         <Link href={`/courses/${course.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full h-14 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 text-lg font-bold">
+                          <Button variant="outline" className="w-full h-12 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 font-bold">
                             Learn More
                           </Button>
                         </Link>

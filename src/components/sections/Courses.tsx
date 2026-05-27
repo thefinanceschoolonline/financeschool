@@ -71,54 +71,54 @@ export function CoursesSection() {
               transition={{ delay: idx * 0.15, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-primary/50 transition-all duration-500 rounded-[2.5rem] ${course.popular ? 'ring-2 ring-primary shadow-2xl shadow-primary/20' : ''}`}>
+              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-primary/50 transition-all duration-500 rounded-3xl ${course.popular ? 'ring-2 ring-primary shadow-2xl shadow-primary/20' : ''}`}>
                 {course.popular && (
-                  <div className="absolute top-6 right-6 z-10">
-                    <Badge className="bg-primary text-white font-bold py-1.5 px-4 shadow-xl border-0">MOST POPULAR</Badge>
+                  <div className="absolute top-4 right-4 z-10">
+                    <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-xl border-0 text-[10px]">MOST POPULAR</Badge>
                   </div>
                 )}
                 
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-60 overflow-hidden">
                   <Image 
                     src={course.image || "https://picsum.photos/seed/finance/800/600"} 
                     alt={course.title}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
                     data-ai-hint="finance education"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
                 </div>
 
-                <CardHeader className="space-y-4">
+                <CardHeader className="space-y-3 p-6">
                   <div className="flex items-center gap-2">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                      <course.icon size={22} />
+                    <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <course.icon size={18} />
                     </div>
-                    <span className="text-xs font-bold text-primary tracking-widest uppercase">{course.tag}</span>
+                    <span className="text-[10px] font-bold text-primary tracking-widest uppercase">{course.tag}</span>
                   </div>
-                  <CardTitle className="font-headline text-3xl group-hover:text-primary transition-colors">
+                  <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">
                     <Link href={`/courses/${course.id}`}>{course.title}</Link>
                   </CardTitle>
-                  <CardDescription className="text-base line-clamp-2">{course.description}</CardDescription>
+                  <CardDescription className="text-sm line-clamp-2">{course.description}</CardDescription>
                   
-                  <div className="flex items-baseline gap-4 py-2">
-                    <span className="text-4xl font-bold">
+                  <div className="flex items-baseline gap-3 py-1">
+                    <span className="text-3xl font-bold">
                       ₹<NumberFlow value={course.price} />
                     </span>
-                    <span className="text-lg text-muted-foreground line-through opacity-50">₹{course.oldPrice}</span>
+                    <span className="text-base text-muted-foreground line-through opacity-50">₹{course.oldPrice}</span>
                   </div>
                 </CardHeader>
 
-                <CardContent className="flex-grow space-y-4">
-                  <div className="h-px bg-white/5 w-full mb-6" />
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">What's Included</p>
-                  <div className="space-y-3">
+                <CardContent className="flex-grow space-y-4 px-6 pb-6 pt-0">
+                  <div className="h-px bg-white/5 w-full mb-4" />
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">What's Included</p>
+                  <div className="space-y-2">
                     {course.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-4">
-                        <div className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                          <CheckCheck className="h-3.5 w-3.5 text-primary" />
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                          <CheckCheck className="h-3 w-3 text-primary" />
                         </div>
-                        <span className="text-sm font-medium text-muted-foreground">{feature}</span>
+                        <span className="text-xs font-medium text-muted-foreground">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -126,13 +126,13 @@ export function CoursesSection() {
 
                 <div className="p-6 pt-0 mt-auto">
                   <Link href={`/courses/${course.id}`}>
-                    <Button className={`w-full h-14 rounded-2xl text-lg font-bold group transition-all duration-300 ${
+                    <Button className={`w-full h-12 rounded-2xl text-base font-bold group transition-all duration-300 ${
                       course.popular 
                         ? 'bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border-primary/20' 
                         : 'bg-gradient-to-t from-neutral-800 to-neutral-700 hover:from-primary hover:to-orange-400 shadow-xl shadow-black/50 border-white/10'
                     }`}>
                       Get Started
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </div>
