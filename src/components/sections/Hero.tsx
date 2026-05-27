@@ -15,6 +15,7 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -83,7 +84,7 @@ export function HeroSection() {
           without the hype. Professional education for the modern investor.
         </motion.p>
 
-        <motion.div variants={itemVariants} className="flex flex-col items-center gap-8 mb-16">
+        <motion.div variants={itemVariants} className="flex flex-col items-center gap-8 mb-20">
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="#courses">
               <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2">
@@ -119,6 +120,23 @@ export function HeroSection() {
           </div>
         </motion.div>
 
+        {/* Banner Image Section - NOW BEFORE STATS */}
+        <motion.div 
+          variants={itemVariants}
+          className="w-full max-w-5xl mb-24 px-4"
+        >
+          <div className="relative aspect-[16/9] rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_50px_-12px_rgba(249,115,22,0.4)] group transition-transform duration-500 hover:scale-[1.01]">
+            <Image 
+              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
+              alt="Trading Dashboard"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        </motion.div>
+
+        {/* Stats Section - NOW AFTER BANNER */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-12 border-t border-white/10 w-full max-w-4xl"
