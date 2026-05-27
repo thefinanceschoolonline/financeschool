@@ -1,10 +1,27 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap } from "lucide-react";
+import { 
+  ArrowRight, 
+  Sparkles, 
+  TrendingUp, 
+  ShieldCheck, 
+  Zap,
+  Instagram,
+  Youtube,
+  Send,
+  Facebook
+} from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+const socialLinks = [
+  { icon: Instagram, href: "#", label: "Instagram", color: "hover:text-pink-500" },
+  { icon: Youtube, href: "#", label: "Youtube", color: "hover:text-red-500" },
+  { icon: Send, href: "#", label: "Telegram", color: "hover:text-blue-400" },
+  { icon: Facebook, href: "#", label: "Facebook", color: "hover:text-blue-600" },
+];
 
 export function HeroSection() {
   const containerVariants: Variants = {
@@ -65,18 +82,40 @@ export function HeroSection() {
           without the hype. Professional education for the modern investor.
         </motion.p>
 
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 mb-16">
-          <Link href="#courses">
-            <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2">
-              Start Learning Now
-              <ArrowRight className="h-5 w-5" />
-            </Button>
-          </Link>
-          <Link href="#consultation">
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
-              Book a Consultation
-            </Button>
-          </Link>
+        <motion.div variants={itemVariants} className="flex flex-col items-center gap-8 mb-16">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="#courses">
+              <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2">
+                Start Learning Now
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="#consultation">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
+                Book a Consultation
+              </Button>
+            </Link>
+          </div>
+
+          {/* Social Media Row */}
+          <div className="flex flex-col items-center gap-4">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Follow Our Community</span>
+            <div className="flex gap-4">
+              {socialLinks.map((social, i) => (
+                <Link 
+                  key={i} 
+                  href={social.href} 
+                  className={cn(
+                    "h-12 w-12 rounded-xl bg-card border border-white/5 flex items-center justify-center text-muted-foreground transition-all hover:border-primary/50 hover:bg-primary/5 group",
+                    social.color
+                  )}
+                  aria-label={social.label}
+                >
+                  <social.icon size={20} className="transition-transform group-hover:scale-110" />
+                </Link>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
