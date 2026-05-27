@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -41,7 +42,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close sub-nav when clicking outside
   useEffect(() => {
     if (isShopSubOpen) {
       const handleClickOutside = () => setIsShopSubOpen(false);
@@ -52,39 +52,35 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 z-50 w-full">
-      {/* Main Navbar */}
       <nav 
         className={cn(
-          "relative z-20 w-full transition-all duration-300 border-b",
-          scrolled ? "bg-background/95 backdrop-blur-md shadow-sm border-white/5" : "bg-background border-white/10"
+          "relative z-20 w-full transition-all duration-500 border-b",
+          scrolled ? "bg-background/95 backdrop-blur-xl shadow-2xl border-white/5 py-2" : "bg-background border-white/10 py-4"
         )}
       >
-        <div className="container mx-auto flex h-20 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-3 group">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <Link href="/" className="flex items-center gap-4 group">
             <div className="relative h-12 w-12 flex items-center justify-center">
-              {/* Logo Glow */}
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse group-hover:bg-primary/30 transition-colors" />
-              {/* Logo Container */}
-              <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:border-primary/50">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-accent/30 blur-2xl rounded-full animate-pulse group-hover:bg-primary/50 transition-colors" />
+              <div className="relative h-11 w-11 rounded-[1.25rem] bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-primary/50">
                 <Image 
                   src={logoUrl} 
                   alt="The Finance School Logo" 
                   fill 
-                  className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-110"
+                  className="object-contain p-2 transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-headline text-xl font-bold tracking-tight leading-none">
+              <span className="font-headline text-xl md:text-2xl font-bold tracking-tight leading-none">
                 The Finance<span className="text-primary">School</span>
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground group-hover:text-primary transition-colors">
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-muted-foreground group-hover:text-primary transition-colors mt-1">
                 Legacy of Excellence
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 md:flex">
             {mainNavItems.map((item) => (
               <div 
@@ -101,8 +97,8 @@ export function Navbar() {
                 <Link 
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-full transition-all hover:bg-white/5 hover:text-primary",
-                    pathname === item.href ? "text-primary bg-primary/5" : "text-muted-foreground",
+                    "flex items-center gap-1.5 px-4 py-2 text-sm font-bold uppercase tracking-wider rounded-full transition-all hover:bg-white/5 hover:text-primary",
+                    pathname === item.href ? "text-primary bg-primary/5" : "text-muted-foreground/80",
                     item.hasSub && isShopSubOpen && "text-primary bg-primary/5"
                   )}
                   onClick={(e) => {
@@ -111,53 +107,51 @@ export function Navbar() {
                 >
                   {item.label}
                   {item.hasSub && (
-                    <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", isShopSubOpen && "rotate-180")} />
+                    <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isShopSubOpen && "rotate-180")} />
                   )}
                 </Link>
               </div>
             ))}
             
-            <div className="ml-4 pl-4 border-l border-white/10">
+            <div className="ml-6 pl-6 border-l border-white/10">
               <Link href="/courses">
-                <Button className="bg-primary hover:bg-primary/90 rounded-2xl px-6 font-bold shadow-xl shadow-primary/20">
+                <Button className="bg-gradient-to-t from-primary to-orange-400 hover:scale-105 transition-transform rounded-2xl px-8 h-12 font-bold shadow-xl shadow-primary/25 border border-primary/20">
                   Get Started
                 </Button>
               </Link>
             </div>
           </div>
 
-          {/* Mobile Menu Toggle */}
           <button 
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-foreground md:hidden"
+            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-foreground md:hidden border border-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
 
-      {/* Desktop Sub-navigation Bar */}
       <AnimatePresence>
         {isShopSubOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-20 left-0 w-full bg-background border-b border-white/5 z-10 hidden md:block"
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute top-[80px] left-0 w-full bg-background/95 backdrop-blur-xl border-b border-white/5 z-10 hidden md:block shadow-2xl"
             onMouseEnter={() => setIsShopSubOpen(true)}
             onMouseLeave={() => setIsShopSubOpen(false)}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="container mx-auto px-4 py-3">
-              <div className="flex items-center justify-center gap-8">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-center gap-12">
                 {shopSubItems.map((subItem) => (
                   <Link
                     key={subItem.label}
                     href={subItem.href}
-                    className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors py-2 px-4 rounded-xl hover:bg-primary/5 group"
+                    className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all py-3 px-6 rounded-2xl hover:bg-primary/5 group"
                   >
-                    <subItem.icon className="h-4 w-4 text-primary/40 group-hover:text-primary transition-colors" />
+                    <subItem.icon className="h-4 w-4 text-primary/40 group-hover:text-primary transition-all group-hover:scale-110" />
                     {subItem.label}
                   </Link>
                 ))}
@@ -167,7 +161,6 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Sidebar Navigation */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -175,38 +168,41 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 md:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div 
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-full w-[280px] bg-background border-l border-white/10 z-50 p-6 md:hidden overflow-y-auto"
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 h-full w-[300px] bg-background border-l border-white/10 z-50 p-8 md:hidden overflow-y-auto"
             >
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 <div className="flex items-center justify-between">
-                  <span className="font-headline font-bold text-lg">Menu</span>
-                  <button onClick={() => setIsMobileMenuOpen(false)}>
-                    <X size={24} className="text-muted-foreground" />
+                  <span className="font-headline font-bold text-xl uppercase tracking-widest text-primary">Menu</span>
+                  <button 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center"
+                  >
+                    <X size={20} className="text-muted-foreground" />
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   {mainNavItems.map((item) => (
-                    <div key={item.label} className="flex flex-col gap-1">
+                    <div key={item.label} className="flex flex-col gap-2">
                       {item.hasSub ? (
                         <>
                           <button 
                             onClick={() => setIsShopSubOpen(!isShopSubOpen)}
-                            className="flex items-center justify-between w-full p-3 text-base font-bold rounded-2xl bg-white/5 hover:text-primary transition-all"
+                            className="flex items-center justify-between w-full p-4 text-base font-bold rounded-2xl bg-white/5 hover:text-primary transition-all border border-white/5"
                           >
-                            <span className="flex items-center gap-3">
-                              <item.icon size={18} className="text-primary" />
+                            <span className="flex items-center gap-4">
+                              <item.icon size={20} className="text-primary" />
                               {item.label}
                             </span>
-                            <ChevronDown size={18} className={cn("transition-transform", isShopSubOpen && "rotate-180")} />
+                            <ChevronDown size={20} className={cn("transition-transform duration-300", isShopSubOpen && "rotate-180")} />
                           </button>
                           <AnimatePresence>
                             {isShopSubOpen && (
@@ -214,13 +210,13 @@ export function Navbar() {
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                className="overflow-hidden flex flex-col pl-6 gap-1"
+                                className="overflow-hidden flex flex-col pl-8 gap-2 border-l-2 border-primary/20 ml-6 mt-2"
                               >
                                 {shopSubItems.map((sub) => (
                                   <Link 
                                     key={sub.label}
                                     href={sub.href}
-                                    className="p-3 text-sm font-medium text-muted-foreground hover:text-primary"
+                                    className="py-3 text-sm font-bold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                   >
                                     {sub.label}
@@ -234,12 +230,12 @@ export function Navbar() {
                         <Link 
                           href={item.href}
                           className={cn(
-                            "flex items-center gap-3 p-3 text-base font-bold rounded-2xl hover:bg-white/5 transition-all",
-                            pathname === item.href ? "text-primary bg-primary/5" : "text-muted-foreground"
+                            "flex items-center gap-4 p-4 text-base font-bold rounded-2xl hover:bg-white/5 transition-all border border-white/5",
+                            pathname === item.href ? "text-primary bg-primary/10 border-primary/20" : "text-muted-foreground"
                           )}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          <item.icon size={18} className="text-primary" />
+                          <item.icon size={20} className="text-primary" />
                           {item.label}
                         </Link>
                       )}
@@ -247,9 +243,9 @@ export function Navbar() {
                   ))}
                 </div>
 
-                <div className="pt-6 border-t border-white/10">
+                <div className="pt-8 border-t border-white/10 mt-4">
                   <Link href="/courses" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button className="w-full h-14 bg-primary hover:bg-primary/90 rounded-2xl font-bold text-lg shadow-xl shadow-primary/20">
+                    <Button className="w-full h-16 bg-gradient-to-t from-primary to-orange-400 rounded-[1.5rem] font-bold text-xl shadow-2xl shadow-primary/30 border border-primary/20">
                       Get Started
                     </Button>
                   </Link>
