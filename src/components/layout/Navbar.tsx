@@ -1,29 +1,14 @@
+
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown, ShoppingBag, BookOpen, Headphones, User, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-
-function LogoIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="M8 15l2-2 3 3 3-3" />
-    </svg>
-  );
-}
 
 const mainNavItems = [
   { label: "Home", href: "/", icon: Home },
@@ -46,6 +31,8 @@ export function Navbar() {
   const [isShopSubOpen, setIsShopSubOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  const logoUrl = "https://financeschool.sirv.com/TFS_LOGO2-removebg-preview.png";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,8 +62,13 @@ export function Navbar() {
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
-              <LogoIcon className="h-5 w-5" />
+            <div className="relative h-10 w-10 overflow-hidden transition-transform group-hover:scale-105">
+              <Image 
+                src={logoUrl} 
+                alt="The Finance School Logo" 
+                fill 
+                className="object-contain"
+              />
             </div>
             <span className="font-headline text-xl font-bold tracking-tight hidden sm:inline-block">
               The Finance<span className="text-primary">School</span>
