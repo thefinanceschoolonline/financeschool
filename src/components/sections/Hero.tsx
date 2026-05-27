@@ -15,7 +15,6 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -145,23 +144,6 @@ export function HeroSection() {
           <div className="flex flex-col items-center gap-1">
             <div className="text-3xl font-bold text-foreground">100%</div>
             <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold">Practical</div>
-          </div>
-        </motion.div>
-
-        {/* Standalone Featured Banner Image Section */}
-        <motion.div 
-          variants={itemVariants}
-          className="mt-20 md:mt-32 w-full max-w-6xl mx-auto group"
-        >
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.4)] transition-all duration-700 hover:scale-[1.01] hover:shadow-[0_0_80px_-10px_rgba(249,115,22,0.6)]">
-            <Image
-              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
-              alt="The Finance School Trading Dashboard"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent pointer-events-none" />
           </div>
         </motion.div>
       </motion.div>
