@@ -17,11 +17,12 @@ export function ConsultationSection() {
   return (
     <section id="consultation" className="py-24 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="lg:sticky lg:top-32"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent mb-6 font-bold text-sm">
               <Star size={14} fill="currentColor" /> Expert Guidance
@@ -55,35 +56,40 @@ export function ConsultationSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Card className="border-white/5 bg-card/50 backdrop-blur-md shadow-2xl overflow-hidden">
-              <CardHeader className="bg-primary/10 border-b border-primary/10">
-                <CardTitle className="flex items-center gap-2">
-                  <CalendarDays className="text-primary w-5 h-5" />
+            <Card className="border-white/5 bg-card/50 backdrop-blur-md shadow-2xl overflow-hidden rounded-[2.5rem]">
+              <CardHeader className="bg-primary/5 border-b border-white/5 p-8">
+                <CardTitle className="flex items-center gap-2 text-2xl">
+                  <CalendarDays className="text-primary w-6 h-6" />
                   Schedule Your Session
                 </CardTitle>
-                <CardDescription>Select your preferred date and time slot below.</CardDescription>
+                <CardDescription className="text-base">Select your preferred date and time slot below.</CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-8">
-                <div className="flex flex-col md:flex-row gap-8 justify-center items-start">
-                  <div className="bg-background rounded-xl p-2 border border-white/5">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      className="rounded-md border-0"
-                    />
+              <CardContent className="p-8">
+                <div className="grid md:grid-cols-[1fr,240px] gap-10">
+                  <div className="flex justify-center md:justify-start">
+                    <div className="bg-background rounded-2xl p-4 border border-white/5 shadow-inner inline-block">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        className="p-0"
+                      />
+                    </div>
                   </div>
-                  <div className="flex-1 space-y-4 w-full">
-                    <h5 className="font-bold text-sm uppercase tracking-widest text-muted-foreground">Available Time Slots</h5>
-                    <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <h5 className="font-bold text-xs uppercase tracking-[0.2em] text-primary">Time Slot</h5>
+                      <p className="text-xs text-muted-foreground">Select one available slot</p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
                       {timeSlots.map((slot) => (
                         <button
                           key={slot}
                           onClick={() => setSelectedSlot(slot)}
-                          className={`p-3 rounded-lg text-sm font-bold border transition-all ${
+                          className={`p-4 rounded-xl text-sm font-bold border transition-all text-center ${
                             selectedSlot === slot 
-                              ? 'bg-primary border-primary text-white shadow-lg shadow-primary/30' 
-                              : 'bg-background border-white/5 hover:border-primary/50 text-muted-foreground'
+                              ? 'bg-primary border-primary text-white shadow-xl shadow-primary/20' 
+                              : 'bg-background border-white/5 hover:border-primary/30 text-muted-foreground'
                           }`}
                         >
                           {slot}
@@ -92,9 +98,12 @@ export function ConsultationSection() {
                     </div>
                     {selectedSlot && (
                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="pt-4">
-                        <Button className="w-full bg-accent hover:bg-accent/90 h-12 font-bold uppercase tracking-widest">
+                        <Button className="w-full bg-gradient-to-t from-primary to-orange-400 h-14 font-bold rounded-xl shadow-2xl shadow-primary/25 border border-primary/20 text-base">
                           Confirm Booking
                         </Button>
+                        <p className="text-[10px] text-center text-muted-foreground mt-4 uppercase tracking-widest font-bold">
+                          Confirmation sent to email
+                        </p>
                       </motion.div>
                     )}
                   </div>
