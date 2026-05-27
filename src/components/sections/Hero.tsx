@@ -15,7 +15,6 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -102,21 +101,6 @@ export function HeroSection() {
               </Button>
             </Link>
           </div>
-        </motion.div>
-
-        {/* Featured Dashboard Image - As seen in your reference screenshot */}
-        <motion.div 
-          variants={itemVariants}
-          className="relative w-full max-w-5xl mb-24 aspect-[16/8] md:aspect-[16/7.5] rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_80px_-20px_rgba(249,115,22,0.4)] group transition-transform duration-700 hover:scale-[1.01]"
-        >
-          <Image 
-            src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
-            alt="Trading Dashboard Preview"
-            fill
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none" />
         </motion.div>
 
         {/* Stats section */}
