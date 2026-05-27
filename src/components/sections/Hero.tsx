@@ -15,7 +15,6 @@ import {
   Facebook
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
@@ -47,7 +46,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32">
+    <section className="relative overflow-hidden pt-32 pb-12 md:pt-48 md:pb-20">
       {/* Background Decor */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
@@ -117,23 +116,6 @@ export function HeroSection() {
                 </Link>
               ))}
             </div>
-          </div>
-        </motion.div>
-
-        {/* Hero Banner Image */}
-        <motion.div 
-          variants={itemVariants}
-          className="relative w-full max-w-5xl mx-auto mb-20 px-4 group"
-        >
-          <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_50px_-12px_rgba(249,115,22,0.4)] transition-transform duration-500 group-hover:scale-[1.01]">
-            <Image
-              src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
-              alt="The Finance School Trading Strategy"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
           </div>
         </motion.div>
 
