@@ -87,12 +87,29 @@ export function HeroSection() {
           without the hype. Professional education for the modern investor.
         </motion.p>
 
-        {/* Banner image - PLACED DIRECTLY UNDER TEXT */}
+        {/* CTA buttons */}
+        <motion.div variants={itemVariants} className="mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="#courses">
+              <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2 rounded-2xl">
+                Start Learning Now
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="#consultation">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl">
+                Book a Consultation
+              </Button>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Banner image - PLACED DIRECTLY UNDER BUTTONS AND BEFORE STATS */}
         <motion.div 
           variants={itemVariants}
-          className="w-full max-w-5xl mb-12 px-4"
+          className="w-full max-w-6xl mb-20 px-4"
         >
-          <div className="relative aspect-[16/9] rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] group transition-transform duration-500 hover:scale-[1.01]">
+          <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_0_60px_-15px_rgba(249,115,22,0.3)] group transition-transform duration-500 hover:scale-[1.01]">
             <Image 
               src="https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png"
               alt="Trading Dashboard"
@@ -100,23 +117,7 @@ export function HeroSection() {
               className="object-cover"
               priority
             />
-          </div>
-        </motion.div>
-
-        {/* CTA buttons */}
-        <motion.div variants={itemVariants} className="mb-16">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="#courses">
-              <Button size="lg" className="h-14 px-8 text-lg font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 gap-2">
-                Start Learning Now
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="#consultation">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
-                Book a Consultation
-              </Button>
-            </Link>
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
           </div>
         </motion.div>
 
