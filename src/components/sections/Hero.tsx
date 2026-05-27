@@ -104,7 +104,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Banner image - PLACED DIRECTLY UNDER BUTTONS AND BEFORE STATS */}
+        {/* Banner image - EMBEDDED IN FLOW BEFORE STATS */}
         <motion.div 
           variants={itemVariants}
           className="w-full max-w-6xl mb-20 px-4"
