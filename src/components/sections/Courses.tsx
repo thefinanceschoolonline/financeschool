@@ -1,11 +1,10 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCheck, Star, ArrowRight, Zap, BookOpen, BarChart3 } from "lucide-react";
+import { CheckCheck, ArrowRight, Zap, BookOpen, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -21,7 +20,8 @@ const featuredCourses = [
     features: ["Certification Syllabus", "Recorded High-Quality Lectures", "Study Material Books Combo", "Mock Test Guidance"],
     image: PlaceHolderImages.find(img => img.id === "course-nism8-full")?.imageUrl,
     tag: "Certification",
-    icon: BookOpen
+    icon: BookOpen,
+    accent: "hsl(var(--accent))"
   },
   {
     id: "nism-series-15",
@@ -33,7 +33,8 @@ const featuredCourses = [
     image: PlaceHolderImages.find(img => img.id === "course-nism15-full")?.imageUrl,
     tag: "Professional",
     icon: BarChart3,
-    popular: true
+    popular: true,
+    accent: "hsl(var(--primary))"
   },
   {
     id: "crypto-az",
@@ -44,16 +45,17 @@ const featuredCourses = [
     features: ["A to Z Roadmap", "Exclusive LW Strategy", "Liquidity & Order Blocks", "Live Session Access"],
     image: PlaceHolderImages.find(img => img.id === "course-crypto-az-full")?.imageUrl,
     tag: "Advanced",
-    icon: Zap
+    icon: Zap,
+    accent: "hsl(var(--destructive))"
   }
 ];
 
 export function CoursesSection() {
   return (
-    <section id="courses" className="py-32 bg-background relative overflow-hidden">
+    <section id="courses" className="py-32 bg-background relative overflow-hidden trading-grid">
       <div className="container mx-auto px-4">
         <div className="text-center mb-24 space-y-4">
-          <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Course Marketplace</span>
+          <span className="text-xs font-bold text-accent uppercase tracking-[0.3em]">Course Marketplace</span>
           <h2 className="text-4xl md:text-7xl font-headline font-bold">
             Choose Your <span className="text-gradient">Success Path</span>
           </h2>
@@ -71,10 +73,10 @@ export function CoursesSection() {
               transition={{ delay: idx * 0.15, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-primary/50 transition-all duration-500 rounded-3xl ${course.popular ? 'ring-2 ring-primary shadow-2xl shadow-primary/20' : ''}`}>
+              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-3xl ${course.popular ? 'ring-1 ring-primary/30 shadow-2xl shadow-primary/10' : ''}`}>
                 {course.popular && (
                   <div className="absolute top-4 right-4 z-10">
-                    <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-xl border-0 text-[10px]">MOST POPULAR</Badge>
+                    <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-xl border-0 text-[10px] glow-orange">MOST POPULAR</Badge>
                   </div>
                 )}
                 
@@ -84,19 +86,18 @@ export function CoursesSection() {
                     alt={course.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    data-ai-hint="finance education"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
                 </div>
 
                 <CardHeader className="space-y-3 p-6">
                   <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                      <course.icon size={18} />
+                    <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
+                      <course.icon size={18} style={{ color: course.accent }} />
                     </div>
-                    <span className="text-[10px] font-bold text-primary tracking-widest uppercase">{course.tag}</span>
+                    <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">{course.tag}</span>
                   </div>
-                  <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">
+                  <CardTitle className="font-headline text-2xl group-hover:text-accent transition-colors">
                     <Link href={`/courses/${course.id}`}>{course.title}</Link>
                   </CardTitle>
                   <CardDescription className="text-sm line-clamp-2">{course.description}</CardDescription>
@@ -115,10 +116,10 @@ export function CoursesSection() {
                   <div className="space-y-2">
                     {course.features.map((feature, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                          <CheckCheck className="h-3 w-3 text-primary" />
+                        <div className="h-5 w-5 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
+                          <CheckCheck className="h-3 w-3 text-accent" />
                         </div>
-                        <span className="text-xs font-medium text-muted-foreground">{feature}</span>
+                        <span className="text-xs font-bold text-muted-foreground">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -128,8 +129,8 @@ export function CoursesSection() {
                   <Link href={`/courses/${course.id}`}>
                     <Button className={`w-full h-12 rounded-2xl text-base font-bold group transition-all duration-300 ${
                       course.popular 
-                        ? 'bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border-primary/20' 
-                        : 'bg-gradient-to-t from-neutral-800 to-neutral-700 hover:from-primary hover:to-orange-400 shadow-xl shadow-black/50 border-white/10'
+                        ? 'bg-primary hover:glow-orange shadow-xl shadow-primary/25 border-primary/20' 
+                        : 'bg-card border-white/10 hover:bg-accent hover:text-white hover:glow-green'
                     }`}>
                       Get Started
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -139,15 +140,6 @@ export function CoursesSection() {
               </Card>
             </motion.div>
           ))}
-        </div>
-
-        <div className="mt-20 text-center">
-          <Link href="/courses">
-            <Button variant="ghost" className="text-primary hover:text-primary hover:bg-primary/10 gap-2 text-lg font-bold">
-              Explore All Trading Courses
-              <ArrowRight size={20} />
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

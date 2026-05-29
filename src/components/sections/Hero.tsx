@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -47,19 +46,33 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32"
+      className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32 trading-grid"
       style={{
         backgroundImage:
-          "url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+          "linear-gradient(to bottom, rgba(5, 8, 22, 0.8), rgba(5, 8, 22, 0.95)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Background Decor */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-accent/10 blur-[100px] rounded-full" />
+      {/* Glow Effects */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10 overflow-hidden">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-accent/20 blur-[100px] rounded-full" 
+        />
       </div>
 
       <motion.div
@@ -70,7 +83,7 @@ export function HeroSection() {
       >
         {/* Badge */}
         <motion.div variants={itemVariants} className="mb-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+          <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-sm font-bold text-accent glow-green">
             <Sparkles className="h-4 w-4" />
             Empowering 1,000+ Indian Traders
           </span>
@@ -89,7 +102,7 @@ export function HeroSection() {
         {/* Description text */}
         <motion.p
           variants={itemVariants}
-          className="mb-10 max-w-3xl text-lg md:text-xl text-muted-foreground"
+          className="mb-10 max-w-3xl text-lg md:text-xl text-muted-foreground font-medium"
         >
           Learn practical strategies, clear NISM certifications, and build real market skills — 
           without the hype. Professional education for the modern investor.
@@ -99,13 +112,13 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="mb-16">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="#courses">
-              <Button size="lg" className="h-14 px-10 text-lg font-bold bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/25 gap-2 rounded-2xl">
+              <Button size="lg" className="h-14 px-10 text-lg font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/25 gap-2 rounded-2xl transition-all">
                 Start Learning Now
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
             <Link href="#consultation">
-              <Button size="lg" variant="outline" className="h-14 px-10 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl">
+              <Button size="lg" variant="outline" className="h-14 px-10 text-lg border-white/10 bg-white/5 hover:bg-accent/10 hover:border-accent/50 hover:text-accent backdrop-blur-md rounded-2xl transition-all">
                 Book a Consultation
               </Button>
             </Link>
@@ -117,27 +130,27 @@ export function HeroSection() {
           variants={itemVariants}
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-12 border-t border-white/10 w-full max-w-4xl"
         >
-          <div className="flex flex-col items-center gap-1">
-            <div className="text-3xl font-bold text-foreground">1,200+</div>
-            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-primary" /> Students
+          <div className="flex flex-col items-center gap-1 group">
+            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">1,200+</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3 text-accent" /> Students
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="text-3xl font-bold text-foreground">6+</div>
-            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
+          <div className="flex flex-col items-center gap-1 group">
+            <div className="text-3xl font-bold text-foreground group-hover:text-primary transition-colors">6+</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1">
               <Zap className="w-3 h-3 text-primary" /> Years
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="text-3xl font-bold text-foreground">42+</div>
-            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-1">
-              <TrendingUp className="w-3 h-3 text-primary" /> Live Sessions
+          <div className="flex flex-col items-center gap-1 group">
+            <div className="text-3xl font-bold text-foreground group-hover:text-destructive transition-colors">42+</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-destructive" /> Live Sessions
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="text-3xl font-bold text-foreground">100%</div>
-            <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold text-primary">Practical</div>
+          <div className="flex flex-col items-center gap-1 group">
+            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">100%</div>
+            <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold text-accent">Practical</div>
           </div>
         </motion.div>
 
@@ -150,7 +163,7 @@ export function HeroSection() {
                 key={i} 
                 href={social.href} 
                 className={cn(
-                  "h-10 w-10 rounded-xl bg-card border border-white/5 flex items-center justify-center text-muted-foreground transition-all hover:border-primary/50 hover:bg-primary/5 group",
+                  "h-10 w-10 rounded-xl bg-card border border-white/5 flex items-center justify-center text-muted-foreground transition-all hover:border-accent/50 hover:bg-accent/5 group",
                   social.color
                 )}
                 aria-label={social.label}
