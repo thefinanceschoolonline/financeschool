@@ -64,28 +64,21 @@ export function HeroSection() {
     <section
       className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 bg-background min-h-[90vh] flex items-center"
       style={{
-        backgroundImage:
-          "linear-gradient(to bottom, rgba(5, 8, 22, 0.85), rgba(5, 8, 22, 1)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+        backgroundImage: "url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-accent/10 blur-[100px] rounded-full" />
-      </div>
-
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto flex flex-col items-center justify-center px-4 text-center"
+        className="container mx-auto flex flex-col items-center justify-center px-4 text-center relative z-10"
       >
         {/* Badge */}
         <motion.div variants={itemVariants} className="mb-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 text-sm font-bold text-accent glow-green">
+          <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-2 text-sm font-bold text-accent glow-green backdrop-blur-sm">
             <Sparkles className="h-4 w-4" />
             Empowering 1,000+ Indian Traders
           </span>
@@ -94,7 +87,7 @@ export function HeroSection() {
         {/* Heading */}
         <motion.h1
           variants={itemVariants}
-          className="mb-8 font-headline text-5xl font-bold tracking-tight md:text-8xl leading-[1.1]"
+          className="mb-8 font-headline text-5xl font-bold tracking-tight md:text-8xl leading-[1.1] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
         >
           Master Financial Markets
           <br />
@@ -104,7 +97,7 @@ export function HeroSection() {
         {/* Description */}
         <motion.p
           variants={itemVariants}
-          className="mb-10 max-w-2xl text-lg md:text-xl text-muted-foreground/80 font-medium leading-relaxed"
+          className="mb-10 max-w-2xl text-lg md:text-xl text-white font-medium leading-relaxed drop-shadow-[0_2px_5px_rgba(0,0,0,0.5)]"
         >
           Learn practical strategies, clear NISM certifications, and build real market skills — 
           without the hype. Professional education for the modern investor.
@@ -120,7 +113,7 @@ export function HeroSection() {
               </Button>
             </Link>
             <Link href="#consultation">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-base border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl transition-all font-bold">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-base border-white/20 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-2xl transition-all font-bold text-white">
                 Book a Consultation
               </Button>
             </Link>
@@ -130,7 +123,7 @@ export function HeroSection() {
         {/* Social Proof Marquee - Continuous Loop */}
         <motion.div 
           variants={itemVariants}
-          className="w-full relative py-6 bg-black/40 backdrop-blur-md border-y border-white/5 mb-16 overflow-hidden flex"
+          className="w-full relative py-6 bg-black/40 backdrop-blur-md border-y border-white/10 mb-16 overflow-hidden flex"
         >
           <div className="flex animate-marquee whitespace-nowrap items-center shrink-0">
             {marqueeItems.map((text, i) => (
@@ -155,39 +148,39 @@ export function HeroSection() {
           variants={itemVariants}
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-4xl"
         >
-          <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors flex items-center">
+          <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 rounded-2xl backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
+            <div className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
               <NumberFlow value={stats.students} />
               <span>+</span>
             </div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
+            <div className="text-xs text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-accent" /> Students
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-primary transition-colors flex items-center">
+          <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 rounded-2xl backdrop-blur-sm border border-white/5 transition-all hover:border-primary/20">
+            <div className="text-3xl font-bold text-white group-hover:text-primary transition-colors flex items-center">
               <NumberFlow value={stats.years} />
               <span>+</span>
             </div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
+            <div className="text-xs text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-primary" /> Years
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-destructive transition-colors flex items-center">
+          <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 rounded-2xl backdrop-blur-sm border border-white/5 transition-all hover:border-destructive/20">
+            <div className="text-3xl font-bold text-white group-hover:text-destructive transition-colors flex items-center">
               <NumberFlow value={stats.sessions} />
               <span>+</span>
             </div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
+            <div className="text-xs text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
               <TrendingUp className="w-3.5 h-3.5 text-destructive" /> Live Sessions
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors flex items-center">
+          <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 rounded-2xl backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
+            <div className="text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
               <NumberFlow value={stats.practical} />
               <span>%</span>
             </div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold text-accent">Practical</div>
+            <div className="text-xs text-white/80 uppercase tracking-widest font-bold text-accent">Practical</div>
           </div>
         </motion.div>
       </motion.div>
