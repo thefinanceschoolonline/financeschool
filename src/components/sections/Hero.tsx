@@ -29,7 +29,6 @@ export function HeroSection() {
   });
 
   useEffect(() => {
-    // Trigger the count-up animation after the component mounts
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
@@ -66,7 +65,7 @@ export function HeroSection() {
       className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 bg-background min-h-[90vh] flex items-center"
       style={{
         backgroundImage:
-          "linear-gradient(to bottom, rgba(5, 8, 22, 0.8), rgba(5, 8, 22, 1)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+          "linear-gradient(to bottom, rgba(5, 8, 22, 0.85), rgba(5, 8, 22, 1)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -128,7 +127,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Social Proof Marquee - Fixed for seamless loop */}
+        {/* Social Proof Marquee - Continuous Loop */}
         <motion.div 
           variants={itemVariants}
           className="w-full relative py-6 bg-black/40 backdrop-blur-md border-y border-white/5 mb-16 overflow-hidden flex"
