@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -42,8 +43,10 @@ export function Navbar() {
         )}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center group">
-            <div className="relative h-20 w-20 md:h-24 md:w-24 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+          <Link href="/" className="flex items-center group relative">
+            {/* Dark glow backdrop for the logo visibility */}
+            <div className="absolute inset-0 bg-black/60 blur-2xl rounded-full scale-150 -z-10" />
+            <div className="relative h-20 w-20 md:h-32 md:w-32 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
               <Image 
                 src={logoUrl} 
                 alt="The Finance School Logo" 
