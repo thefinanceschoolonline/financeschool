@@ -11,6 +11,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+const marqueeItems = [
+  "TRUSTED BY 1,000+ LEARNERS",
+  "NISM SERIES 8 CERTIFIED",
+  "CRYPTO TRADING MASTERY",
+  "INSTITUTIONAL RISK MANAGEMENT",
+];
+
 export function HeroSection() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -34,10 +41,10 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 bg-background"
+      className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 bg-background min-h-[90vh] flex items-center"
       style={{
         backgroundImage:
-          "linear-gradient(to bottom, rgba(5, 8, 22, 0.95), rgba(5, 8, 22, 1)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+          "linear-gradient(to bottom, rgba(5, 8, 22, 0.8), rgba(5, 8, 22, 1)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -83,43 +90,42 @@ export function HeroSection() {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div variants={itemVariants} className="mb-12">
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
             <Link href="#courses">
-              <Button size="lg" className="h-16 px-10 text-lg font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/20 gap-3 rounded-2xl transition-all border border-primary/20">
+              <Button size="lg" className="h-14 px-8 text-base font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/20 gap-3 rounded-2xl transition-all border border-primary/20">
                 Start Learning Now
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </Link>
             <Link href="#consultation">
-              <Button size="lg" variant="outline" className="h-16 px-10 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl transition-all font-bold">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-base border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl transition-all font-bold">
                 Book a Consultation
               </Button>
             </Link>
           </div>
         </motion.div>
 
-        {/* Social Proof Marquee - Positioned exactly like the reference image */}
+        {/* Social Proof Marquee - Fixed for seamless loop */}
         <motion.div 
           variants={itemVariants}
-          className="w-screen relative left-1/2 -translate-x-1/2 py-5 bg-black/40 backdrop-blur-md border-y border-white/5 mb-16 overflow-hidden"
+          className="w-full relative py-6 bg-black/40 backdrop-blur-md border-y border-white/5 mb-16 overflow-hidden flex"
         >
-          <div className="flex animate-marquee items-center gap-16 text-sm md:text-base font-bold uppercase tracking-[0.1em] text-primary/90">
-            <span>TRUSTED BY 1,000+ LEARNERS</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>NISM SERIES 8 CERTIFIED</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>CRYPTO TRADING MASTERY</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>INSTITUTIONAL RISK MANAGEMENT</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>TRUSTED BY 1,000+ LEARNERS</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>NISM SERIES 8 CERTIFIED</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>CRYPTO TRADING MASTERY</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-primary/40 shrink-0" />
-            <span>INSTITUTIONAL RISK MANAGEMENT</span>
+          <div className="flex animate-marquee whitespace-nowrap items-center shrink-0">
+            {marqueeItems.map((text, i) => (
+              <div key={`m1-${i}`} className="flex items-center gap-12 px-6">
+                <span className="text-sm md:text-base font-bold uppercase tracking-[0.2em] text-primary shrink-0">{text}</span>
+                <span className="h-2 w-2 rounded-full bg-primary/40 shrink-0" />
+              </div>
+            ))}
+          </div>
+          <div className="flex animate-marquee whitespace-nowrap items-center shrink-0">
+            {marqueeItems.map((text, i) => (
+              <div key={`m2-${i}`} className="flex items-center gap-12 px-6">
+                <span className="text-sm md:text-base font-bold uppercase tracking-[0.2em] text-primary shrink-0">{text}</span>
+                <span className="h-2 w-2 rounded-full bg-primary/40 shrink-0" />
+              </div>
+            ))}
           </div>
         </motion.div>
 
