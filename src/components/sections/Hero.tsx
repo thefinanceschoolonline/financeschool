@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, type Variants } from "framer-motion";
 import { 
@@ -10,6 +11,7 @@ import {
   Zap
 } from "lucide-react";
 import Link from "next/link";
+import NumberFlow from "@number-flow/react";
 
 const marqueeItems = [
   "TRUSTED BY 1,000+ LEARNERS",
@@ -19,6 +21,26 @@ const marqueeItems = [
 ];
 
 export function HeroSection() {
+  const [stats, setStats] = useState({
+    students: 0,
+    years: 0,
+    sessions: 0,
+    practical: 0
+  });
+
+  useEffect(() => {
+    // Trigger the count-up animation after the component mounts
+    const timer = setTimeout(() => {
+      setStats({
+        students: 1200,
+        years: 6,
+        sessions: 42,
+        practical: 100
+      });
+    }, 200);
+    return () => clearTimeout(timer);
+  }, []);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -135,25 +157,37 @@ export function HeroSection() {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-4xl"
         >
           <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">1,200+</div>
+            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors flex items-center">
+              <NumberFlow value={stats.students} />
+              <span>+</span>
+            </div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-accent" /> Students
             </div>
           </div>
           <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-primary transition-colors">6+</div>
+            <div className="text-3xl font-bold text-foreground group-hover:text-primary transition-colors flex items-center">
+              <NumberFlow value={stats.years} />
+              <span>+</span>
+            </div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-primary" /> Years
             </div>
           </div>
           <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-destructive transition-colors">42+</div>
+            <div className="text-3xl font-bold text-foreground group-hover:text-destructive transition-colors flex items-center">
+              <NumberFlow value={stats.sessions} />
+              <span>+</span>
+            </div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold flex items-center gap-1.5">
               <TrendingUp className="w-3.5 h-3.5 text-destructive" /> Live Sessions
             </div>
           </div>
           <div className="flex flex-col items-center gap-1 group">
-            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">100%</div>
+            <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors flex items-center">
+              <NumberFlow value={stats.practical} />
+              <span>%</span>
+            </div>
             <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold text-accent">Practical</div>
           </div>
         </motion.div>
