@@ -13,21 +13,14 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative h-12 w-12 flex items-center justify-center">
-                <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
-                <div className="relative h-10 w-10 rounded-xl bg-card border border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:scale-110 group-hover:border-primary/50">
-                  <Image 
-                    src={logoUrl} 
-                    alt="The Finance School Logo" 
-                    fill 
-                    className="object-contain p-1.5"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-headline text-xl font-bold">Finance<span className="text-primary">School</span></span>
-                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Expert Trading Education</span>
+            <Link href="/" className="flex items-center group">
+              <div className="relative h-24 w-24 flex items-center justify-center transition-all group-hover:scale-110">
+                <Image 
+                  src={logoUrl} 
+                  alt="The Finance School Logo" 
+                  fill 
+                  className="object-contain"
+                />
               </div>
             </Link>
             <p className="text-muted-foreground leading-relaxed text-sm">

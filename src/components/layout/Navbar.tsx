@@ -4,14 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, ShoppingBag, BookOpen, Headphones, User, Home } from "lucide-react";
+import { Menu, X, ShoppingBag, BookOpen, Headphones, User, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
 const mainNavItems = [
   { label: "Home", href: "/", icon: Home },
-  { label: "Shop", href: "/shop", hasSub: true, icon: ShoppingBag },
+  { label: "Shop", href: "/shop", icon: ShoppingBag },
   { label: "Consultation", href: "/#consultation", icon: Headphones },
   { label: "Course", href: "/courses", icon: BookOpen },
   { label: "Books", href: "/books", icon: BookOpen },
@@ -38,21 +38,19 @@ export function Navbar() {
       <nav 
         className={cn(
           "relative z-20 w-full transition-all duration-500 border-b",
-          scrolled ? "bg-background/90 backdrop-blur-xl shadow-2xl border-white/5 py-2" : "bg-transparent border-transparent py-4"
+          scrolled ? "bg-background/90 backdrop-blur-xl shadow-2xl border-white/5 py-1" : "bg-transparent border-transparent py-4"
         )}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center group">
-            <div className="relative h-12 w-12 flex items-center justify-center">
-              <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative h-11 w-11 rounded-[1.25rem] bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:border-accent/50">
-                <Image 
-                  src={logoUrl} 
-                  alt="The Finance School Logo" 
-                  fill 
-                  className="object-contain p-2"
-                />
-              </div>
+            <div className="relative h-20 w-20 md:h-24 md:w-24 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+              <Image 
+                src={logoUrl} 
+                alt="The Finance School Logo" 
+                fill 
+                className="object-contain"
+                priority
+              />
             </div>
           </Link>
 
