@@ -46,10 +46,10 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32 trading-grid"
+      className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 trading-grid"
       style={{
         backgroundImage:
-          "linear-gradient(to bottom, rgba(5, 8, 22, 0.8), rgba(5, 8, 22, 0.95)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
+          "linear-gradient(to bottom, rgba(5, 8, 22, 0.9), rgba(5, 8, 22, 0.98)), url('https://financeschool.sirv.com/ChatGPT%20Image%20May%2027%2C%202026%2C%2010_08_50%20PM.png')",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -102,14 +102,14 @@ export function HeroSection() {
         {/* Description text */}
         <motion.p
           variants={itemVariants}
-          className="mb-10 max-w-3xl text-lg md:text-xl text-muted-foreground font-medium"
+          className="mb-8 max-w-3xl text-lg md:text-xl text-muted-foreground font-medium"
         >
           Learn practical strategies, clear NISM certifications, and build real market skills — 
           without the hype. Professional education for the modern investor.
         </motion.p>
 
-        {/* CTA buttons */}
-        <motion.div variants={itemVariants} className="mb-16">
+        {/* Concise CTA buttons */}
+        <motion.div variants={itemVariants} className="mb-12">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="#courses">
               <Button size="lg" className="h-14 px-10 text-lg font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/25 gap-2 rounded-2xl transition-all">
@@ -125,10 +125,34 @@ export function HeroSection() {
           </div>
         </motion.div>
 
+        {/* Social Proof Marquee - Integrated into Hero */}
+        <motion.div 
+          variants={itemVariants}
+          className="w-screen relative left-1/2 -translate-x-1/2 py-8 bg-primary/5 overflow-hidden whitespace-nowrap border-y border-primary/10 mb-16"
+        >
+          <div className="flex animate-marquee items-center gap-12 text-sm md:text-lg font-headline font-bold uppercase tracking-tighter text-primary/60">
+            <span>TRUSTED BY 1000+ LEARNERS</span>
+            <span>•</span>
+            <span>NISM SERIES 8 CERTIFIED</span>
+            <span>•</span>
+            <span>CRYPTO TRADING MASTERY</span>
+            <span>•</span>
+            <span>INSTITUTIONAL RISK MANAGEMENT</span>
+            <span>•</span>
+            <span>TRUSTED BY 1000+ LEARNERS</span>
+            <span>•</span>
+            <span>NISM SERIES 8 CERTIFIED</span>
+            <span>•</span>
+            <span>CRYPTO TRADING MASTERY</span>
+            <span>•</span>
+            <span>INSTITUTIONAL RISK MANAGEMENT</span>
+          </div>
+        </motion.div>
+
         {/* Stats section */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-12 border-t border-white/10 w-full max-w-4xl"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-4xl"
         >
           <div className="flex flex-col items-center gap-1 group">
             <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">1,200+</div>
@@ -151,26 +175,6 @@ export function HeroSection() {
           <div className="flex flex-col items-center gap-1 group">
             <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">100%</div>
             <div className="text-sm text-muted-foreground uppercase tracking-widest font-bold text-accent">Practical</div>
-          </div>
-        </motion.div>
-
-        {/* Social Media */}
-        <motion.div variants={itemVariants} className="mt-16 flex flex-col items-center gap-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Follow Our Community</span>
-          <div className="flex gap-4">
-            {socialLinks.map((social, i) => (
-              <Link 
-                key={i} 
-                href={social.href} 
-                className={cn(
-                  "h-10 w-10 rounded-xl bg-card border border-white/5 flex items-center justify-center text-muted-foreground transition-all hover:border-accent/50 hover:bg-accent/5 group",
-                  social.color
-                )}
-                aria-label={social.label}
-              >
-                <social.icon size={18} className="transition-transform group-hover:scale-110" />
-              </Link>
-            ))}
           </div>
         </motion.div>
       </motion.div>

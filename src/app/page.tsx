@@ -1,4 +1,3 @@
-
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroSection } from "@/components/sections/Hero";
 import { CoursesSection } from "@/components/sections/Courses";
@@ -24,27 +23,6 @@ export default function Home() {
         <div id="about">
           <AboutSection />
         </div>
-        
-        {/* Testimonial / Social Proof Ticker */}
-        <section className="py-12 bg-primary/10 overflow-hidden whitespace-nowrap border-y border-primary/20">
-          <div className="flex animate-marquee items-center gap-12 text-lg font-headline font-bold uppercase tracking-tighter text-primary/50">
-            <span>TRUSTED BY 1000+ LEARNERS</span>
-            <span>•</span>
-            <span>NISM SERIES 8 CERTIFIED</span>
-            <span>•</span>
-            <span>CRYPTO TRADING MASTERY</span>
-            <span>•</span>
-            <span>INSTITUTIONAL RISK MANAGEMENT</span>
-            <span>•</span>
-            <span>TRUSTED BY 1000+ LEARNERS</span>
-            <span>•</span>
-            <span>NISM SERIES 8 CERTIFIED</span>
-            <span>•</span>
-            <span>CRYPTO TRADING MASTERY</span>
-            <span>•</span>
-            <span>INSTITUTIONAL RISK MANAGEMENT</span>
-          </div>
-        </section>
       </main>
       <Footer />
     </div>
