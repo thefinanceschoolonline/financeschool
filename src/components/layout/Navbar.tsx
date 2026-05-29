@@ -18,16 +18,8 @@ const mainNavItems = [
   { label: "Account", href: "/account", icon: User },
 ];
 
-const shopSubItems = [
-  { label: "Consultation", href: "/#consultation", icon: Headphones },
-  { label: "Course", href: "/courses", icon: BookOpen },
-  { label: "Books", href: "/books", icon: BookOpen },
-  { label: "Shop All", href: "/shop", icon: ShoppingBag },
-];
-
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isShopSubOpen, setIsShopSubOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -50,7 +42,7 @@ export function Navbar() {
         )}
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-4 group">
+          <Link href="/" className="flex items-center group">
             <div className="relative h-12 w-12 flex items-center justify-center">
               <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="relative h-11 w-11 rounded-[1.25rem] bg-gradient-to-br from-white/10 to-white/5 border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:border-accent/50">
@@ -62,24 +54,11 @@ export function Navbar() {
                 />
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-headline text-xl md:text-2xl font-bold tracking-tight leading-none">
-                The Finance<span className="text-primary">School</span>
-              </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-muted-foreground group-hover:text-accent transition-colors mt-1">
-                Legacy of Excellence
-              </span>
-            </div>
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
             {mainNavItems.map((item) => (
-              <div 
-                key={item.label} 
-                className="relative"
-                onMouseEnter={() => item.hasSub && setIsShopSubOpen(true)}
-                onMouseLeave={() => item.hasSub && setIsShopSubOpen(false)}
-              >
+              <div key={item.label} className="relative">
                 <Link 
                   href={item.href}
                   className={cn(
@@ -88,9 +67,6 @@ export function Navbar() {
                   )}
                 >
                   {item.label}
-                  {item.hasSub && (
-                    <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isShopSubOpen && "rotate-180")} />
-                  )}
                   {pathname === item.href && (
                     <motion.div 
                       layoutId="nav-underline"
@@ -119,7 +95,38 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu removed for brevity but ideally updated similarly */}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-white/5 overflow-hidden"
+          >
+            <div className="container mx-auto px-4 py-8 space-y-4">
+              {mainNavItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-3 text-lg font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <item.icon size={20} className="text-primary" />
+                  {item.label}
+                </Link>
+              ))}
+              <div className="pt-4">
+                <Link href="/courses" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="w-full h-14 rounded-2xl bg-primary font-bold text-lg">
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
