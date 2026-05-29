@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -73,14 +74,14 @@ export function CoursesSection() {
               transition={{ delay: idx * 0.15, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-3xl ${course.popular ? 'ring-1 ring-primary/30 shadow-2xl shadow-primary/10' : ''}`}>
+              <Card className={`relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-none ${course.popular ? 'ring-1 ring-primary/30 shadow-2xl shadow-primary/10' : ''}`}>
                 {course.popular && (
                   <div className="absolute top-4 right-4 z-10">
-                    <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-xl border-0 text-[10px] glow-orange">MOST POPULAR</Badge>
+                    <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-xl border-0 text-[10px] glow-orange rounded-none">MOST POPULAR</Badge>
                   </div>
                 )}
                 
-                <div className="relative h-60 overflow-hidden">
+                <div className="relative aspect-video overflow-hidden">
                   <Image 
                     src={course.image || "https://picsum.photos/seed/finance/800/600"} 
                     alt={course.title}
@@ -92,7 +93,7 @@ export function CoursesSection() {
 
                 <CardHeader className="space-y-3 p-6">
                   <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
+                    <div className="h-8 w-8 rounded-none bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
                       <course.icon size={18} style={{ color: course.accent }} />
                     </div>
                     <span className="text-[10px] font-bold tracking-widest uppercase opacity-70">{course.tag}</span>
@@ -116,7 +117,7 @@ export function CoursesSection() {
                   <div className="space-y-2">
                     {course.features.map((feature, i) => (
                       <div key={i} className="flex items-center gap-3">
-                        <div className="h-5 w-5 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
+                        <div className="h-5 w-5 rounded-none bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
                           <CheckCheck className="h-3 w-3 text-accent" />
                         </div>
                         <span className="text-xs font-bold text-muted-foreground">{feature}</span>
@@ -127,7 +128,7 @@ export function CoursesSection() {
 
                 <div className="p-6 pt-0 mt-auto">
                   <Link href={`/courses/${course.id}`}>
-                    <Button className={`w-full h-12 rounded-2xl text-base font-bold group transition-all duration-300 ${
+                    <Button className={`w-full h-12 rounded-none text-base font-bold group transition-all duration-300 ${
                       course.popular 
                         ? 'bg-primary hover:glow-orange shadow-xl shadow-primary/25 border-primary/20' 
                         : 'bg-card border-white/10 hover:bg-accent hover:text-white hover:glow-green'

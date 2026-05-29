@@ -155,10 +155,10 @@ export default function CoursesPage() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-3xl group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
                   <div className="flex flex-col lg:flex-row min-h-full">
                     {/* Thumbnail Section */}
-                    <div className="lg:w-2/5 relative aspect-[16/10] lg:aspect-auto min-h-[220px] overflow-hidden">
+                    <div className="lg:w-2/5 relative aspect-video lg:aspect-video min-h-[220px] overflow-hidden">
                       <Image 
                         src={course.image || "https://picsum.photos/seed/finance/800/450"} 
                         alt={course.title}
@@ -168,7 +168,7 @@ export default function CoursesPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent opacity-60 lg:hidden" />
                       {course.badge && (
                         <div className="absolute top-4 left-4">
-                          <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-2xl shadow-primary/40 border-0 text-[10px]">
+                          <Badge className="bg-primary text-white font-bold py-1 px-3 shadow-2xl shadow-primary/40 border-0 text-[10px] rounded-none">
                             {course.badge}
                           </Badge>
                         </div>
@@ -180,7 +180,7 @@ export default function CoursesPage() {
                       <div className="space-y-4">
                         <div className="flex flex-wrap gap-2">
                           {course.tags.map((tag, i) => (
-                            <span key={i} className="text-[10px] font-bold uppercase tracking-widest text-primary/80 bg-primary/5 px-3 py-1 rounded-full border border-primary/10">
+                            <span key={i} className="text-[10px] font-bold uppercase tracking-widest text-primary/80 bg-primary/5 px-3 py-1 rounded-none border border-primary/10">
                               {tag}
                             </span>
                           ))}
@@ -214,7 +214,7 @@ export default function CoursesPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                         {course.features.slice(0, 4).map((feature, i) => (
                           <div key={i} className="flex items-center gap-2 group/item">
-                            <div className="h-4 w-4 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                            <div className="h-4 w-4 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                               <CheckCheck className="h-2.5 w-2.5 text-primary" />
                             </div>
                             <span className="text-[11px] font-medium text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
@@ -224,13 +224,13 @@ export default function CoursesPage() {
 
                       <div className="flex flex-col sm:flex-row gap-4 pt-2 mt-auto">
                         <Link href={course.enrollLink} target="_blank" className="flex-1">
-                          <Button className="w-full h-12 rounded-2xl bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 font-bold group transition-all">
+                          <Button className="w-full h-12 rounded-none bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 font-bold group transition-all">
                             Enroll Now
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </Button>
                         </Link>
                         <Link href={`/courses/${course.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full h-12 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 font-bold">
+                          <Button variant="outline" className="w-full h-12 rounded-none border-white/10 bg-white/5 hover:bg-white/10 font-bold">
                             Learn More
                           </Button>
                         </Link>
@@ -267,9 +267,9 @@ export default function CoursesPage() {
                     viewport={{ once: true }}
                     className="text-center space-y-8"
                   >
-                    <div className="w-24 h-24 rounded-[2rem] bg-background border border-primary/20 flex items-center justify-center mx-auto relative shadow-2xl group hover:border-primary transition-all duration-500">
+                    <div className="w-24 h-24 rounded-none bg-background border border-primary/20 flex items-center justify-center mx-auto relative shadow-2xl group hover:border-primary transition-all duration-500">
                       <item.icon className="w-10 h-10 text-primary" />
-                      <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-xl shadow-primary/20">
+                      <div className="absolute -top-3 -right-3 w-10 h-10 rounded-none bg-primary text-white flex items-center justify-center font-bold text-sm shadow-xl shadow-primary/20">
                         {item.step}
                       </div>
                     </div>
@@ -308,7 +308,7 @@ export default function CoursesPage() {
                   viewport={{ once: true }}
                   className="group"
                 >
-                  <div className="p-8 rounded-[1.5rem] bg-card/30 border border-white/5 hover:border-primary/20 transition-all duration-300">
+                  <div className="p-8 rounded-none bg-card/30 border border-white/5 hover:border-primary/20 transition-all duration-300">
                     <h4 className="text-xl font-bold mb-4 flex items-center justify-between">
                       {item.q}
                       <ChevronRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
@@ -334,12 +334,12 @@ export default function CoursesPage() {
             </div>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-4">
               <Link href="/courses">
-                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-2xl shadow-2xl shadow-primary/25">
+                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-none shadow-2xl shadow-primary/25">
                   Get Started
                 </Button>
               </Link>
               <Link href="/contact">
-                <Button size="lg" variant="outline" className="h-16 px-12 text-xl font-bold rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
+                <Button size="lg" variant="outline" className="h-16 px-12 text-xl font-bold rounded-none border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
                   Contact Us
                 </Button>
               </Link>

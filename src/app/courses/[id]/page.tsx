@@ -199,10 +199,10 @@ export default function CourseDetailPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8 order-2 lg:order-1">
                 <div className="flex flex-wrap gap-3">
-                  <Badge variant="outline" className="text-primary border-primary/20 bg-primary/10 font-bold uppercase tracking-widest px-4 py-1.5 rounded-lg">
+                  <Badge variant="outline" className="text-primary border-primary/20 bg-primary/10 font-bold uppercase tracking-widest px-4 py-1.5 rounded-none">
                     Course Overview
                   </Badge>
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-none bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
                     <Star size={16} fill="currentColor" />
                     <span className="text-sm font-bold">{course.rating}</span>
                   </div>
@@ -218,7 +218,7 @@ export default function CourseDetailPage() {
                 
                 <div className="flex flex-wrap gap-6 py-6 border-y border-white/5">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <div className="h-10 w-10 rounded-none bg-primary/10 flex items-center justify-center text-primary">
                       <Clock size={20} />
                     </div>
                     <div>
@@ -227,7 +227,7 @@ export default function CourseDetailPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <div className="h-10 w-10 rounded-none bg-primary/10 flex items-center justify-center text-primary">
                       <Users size={20} />
                     </div>
                     <div>
@@ -236,7 +236,7 @@ export default function CourseDetailPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <div className="h-10 w-10 rounded-none bg-primary/10 flex items-center justify-center text-primary">
                       <BookOpen size={20} />
                     </div>
                     <div>
@@ -250,7 +250,7 @@ export default function CourseDetailPage() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative aspect-[16/10] order-1 lg:order-2 rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
+                className="relative aspect-video order-1 lg:order-2 rounded-none overflow-hidden border border-white/10 shadow-2xl"
               >
                 <Image 
                   src={course.image || "https://picsum.photos/seed/course/800/450"} 
@@ -280,7 +280,7 @@ export default function CourseDetailPage() {
                     <Award className="text-primary w-6 h-6" />
                     <h2 className="text-2xl md:text-3xl font-headline font-bold">About this Course</h2>
                   </div>
-                  <div className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line bg-card/30 p-6 md:p-8 rounded-3xl border border-white/5">
+                  <div className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line bg-card/30 p-6 md:p-8 rounded-none border border-white/5">
                     {course.longDescription}
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export default function CourseDetailPage() {
                       <AccordionItem 
                         key={i} 
                         value={`chapter-${i}`} 
-                        className="border border-white/5 rounded-2xl bg-card/40 overflow-hidden hover:border-primary/20 transition-all data-[state=open]:border-primary/30"
+                        className="border border-white/5 rounded-none bg-card/40 overflow-hidden hover:border-primary/20 transition-all data-[state=open]:border-primary/30"
                       >
                         <AccordionTrigger className="px-6 py-4 hover:no-underline">
                           <div className="flex items-center gap-4 text-left w-full pr-4">
@@ -320,7 +320,7 @@ export default function CourseDetailPage() {
                         <AccordionContent className="px-6 pb-5 pt-1">
                           <div className="space-y-2 pl-8 border-l border-white/5">
                             {chapter.lessons.map((lesson, j) => (
-                              <div key={j} className="flex items-center justify-between py-2.5 px-4 rounded-xl bg-background/30 border border-white/5 hover:border-white/10 transition-colors group">
+                              <div key={j} className="flex items-center justify-between py-2.5 px-4 rounded-none bg-background/30 border border-white/5 hover:border-white/10 transition-colors group">
                                 <div className="flex items-center gap-3">
                                   <FileText size={12} className="text-muted-foreground group-hover:text-primary transition-colors" />
                                   <span className="text-sm font-medium">{lesson}</span>
@@ -345,7 +345,7 @@ export default function CourseDetailPage() {
               {/* Right Column: Sticky Pricing & CTA */}
               <div className="relative">
                 <div className="lg:sticky lg:top-24 space-y-8">
-                  <div className="p-8 rounded-3xl bg-gradient-to-b from-card to-card/50 border border-white/10 shadow-2xl">
+                  <div className="p-8 rounded-none bg-gradient-to-b from-card to-card/50 border border-white/10 shadow-2xl">
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <p className="text-xs font-bold text-primary uppercase tracking-widest">Enrollment Fee</p>
@@ -364,14 +364,14 @@ export default function CourseDetailPage() {
                         <div className="space-y-3">
                           {course.highlights.map((highlight, i) => (
                             <div key={i} className="flex items-center gap-3">
-                              <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                              <div className="h-5 w-5 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                                 <CheckCheck className="h-3 w-3 text-primary" />
                               </div>
                               <span className="text-xs font-bold text-muted-foreground">{highlight}</span>
                             </div>
                           ))}
                           <div className="flex items-center gap-3">
-                            <div className="h-5 w-5 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                            <div className="h-5 w-5 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                               <ShieldCheck className="h-3 w-3 text-primary" />
                             </div>
                             <span className="text-xs font-bold text-muted-foreground">Lifetime Access</span>
@@ -381,7 +381,7 @@ export default function CourseDetailPage() {
 
                       <div className="pt-6">
                         <Link href={course.enrollLink} target="_blank">
-                          <Button className="w-full h-14 rounded-2xl bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-[0_20px_40px_-12px_rgba(249,115,22,0.3)] hover:translate-y-[-2px] transition-all">
+                          <Button className="w-full h-14 rounded-none bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-[0_20px_40px_-12px_rgba(249,115,22,0.3)] hover:translate-y-[-2px] transition-all">
                             Get Started Now
                           </Button>
                         </Link>
@@ -392,11 +392,11 @@ export default function CourseDetailPage() {
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-3xl bg-card/20 border border-white/5">
+                  <div className="p-6 rounded-none bg-card/20 border border-white/5">
                     <h4 className="font-bold text-sm mb-2">Need Assistance?</h4>
                     <p className="text-xs text-muted-foreground mb-5">Our advisors can help you choose the right path.</p>
                     <Link href="/contact">
-                      <Button variant="outline" className="w-full rounded-xl border-white/10 h-11 text-sm font-bold">
+                      <Button variant="outline" className="w-full rounded-none border-white/10 h-11 text-sm font-bold">
                         Talk to an Advisor
                       </Button>
                     </Link>
