@@ -1,13 +1,28 @@
+
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Youtube, Send, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { useFirestore, useDoc } from "@/firebase";
+import { doc } from "firebase/firestore";
+import { useMemo } from "react";
 
 export function Footer() {
+  const db = useFirestore();
+  const heroDocRef = useMemo(() => db ? doc(db, "settings", "homepage") : null, [db]);
+  const { data: heroSettings } = useDoc(heroDocRef as any);
+
   const currentYear = new Date().getFullYear();
   const logoUrl = "https://financeschool.sirv.com/TFS_LOGO2-removebg-preview.png";
   
+  const socialLinks = {
+    instagram: heroSettings?.instagramUrl || "#",
+    youtube: heroSettings?.youtubeUrl || "#",
+    telegram: heroSettings?.telegramUrl || "#",
+    facebook: heroSettings?.facebookUrl || "#"
+  };
+
   return (
     <footer className="bg-background pt-24 pb-12 border-t border-white/5">
       <div className="container mx-auto px-4">
@@ -27,18 +42,18 @@ export function Footer() {
               Empowering the next generation of Indian traders through practical education and institutional-grade strategies. Consistency over hype.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
                 <Instagram size={18} className="group-hover:text-white" />
-              </Link>
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+              </a>
+              <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
                 <Send size={18} className="group-hover:text-white" />
-              </Link>
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+              </a>
+              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
                 <Youtube size={18} className="group-hover:text-white" />
-              </Link>
-              <Link href="#" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
+              </a>
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
                 <Facebook size={18} className="group-hover:text-white" />
-              </Link>
+              </a>
             </div>
           </div>
 

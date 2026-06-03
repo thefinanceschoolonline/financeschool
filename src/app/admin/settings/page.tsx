@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, RefreshCcw, Home } from "lucide-react";
+import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminSettingsPage() {
@@ -24,7 +24,11 @@ export default function AdminSettingsPage() {
     cta1Text: "Start Learning Now",
     cta1Link: "#courses",
     cta2Text: "Book a Consultation",
-    cta2Link: "#consultation"
+    cta2Link: "#consultation",
+    instagramUrl: "",
+    youtubeUrl: "",
+    telegramUrl: "",
+    facebookUrl: ""
   });
 
   useEffect(() => {
@@ -37,7 +41,11 @@ export default function AdminSettingsPage() {
         cta1Text: heroData.cta1Text || "Start Learning Now",
         cta1Link: heroData.cta1Link || "#courses",
         cta2Text: heroData.cta2Text || "Book a Consultation",
-        cta2Link: heroData.cta2Link || "#consultation"
+        cta2Link: heroData.cta2Link || "#consultation",
+        instagramUrl: heroData.instagramUrl || "",
+        youtubeUrl: heroData.youtubeUrl || "",
+        telegramUrl: heroData.telegramUrl || "",
+        facebookUrl: heroData.facebookUrl || ""
       });
     }
   }, [heroData]);
@@ -48,7 +56,7 @@ export default function AdminSettingsPage() {
       await setDoc(doc(db, "settings", "homepage"), formData);
       toast({
         title: "Settings Saved",
-        description: "Homepage hero content has been updated successfully.",
+        description: "Site content and social links have been updated successfully.",
       });
     } catch (error: any) {
       toast({
@@ -68,7 +76,7 @@ export default function AdminSettingsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Site Settings</h1>
-          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Manage Homepage Hero Content</p>
+          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Manage Homepage Hero & Social Media</p>
         </div>
         <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">
           <Save className="mr-2 h-4 w-4" /> Save Changes
@@ -76,6 +84,7 @@ export default function AdminSettingsPage() {
       </div>
 
       <div className="grid gap-8">
+        {/* Hero Section Card */}
         <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
@@ -127,6 +136,7 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
+        {/* CTA Buttons Card */}
         <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
@@ -177,6 +187,71 @@ export default function AdminSettingsPage() {
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Social Media Card */}
+        <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
+          <CardHeader className="bg-white/5 border-b border-white/5">
+            <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
+              <Share2 className="h-5 w-5 text-primary" />
+              Social Media Connections
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-8 space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Instagram size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instagram URL</label>
+                </div>
+                <Input 
+                  value={formData.instagramUrl} 
+                  onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
+                  className="bg-background rounded-none border-white/5 h-12"
+                  placeholder="https://instagram.com/yourprofile"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Youtube size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">YouTube URL</label>
+                </div>
+                <Input 
+                  value={formData.youtubeUrl} 
+                  onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})}
+                  className="bg-background rounded-none border-white/5 h-12"
+                  placeholder="https://youtube.com/@yourchannel"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Send size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Telegram URL</label>
+                </div>
+                <Input 
+                  value={formData.telegramUrl} 
+                  onChange={(e) => setFormData({...formData, telegramUrl: e.target.value})}
+                  className="bg-background rounded-none border-white/5 h-12"
+                  placeholder="https://t.me/yourgroup"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Facebook size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Facebook URL</label>
+                </div>
+                <Input 
+                  value={formData.facebookUrl} 
+                  onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})}
+                  className="bg-background rounded-none border-white/5 h-12"
+                  placeholder="https://facebook.com/yourpage"
+                />
               </div>
             </div>
           </CardContent>

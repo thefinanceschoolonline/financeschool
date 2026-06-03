@@ -81,8 +81,19 @@ export function HeroSection() {
     cta1Text: heroSettings?.cta1Text || "Start Learning Now",
     cta1Link: heroSettings?.cta1Link || "#courses",
     cta2Text: heroSettings?.cta2Text || "Book a Consultation",
-    cta2Link: heroSettings?.cta2Link || "#consultation"
+    cta2Link: heroSettings?.cta2Link || "#consultation",
+    instagramUrl: heroSettings?.instagramUrl || "#",
+    youtubeUrl: heroSettings?.youtubeUrl || "#",
+    telegramUrl: heroSettings?.telegramUrl || "#",
+    facebookUrl: heroSettings?.facebookUrl || "#"
   };
+
+  const socials = [
+    { icon: Instagram, href: content.instagramUrl, label: "Instagram" },
+    { icon: Youtube, href: content.youtubeUrl, label: "Youtube" },
+    { icon: Send, href: content.telegramUrl, label: "Telegram" },
+    { icon: Facebook, href: content.facebookUrl, label: "Facebook" }
+  ];
 
   return (
     <section
@@ -145,23 +156,19 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Social Icons */}
+        {/* Dynamic Social Icons */}
         <motion.div variants={itemVariants} className="mb-10 flex gap-4 justify-center">
-          {[
-            { icon: Instagram, href: "#", label: "Instagram" },
-            { icon: Youtube, href: "#", label: "Youtube" },
-            { icon: Send, href: "#", label: "Telegram" },
-            { icon: Facebook, href: "#", label: "Facebook" }
-          ].map((social, i) => (
-            <Link 
+          {socials.map((social, i) => (
+            <a 
               key={i} 
               href={social.href} 
               target="_blank"
+              rel="noopener noreferrer"
               className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-primary hover:border-primary transition-all duration-300 group"
               aria-label={social.label}
             >
               <social.icon size={18} className="text-white/60 group-hover:text-white" />
-            </Link>
+            </a>
           ))}
         </motion.div>
 

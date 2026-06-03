@@ -53,7 +53,7 @@
     },
     "HomepageSettings": {
       "title": "Homepage Settings",
-      "description": "Hero section content and CTA configuration",
+      "description": "Hero section content and social links configuration",
       "type": "object",
       "properties": {
         "heroBadge": { "type": "string" },
@@ -63,7 +63,11 @@
         "cta1Text": { "type": "string" },
         "cta1Link": { "type": "string" },
         "cta2Text": { "type": "string" },
-        "cta2Link": { "type": "string" }
+        "cta2Link": { "type": "string" },
+        "instagramUrl": { "type": "string" },
+        "youtubeUrl": { "type": "string" },
+        "telegramUrl": { "type": "string" },
+        "facebookUrl": { "type": "string" }
       }
     }
   },
@@ -85,7 +89,7 @@
     },
     "/settings/homepage": {
       "schema": "HomepageSettings",
-      "description": "Configuration for the homepage hero section"
+      "description": "Configuration for the homepage hero section and social links"
     }
   }
 }
