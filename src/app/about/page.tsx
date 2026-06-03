@@ -33,30 +33,9 @@ import {
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const stats = [
-  { label: "Students Trained", value: 527, icon: Users },
-  { label: "Years Of Experience", value: 7, icon: TrendingUp },
+  { label: "Students Trained", value: 1200, icon: Users },
+  { label: "Years Of Experience", value: 6, icon: TrendingUp },
   { label: "Live Sessions", value: 100, icon: Video },
-];
-
-const team = [
-  {
-    name: "Lunna Young",
-    role: "Company CEO",
-    bio: "Visionary leader with a passion for democratizing financial education across India.",
-    image: "https://picsum.photos/seed/lunna/400/400"
-  },
-  {
-    name: "Tommy Houston",
-    role: "Finance Analyst",
-    bio: "Expert analyst specializing in equity research and institutional market structures.",
-    image: "https://picsum.photos/seed/tommy/400/400"
-  },
-  {
-    name: "George Walls",
-    role: "Social Media Specialist",
-    bio: "Content strategist dedicated to building our thriving community of traders.",
-    image: "https://picsum.photos/seed/george/400/400"
-  }
 ];
 
 const faqs = [
@@ -134,9 +113,9 @@ export default function AboutPage() {
                       Explore Courses
                     </Button>
                   </Link>
-                  <Link href="https://youtube.com" target="_blank">
+                  <Link href="/contact">
                     <Button variant="outline" size="lg" className="h-14 px-10 text-lg font-bold rounded-none border-white/10 bg-white/5 uppercase tracking-widest">
-                      Watch Free Content
+                      Contact Us
                     </Button>
                   </Link>
                 </div>
@@ -171,42 +150,6 @@ export default function AboutPage() {
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-32 bg-card/20 border-y border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-20 space-y-4">
-              <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Why Choose Us</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold uppercase tracking-tight">Why The Finance School</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { icon: Zap, title: "Practical Learning", desc: "We focus on real market strategies, not just theory. Learn how trading actually works through live examples." },
-                { icon: ShieldCheck, title: "Beginner-Friendly", desc: "Start from zero with step-by-step guidance designed for beginners with no prior knowledge." },
-                { icon: Video, title: "Live Market Sessions", desc: "Understand real-time movements, trade setups, and execution through regular live mentorship." },
-                { icon: Target, title: "Structured System", desc: "Learn clear strategies, risk management, and disciplined trading instead of random tips." },
-                { icon: Users, title: "Mentorship & Support", desc: "Get guidance, doubt-solving, and continuous support throughout your entire learning journey." },
-                { icon: Star, title: "Consistency, Not Hype", desc: "We teach long-term trading skills that help you build confidence and real results in the market." }
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="p-8 rounded-none bg-background border border-white/5 hover:border-primary/20 transition-all group"
-                >
-                  <div className="h-14 w-14 rounded-none bg-primary/5 border border-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                    <item.icon size={28} />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm font-medium">{item.desc}</p>
-                </motion.div>
-              ))}
             </div>
           </div>
         </section>

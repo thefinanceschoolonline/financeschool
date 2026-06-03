@@ -4,16 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, BookOpen, Headphones, Home } from "lucide-react";
+import { Menu, X, BookOpen, Headphones, Home, Info, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
 const mainNavItems = [
   { label: "Home", href: "/", icon: Home },
-  { label: "Consultation", href: "/#consultation", icon: Headphones },
-  { label: "Course", href: "/courses", icon: BookOpen },
+  { label: "Courses", href: "/courses", icon: BookOpen },
   { label: "Books", href: "/books", icon: BookOpen },
+  { label: "Consultation", href: "/#consultation", icon: Headphones },
+  { label: "About", href: "/about", icon: Info },
+  { label: "Contact", href: "/contact", icon: Mail },
 ];
 
 export function Navbar() {
@@ -41,7 +43,6 @@ export function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto flex h-16 items-center justify-between px-6 md:px-10">
           <Link href="/" className="flex items-center group relative z-30">
-            {/* Darkish background glow for logo clarity */}
             <div className="absolute inset-0 bg-black/60 blur-2xl rounded-full scale-110 -z-10" />
             <div className="relative h-20 w-40 md:h-32 md:w-64 flex items-center justify-start transition-transform duration-500 group-hover:scale-105">
               <Image 
