@@ -1,14 +1,13 @@
-
 'use client';
 
 import { useState } from 'react';
 import { useAuth } from "@/firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Lock, Mail, ArrowRight, UserPlus, HelpCircle } from "lucide-react";
+import { ShieldCheck, Lock, Mail, ArrowRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import Image from "next/image";
 
@@ -21,7 +20,6 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(false);
   const auth = useAuth();
   const router = useRouter();
 
@@ -42,68 +40,11 @@ export default function AdminLoginPage() {
       });
       router.push('/admin');
     } catch (error: any) {
-      if (error.code === 'auth/user-not-found' && validateEmail(email)) {
-        toast({
-          title: "Account Not Found",
-          description: "Use the 'Initialize Account' mode below to set your password for the first time.",
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Authentication Failed",
-          description: error.message || "Invalid credentials.",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleInitialize = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!auth) return;
-
-    if (!validateEmail(email)) {
       toast({
         variant: "destructive",
-        title: "Access Denied",
-        description: "This email is not authorized for administrator access.",
+        title: "Authentication Failed",
+        description: error.message || "Invalid credentials.",
       });
-      return;
-    }
-
-    if (password.length < 6) {
-      toast({
-        variant: "destructive",
-        title: "Weak Password",
-        description: "Password must be at least 6 characters long.",
-      });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      toast({
-        title: "Account Initialized",
-        description: "Your administrator account has been created successfully.",
-      });
-      router.push('/admin');
-    } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
-        toast({
-          variant: "destructive",
-          title: "Account Already Exists",
-          description: "Please login normally or use 'Forgot Password'.",
-        });
-        setIsInitializing(false);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Initialization Failed",
-          description: error.message,
-        });
-      }
     } finally {
       setLoading(false);
     }
@@ -159,13 +100,13 @@ export default function AdminLoginPage() {
             </div>
           </div>
           <CardTitle className="text-3xl font-headline font-bold uppercase tracking-tight">
-            {isInitializing ? "Initialize Admin" : "Admin Portal"}
+            Admin Portal
           </CardTitle>
           <CardDescription className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">The Finance School</CardDescription>
         </CardHeader>
 
         <CardContent className="px-8 pb-12">
-          <form onSubmit={isInitializing ? handleInitialize : handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Authorized Email</label>
@@ -183,7 +124,7 @@ export default function AdminLoginPage() {
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  {isInitializing ? "Set New Password" : "Password"}
+                  Password
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
@@ -205,7 +146,7 @@ export default function AdminLoginPage() {
                 disabled={loading}
                 className="w-full h-14 bg-primary text-white font-bold uppercase tracking-widest text-xs rounded-none group"
               >
-                {loading ? "Processing..." : (isInitializing ? "Initialize Account" : "Login to Dashboard")}
+                {loading ? "Processing..." : "Login to Dashboard"}
                 {!loading && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
               </Button>
 
@@ -213,22 +154,11 @@ export default function AdminLoginPage() {
                 <Button 
                   type="button"
                   variant="ghost"
-                  onClick={() => setIsInitializing(!isInitializing)}
-                  className="text-[9px] uppercase font-bold tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
+                  onClick={handleForgotPassword}
+                  className="text-[9px] uppercase font-bold tracking-[0.2em] text-muted-foreground/60 hover:text-primary transition-colors"
                 >
-                  {isInitializing ? "Back to normal login" : "First time? Initialize account here"}
+                  Forgot password?
                 </Button>
-                
-                {!isInitializing && (
-                  <Button 
-                    type="button"
-                    variant="ghost"
-                    onClick={handleForgotPassword}
-                    className="text-[9px] uppercase font-bold tracking-[0.2em] text-muted-foreground/60 hover:text-primary transition-colors"
-                  >
-                    Forgot password?
-                  </Button>
-                )}
               </div>
             </div>
             
