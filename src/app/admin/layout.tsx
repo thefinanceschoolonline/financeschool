@@ -2,10 +2,11 @@
 'use client';
 
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const adminNavItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -30,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <Link href={item.href} className={cn(
-                      "flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-bold uppercase tracking-widest text-xs",
+                      "flex items-center gap-3 px-4 py-3 transition-all font-bold uppercase tracking-widest text-xs",
                       pathname === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
                     )}>
                       <item.icon size={18} />
@@ -47,8 +48,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <SidebarTrigger />
             <div className="flex items-center gap-4">
               <span className="text-sm font-bold opacity-70">Administrator</span>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <LogOut size={18} className="text-destructive" />
+              <Button variant="ghost" size="icon" className="hover:text-destructive">
+                <LogOut size={18} />
               </Button>
             </div>
           </header>
@@ -60,5 +61,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </SidebarProvider>
   );
 }
-
-import { Button } from "@/components/ui/button";
