@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -9,10 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Upload } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, Info } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function AdminCoursesPage() {
   const db = useFirestore();
@@ -96,12 +96,20 @@ export default function AdminCoursesPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Manage Courses</h1>
-          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Dynamic Learning Content</p>
+          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Dynamic Learning Content & Enrollments</p>
         </div>
         <Button onClick={() => handleOpenDialog()} className="bg-primary rounded-none h-12 px-8 font-bold uppercase tracking-widest text-xs">
           <Plus className="mr-2 h-4 w-4" /> Add New Course
         </Button>
       </div>
+
+      <Alert className="bg-primary/5 border-primary/20 rounded-none">
+        <Info className="h-4 w-4 text-primary" />
+        <AlertTitle className="text-[10px] font-bold uppercase tracking-widest">Dashboard Note</AlertTitle>
+        <AlertDescription className="text-xs font-medium text-muted-foreground">
+          The Home Page displays the first 3 courses based on the <strong>Sort Order</strong>. The Courses Page displays all entries.
+        </AlertDescription>
+      </Alert>
 
       <div className="grid gap-6">
         {loading ? (
@@ -127,10 +135,10 @@ export default function AdminCoursesPage() {
                       </Button>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{course.description}</p>
+                  <p className="text-muted-foreground text-sm line-clamp-2 mb-4 font-medium">{course.description}</p>
                   <div className="flex items-center gap-4 mb-4">
                     <span className="text-xl font-bold">₹{course.price}</span>
-                    {course.oldPrice && <span className="text-sm text-muted-foreground line-through opacity-50">₹{course.oldPrice}</span>}
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-white/5 border border-white/10">Order: {course.order}</span>
                   </div>
                 </div>
                 <div className="flex gap-6">
@@ -145,24 +153,24 @@ export default function AdminCoursesPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
+          <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
             <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">{editingCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-6 py-6">
+          <div className="space-y-6 p-8">
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Course Title</label>
                 <Input value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="e.g. NISM Series 8" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Sort Order</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Sort Order (0-2 for Home)</label>
                 <Input type="number" value={formData.order} onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
-              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="Detailed description..." />
+              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="Detailed description of the course..." />
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -175,7 +183,7 @@ export default function AdminCoursesPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL (16:9 Scale)</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL (16:9 Cinematic)</label>
               <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://..." />
             </div>
             <div className="space-y-2">
@@ -183,11 +191,11 @@ export default function AdminCoursesPage() {
               <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://imjo.in/..." />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Features (One per line)</label>
-              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" placeholder="Recorded Lectures&#10;Study Material&#10;Mock Tests" />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Highlights (One per line)</label>
+              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" placeholder="Live Sessions&#10;Study Material&#10;Mock Tests" />
             </div>
           </div>
-          <DialogFooter className="gap-3">
+          <DialogFooter className="p-8 border-t border-white/10 bg-white/5 gap-3">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-none border-white/10 h-12 px-8 font-bold uppercase tracking-widest text-[10px]">Cancel</Button>
             <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Course</Button>
           </DialogFooter>
