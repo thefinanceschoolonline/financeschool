@@ -9,7 +9,11 @@ import {
   Sparkles, 
   TrendingUp, 
   ShieldCheck, 
-  Zap
+  Zap,
+  Instagram,
+  Youtube,
+  Send,
+  Facebook
 } from "lucide-react";
 import Link from "next/link";
 import NumberFlow from "@number-flow/react";
@@ -125,7 +129,7 @@ export function HeroSection() {
         </motion.p>
 
         {/* CTA Buttons */}
-        <motion.div variants={itemVariants} className="mb-10">
+        <motion.div variants={itemVariants} className="mb-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={content.cta1Link}>
               <Button size="lg" className="h-14 px-10 text-xs font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/20 gap-2 rounded-none transition-all border border-primary/20 uppercase tracking-widest">
@@ -139,6 +143,26 @@ export function HeroSection() {
               </Button>
             </Link>
           </div>
+        </motion.div>
+
+        {/* Social Icons */}
+        <motion.div variants={itemVariants} className="mb-10 flex gap-4 justify-center">
+          {[
+            { icon: Instagram, href: "#", label: "Instagram" },
+            { icon: Youtube, href: "#", label: "Youtube" },
+            { icon: Send, href: "#", label: "Telegram" },
+            { icon: Facebook, href: "#", label: "Facebook" }
+          ].map((social, i) => (
+            <Link 
+              key={i} 
+              href={social.href} 
+              target="_blank"
+              className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-primary hover:border-primary transition-all duration-300 group"
+              aria-label={social.label}
+            >
+              <social.icon size={18} className="text-white/60 group-hover:text-white" />
+            </Link>
+          ))}
         </motion.div>
 
         {/* Social Proof Marquee */}
