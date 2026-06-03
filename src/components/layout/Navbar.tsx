@@ -1,22 +1,19 @@
-
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ShoppingBag, BookOpen, Headphones, User, Home } from "lucide-react";
+import { Menu, X, ShoppingBag, BookOpen, Headphones, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
 const mainNavItems = [
   { label: "Home", href: "/", icon: Home },
-  { label: "Shop", href: "/shop", icon: ShoppingBag },
   { label: "Consultation", href: "/#consultation", icon: Headphones },
   { label: "Course", href: "/courses", icon: BookOpen },
   { label: "Books", href: "/books", icon: BookOpen },
-  { label: "Account", href: "/account", icon: User },
 ];
 
 export function Navbar() {
@@ -44,8 +41,9 @@ export function Navbar() {
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center group relative">
-            <div className="absolute inset-0 bg-black/60 blur-3xl rounded-full scale-125 -z-10" />
-            <div className="relative h-28 w-56 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+            {/* Darkish background glow for logo clarity */}
+            <div className="absolute inset-0 bg-black/80 blur-3xl rounded-full scale-125 -z-10" />
+            <div className="relative h-32 w-64 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
               <Image 
                 src={logoUrl} 
                 alt="Logo" 
