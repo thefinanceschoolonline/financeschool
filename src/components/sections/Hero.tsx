@@ -89,10 +89,10 @@ export function HeroSection() {
   };
 
   const socials = [
-    { icon: Instagram, href: content.instagramUrl, label: "Instagram" },
-    { icon: Youtube, href: content.youtubeUrl, label: "Youtube" },
-    { icon: Send, href: content.telegramUrl, label: "Telegram" },
-    { icon: Facebook, href: content.facebookUrl, label: "Facebook" }
+    { icon: Instagram, href: content.instagramUrl, label: "Instagram", colorClass: "group-hover:text-pink-500 group-hover:border-pink-500/50" },
+    { icon: Youtube, href: content.youtubeUrl, label: "Youtube", colorClass: "group-hover:text-red-600 group-hover:border-red-600/50" },
+    { icon: Send, href: content.telegramUrl, label: "Telegram", colorClass: "group-hover:text-sky-400 group-hover:border-sky-400/50" },
+    { icon: Facebook, href: content.facebookUrl, label: "Facebook", colorClass: "group-hover:text-blue-600 group-hover:border-blue-600/50" }
   ];
 
   return (
@@ -164,10 +164,13 @@ export function HeroSection() {
               href={social.href} 
               target="_blank"
               rel="noopener noreferrer"
-              className="h-10 w-10 flex items-center justify-center bg-white/5 border border-white/10 hover:bg-primary hover:border-primary transition-all duration-300 group"
+              className={cn(
+                "h-12 w-12 flex items-center justify-center bg-white/5 border border-white/10 transition-all duration-300 group",
+                social.colorClass
+              )}
               aria-label={social.label}
             >
-              <social.icon size={18} className="text-white/60 group-hover:text-white" />
+              <social.icon size={22} className="text-white/60 transition-colors duration-300" />
             </a>
           ))}
         </motion.div>

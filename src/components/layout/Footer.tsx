@@ -7,6 +7,7 @@ import { Instagram, Youtube, Send, Facebook, Mail, Phone, MapPin } from "lucide-
 import { useFirestore, useDoc } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
   const db = useFirestore();
@@ -22,6 +23,13 @@ export function Footer() {
     telegram: heroSettings?.telegramUrl || "#",
     facebook: heroSettings?.facebookUrl || "#"
   };
+
+  const socials = [
+    { icon: Instagram, href: socialLinks.instagram, label: "Instagram", hoverColor: "hover:bg-pink-500 hover:border-pink-500" },
+    { icon: Send, href: socialLinks.telegram, label: "Telegram", hoverColor: "hover:bg-sky-400 hover:border-sky-400" },
+    { icon: Youtube, href: socialLinks.youtube, label: "Youtube", hoverColor: "hover:bg-red-600 hover:border-red-600" },
+    { icon: Facebook, href: socialLinks.facebook, label: "Facebook", hoverColor: "hover:bg-blue-600 hover:border-blue-600" }
+  ];
 
   return (
     <footer className="bg-background pt-24 pb-12 border-t border-white/5">
@@ -42,18 +50,20 @@ export function Footer() {
               Empowering the next generation of Indian traders through practical education and institutional-grade strategies. Consistency over hype.
             </p>
             <div className="flex gap-4">
-              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
-                <Instagram size={18} className="group-hover:text-white" />
-              </a>
-              <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
-                <Send size={18} className="group-hover:text-white" />
-              </a>
-              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
-                <Youtube size={18} className="group-hover:text-white" />
-              </a>
-              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center hover:bg-primary transition-all group">
-                <Facebook size={18} className="group-hover:text-white" />
-              </a>
+              {socials.map((social, i) => (
+                <a 
+                  key={i} 
+                  href={social.href} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className={cn(
+                    "w-10 h-10 rounded-lg bg-card border border-white/5 flex items-center justify-center transition-all group",
+                    social.hoverColor
+                  )}
+                >
+                  <social.icon size={18} className="group-hover:text-white transition-colors" />
+                </a>
+              ))}
             </div>
           </div>
 
