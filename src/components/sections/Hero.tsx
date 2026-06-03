@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, type Variants } from "framer-motion";
 import { 
@@ -13,6 +14,8 @@ import {
 import Link from "next/link";
 import NumberFlow from "@number-flow/react";
 import { cn } from "@/lib/utils";
+import { useFirestore, useDoc } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 const marqueeItems = [
   "TRUSTED BY 1,000+ LEARNERS",
@@ -22,6 +25,10 @@ const marqueeItems = [
 ];
 
 export function HeroSection() {
+  const db = useFirestore();
+  const heroDocRef = useMemo(() => db ? doc(db, "settings", "homepage") : null, [db]);
+  const { data: heroSettings } = useDoc(heroDocRef as any);
+
   const [stats, setStats] = useState({
     students: 0,
     years: 0,
@@ -61,6 +68,18 @@ export function HeroSection() {
     },
   };
 
+  // Default content fallbacks
+  const content = {
+    badge: heroSettings?.heroBadge || "Empowering 1,000+ Indian Traders",
+    headline: heroSettings?.heroHeadline || "Master Financial Markets",
+    subheadline: heroSettings?.heroSubheadline || "With Precision",
+    description: heroSettings?.heroDescription || "Learn practical strategies, clear NISM certifications, and build real market skills — without the hype. Professional education for the modern investor.",
+    cta1Text: heroSettings?.cta1Text || "Start Learning Now",
+    cta1Link: heroSettings?.cta1Link || "#courses",
+    cta2Text: heroSettings?.cta2Text || "Book a Consultation",
+    cta2Link: heroSettings?.cta2Link || "#consultation"
+  };
+
   return (
     <section
       className={cn(
@@ -81,7 +100,7 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="mb-4">
           <span className="inline-flex items-center gap-2 rounded-none border border-accent/30 bg-accent/10 px-4 py-1.5 text-[10px] md:text-xs font-bold text-accent glow-green backdrop-blur-sm uppercase tracking-widest">
             <Sparkles className="h-3.5 w-3.5" />
-            Empowering 1,000+ Indian Traders
+            {content.badge}
           </span>
         </motion.div>
 
@@ -90,9 +109,11 @@ export function HeroSection() {
           variants={itemVariants}
           className="mb-4 font-headline text-4xl font-bold tracking-tight md:text-7xl lg:text-8xl leading-[1.1] text-white uppercase"
         >
-          Master Financial Markets
+          {content.headline}
           <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-400 to-accent">With Precision</span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-orange-400 to-accent">
+            {content.subheadline}
+          </span>
         </motion.h1>
 
         {/* Description */}
@@ -100,22 +121,21 @@ export function HeroSection() {
           variants={itemVariants}
           className="mb-8 max-w-2xl text-sm md:text-base text-white/90 font-bold leading-relaxed px-4 uppercase tracking-wider"
         >
-          Learn practical strategies, clear NISM certifications, and build real market skills — 
-          without the hype. Professional education for the modern investor.
+          {content.description}
         </motion.p>
 
         {/* CTA Buttons */}
         <motion.div variants={itemVariants} className="mb-10">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="#courses">
+            <Link href={content.cta1Link}>
               <Button size="lg" className="h-14 px-10 text-xs font-bold bg-primary hover:bg-primary/90 hover:glow-orange shadow-2xl shadow-primary/20 gap-2 rounded-none transition-all border border-primary/20 uppercase tracking-widest">
-                Start Learning Now
+                {content.cta1Text}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="#consultation">
+            <Link href={content.cta2Link}>
               <Button size="lg" variant="outline" className="h-14 px-10 text-xs border-white/20 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-none transition-all font-bold text-white uppercase tracking-widest">
-                Book a Consultation
+                {content.cta2Text}
               </Button>
             </Link>
           </div>

@@ -50,6 +50,21 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["customerName", "email", "date", "slot"]
+    },
+    "HomepageSettings": {
+      "title": "Homepage Settings",
+      "description": "Hero section content and CTA configuration",
+      "type": "object",
+      "properties": {
+        "heroBadge": { "type": "string" },
+        "heroHeadline": { "type": "string" },
+        "heroSubheadline": { "type": "string" },
+        "heroDescription": { "type": "string" },
+        "cta1Text": { "type": "string" },
+        "cta1Link": { "type": "string" },
+        "cta2Text": { "type": "string" },
+        "cta2Link": { "type": "string" }
+      }
     }
   },
   "auth": {
@@ -67,6 +82,10 @@
     "/bookings/{bookingId}": {
       "schema": "Booking",
       "description": "Customer consultation bookings"
+    },
+    "/settings/homepage": {
+      "schema": "HomepageSettings",
+      "description": "Configuration for the homepage hero section"
     }
   }
 }

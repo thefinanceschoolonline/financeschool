@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, List } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, Settings } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ const adminNavItems = [
   { label: "Full Course Catalog", href: "/admin/courses", icon: BookOpen },
   { label: "Manage Books", href: "/admin/books", icon: Bookmark },
   { label: "Consultations", href: "/admin/consultations", icon: Headphones },
+  { label: "Site Settings", href: "/admin/settings", icon: Settings },
   { label: "View Site", href: "/", icon: Home },
 ];
 
