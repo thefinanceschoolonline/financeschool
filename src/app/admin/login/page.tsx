@@ -3,22 +3,31 @@
 
 import { useState } from 'react';
 import { useAuth } from "@/firebase";
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Lock, Mail, ArrowRight, HelpCircle } from "lucide-react";
+import { ShieldCheck, Lock, Mail, ArrowRight, UserPlus, HelpCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import Image from "next/image";
+
+const AUTHORIZED_EMAILS = [
+  "thefinanceschoolonline@gmail.com",
+  "venkateshchop14@gmail.com"
+];
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [resetLoading, setResetLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
   const auth = useAuth();
   const router = useRouter();
+
+  const validateEmail = (email: string) => {
+    return AUTHORIZED_EMAILS.some(authorized => authorized.toLowerCase() === email.toLowerCase());
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,59 +42,97 @@ export default function AdminLoginPage() {
       });
       router.push('/admin');
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Authentication Failed",
-        description: error.message || "Invalid credentials.",
-      });
+      if (error.code === 'auth/user-not-found' && validateEmail(email)) {
+        toast({
+          title: "Account Not Found",
+          description: "Use the 'Initialize Account' mode below to set your password for the first time.",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Authentication Failed",
+          description: error.message || "Invalid credentials.",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInitialization = async () => {
-    if (!email) {
+  const handleInitialize = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auth) return;
+
+    if (!validateEmail(email)) {
       toast({
         variant: "destructive",
-        title: "Email Required",
-        description: "Enter your admin email to receive a password setup link.",
+        title: "Access Denied",
+        description: "This email is not authorized for administrator access.",
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        variant: "destructive",
+        title: "Weak Password",
+        description: "Password must be at least 6 characters long.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      toast({
+        title: "Account Initialized",
+        description: "Your administrator account has been created successfully.",
+      });
+      router.push('/admin');
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        toast({
+          variant: "destructive",
+          title: "Account Already Exists",
+          description: "Please login normally or use 'Forgot Password'.",
+        });
+        setIsInitializing(false);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Initialization Failed",
+          description: error.message,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email || !validateEmail(email)) {
+      toast({
+        variant: "destructive",
+        title: "Valid Email Required",
+        description: "Enter your authorized admin email first.",
       });
       return;
     }
     
-    if (email !== "thefinanceschoolonline@gmail.com" && email !== "venkateshchop14@gmail.com") {
-      toast({
-        variant: "destructive",
-        title: "Access Denied",
-        description: "This email is not authorized to initialize an admin account.",
-      });
-      return;
-    }
+    if (!auth) return;
 
-    if (!auth) {
-      toast({
-        variant: "destructive",
-        title: "Config Missing",
-        description: "Firebase is not initialized. Check your environment keys.",
-      });
-      return;
-    }
-
-    setResetLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
       toast({
-        title: "Initialization Email Sent",
-        description: "Check your inbox for the link to set your admin password.",
+        title: "Reset Email Sent",
+        description: "Check your inbox for the password reset link.",
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Process Failed",
+        title: "Error",
         description: error.message,
       });
-    } finally {
-      setResetLoading(false);
     }
   };
 
@@ -111,12 +158,14 @@ export default function AdminLoginPage() {
               <ShieldCheck size={32} />
             </div>
           </div>
-          <CardTitle className="text-3xl font-headline font-bold uppercase tracking-tight">Admin Portal</CardTitle>
+          <CardTitle className="text-3xl font-headline font-bold uppercase tracking-tight">
+            {isInitializing ? "Initialize Admin" : "Admin Portal"}
+          </CardTitle>
           <CardDescription className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">The Finance School</CardDescription>
         </CardHeader>
 
         <CardContent className="px-8 pb-12">
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={isInitializing ? handleInitialize : handleLogin} className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Authorized Email</label>
@@ -133,7 +182,9 @@ export default function AdminLoginPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Password</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  {isInitializing ? "Set New Password" : "Password"}
+                </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
                   <Input 
@@ -142,6 +193,7 @@ export default function AdminLoginPage() {
                     onChange={(e) => setPassword(e.target.value)} 
                     className="pl-10 h-12 bg-background/50 border-white/5 rounded-none focus-visible:ring-primary"
                     placeholder="••••••••"
+                    required
                   />
                 </div>
               </div>
@@ -153,29 +205,35 @@ export default function AdminLoginPage() {
                 disabled={loading}
                 className="w-full h-14 bg-primary text-white font-bold uppercase tracking-widest text-xs rounded-none group"
               >
-                {loading ? "Verifying..." : "Login to Dashboard"}
+                {loading ? "Processing..." : (isInitializing ? "Initialize Account" : "Login to Dashboard")}
                 {!loading && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
               </Button>
 
-              <div className="relative py-2">
-                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/5"></span></div>
-                <div className="relative flex justify-center text-[8px] uppercase font-bold tracking-[0.3em]"><span className="bg-card px-2 text-muted-foreground">OR</span></div>
+              <div className="flex flex-col gap-3">
+                <Button 
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setIsInitializing(!isInitializing)}
+                  className="text-[9px] uppercase font-bold tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {isInitializing ? "Back to normal login" : "First time? Initialize account here"}
+                </Button>
+                
+                {!isInitializing && (
+                  <Button 
+                    type="button"
+                    variant="ghost"
+                    onClick={handleForgotPassword}
+                    className="text-[9px] uppercase font-bold tracking-[0.2em] text-muted-foreground/60 hover:text-primary transition-colors"
+                  >
+                    Forgot password?
+                  </Button>
+                )}
               </div>
-
-              <Button 
-                type="button"
-                variant="outline"
-                onClick={handleInitialization}
-                disabled={resetLoading}
-                className="w-full h-12 rounded-none border-white/10 hover:bg-white/5 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2"
-              >
-                <HelpCircle size={14} />
-                {resetLoading ? "Processing..." : "Initialize / Reset Password"}
-              </Button>
             </div>
             
             <p className="text-[9px] text-center text-muted-foreground leading-relaxed uppercase tracking-wider font-bold opacity-40 px-4">
-              First time? Use the "Initialize" button above to set your password via your authorized email.
+              Access is restricted to authorized personnel only. Unauthorized attempts will be logged.
             </p>
           </form>
         </CardContent>
