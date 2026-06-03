@@ -1,13 +1,11 @@
 
 'use client';
 
-// This object should be populated with values from your Firebase Console
-// Settings -> Your Project -> Web App -> Firebase SDK snippet -> Config
 export const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "",
+  apiKey: "AIzaSyCEtzyrzzCeIEs3q7v7WcCGNQyHhLrbs3Y",
+  authDomain: "studio-3182367553-366ec.firebaseapp.com",
+  projectId: "studio-3182367553-366ec",
+  storageBucket: "studio-3182367553-366ec.firebasestorage.app",
+  messagingSenderId: "96806169624",
+  appId: "1:96806169624:web:13b1e8253bfd7b29e7e76d"
 };
