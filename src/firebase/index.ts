@@ -1,3 +1,4 @@
+
 'use client';
 
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
@@ -11,7 +12,7 @@ export function initializeFirebase(): FirebaseInstances | null {
   try {
     // Basic validation to prevent crash on missing config
     if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "" || firebaseConfig.apiKey === "undefined") {
-      console.warn("Firebase configuration is missing or invalid. Please check your environment variables.");
+      console.warn("Firebase configuration is missing. Admin features will be unavailable.");
       return null;
     }
 

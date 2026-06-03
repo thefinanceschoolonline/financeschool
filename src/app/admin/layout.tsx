@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -5,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -31,15 +32,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { user, loading } = useUser();
   const auth = useAuth();
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loading && mounted) {
       if (!user) {
         if (pathname !== '/admin/login') {
           router.push('/admin/login');
         }
       } else {
-        if (ALLOWED_ADMINS.includes(user.email || "")) {
+        const email = user.email?.toLowerCase();
+        if (ALLOWED_ADMINS.some(admin => admin.toLowerCase() === email)) {
           setIsAuthorized(true);
           if (pathname === '/admin/login') {
             router.push('/admin');
@@ -56,28 +63,51 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
       }
     }
-  }, [user, loading, pathname, router, auth]);
+  }, [user, loading, pathname, router, auth, mounted]);
+
+  // Handle Missing Config Case
+  if (mounted && !auth && pathname !== '/admin/login') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <div className="max-w-md w-full text-center space-y-6 bg-card border border-white/5 p-8">
+          <AlertCircle className="mx-auto h-12 w-12 text-destructive" />
+          <h2 className="text-xl font-headline font-bold uppercase tracking-tight">Configuration Required</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Firebase configuration is missing. Please ensure your <strong>.env</strong> file contains valid Firebase API keys.
+          </p>
+          <Button onClick={() => window.location.reload()} className="w-full h-12 bg-primary rounded-none font-bold uppercase tracking-widest text-[10px]">
+            Retry Connection
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   // Don't wrap the login page in the sidebar layout
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
-  // Show loading state only when we are actually waiting for auth on protected routes
-  if (loading || (!user && pathname !== '/admin/login') || (user && !isAuthorized)) {
+  // Show loading state only when we are actually waiting for auth
+  if (!mounted || loading || (user && !isAuthorized)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
           <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 text-white">Authenticating Administrator...</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 text-white">Authenticating...</p>
         </div>
       </div>
     );
   }
 
+  // If not logged in and not on login page, we'll be redirecting, so show nothing or loading
+  if (!user && pathname !== '/admin/login') {
+    return null;
+  }
+
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background text-foreground">
+      <div className="flex min-h-screen w-full bg-background text-foreground font-body">
         <Sidebar className="border-r border-white/5 bg-card">
           <SidebarHeader className="p-6 border-b border-white/5">
             <h2 className="text-xl font-headline font-bold text-primary">TFS Admin</h2>
@@ -104,7 +134,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <header className="h-16 border-b border-white/5 flex items-center px-6 justify-between bg-card/50 backdrop-blur-md">
             <SidebarTrigger />
             <div className="flex items-center gap-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{DISPLAY_ADMIN_EMAIL}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-primary hidden sm:inline-block">{DISPLAY_ADMIN_EMAIL}</span>
               <Button 
                 variant="ghost" 
                 size="icon" 
