@@ -11,19 +11,21 @@ import { Card } from "@/components/ui/card";
 import { 
   ArrowRight, 
   ChevronRight, 
-  CheckCheck,
-  Zap,
-  BookOpen,
-  CircleCheck
+  CheckCheck
 } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NumberFlow from "@number-flow/react";
 import { useCollection, useFirestore } from "@/firebase";
 import { collection, query, orderBy } from "firebase/firestore";
+import { useMemo } from "react";
 
 export default function CoursesPage() {
   const db = useFirestore();
-  const coursesQuery = query(collection(db!, "courses"), orderBy("order", "asc"));
+  
+  const coursesQuery = useMemo(() => 
+    db ? query(collection(db, "courses"), orderBy("order", "asc")) : null, 
+  [db]);
+  
   const { data: courses, loading } = useCollection(coursesQuery);
   const bannerImage = PlaceHolderImages.find(img => img.id === "banner-courses");
 
@@ -51,7 +53,7 @@ export default function CoursesPage() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <h1 className="text-5xl md:text-8xl font-headline font-bold">Our Courses</h1>
+              <h1 className="text-5xl md:text-8xl font-headline font-bold uppercase">Our Courses</h1>
               <nav className="flex justify-center items-center gap-2 text-sm text-muted-foreground font-bold tracking-widest uppercase">
                 <Link href="/" className="hover:text-primary transition-colors">Home</Link>
                 <ChevronRight size={14} />
@@ -70,7 +72,7 @@ export default function CoursesPage() {
               className="max-w-4xl mx-auto space-y-4"
             >
               <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Our Courses</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold leading-tight">
+              <h2 className="text-4xl md:text-6xl font-headline font-bold leading-tight uppercase">
                 Build Real-World Skills in <br />
                 <span className="text-gradient">Finance & Trading</span>
               </h2>
@@ -81,8 +83,10 @@ export default function CoursesPage() {
         <section className="pb-32">
           <div className="container mx-auto px-4 space-y-12">
             {loading ? (
-              <div className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">Loading Professional Courses...</div>
-            ) : courses?.map((course, idx) => (
+              <div className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">Syncing Professional Courses...</div>
+            ) : courses?.length === 0 ? (
+              <div className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">No courses found. Check back soon.</div>
+            ) : courses?.map((course: any, idx: number) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -90,7 +94,7 @@ export default function CoursesPage() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+                <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-none">
                   <div className="flex flex-col lg:flex-row min-h-full">
                     <div className="lg:w-2/5 relative aspect-video lg:aspect-video min-h-[220px] overflow-hidden">
                       <Image 
@@ -136,13 +140,13 @@ export default function CoursesPage() {
 
                       <div className="flex flex-col sm:flex-row gap-4 pt-2 mt-auto">
                         <a href={course.instamojoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-                          <Button className="w-full h-12 rounded-none bg-gradient-to-t from-primary to-orange-400 shadow-xl shadow-primary/25 border border-primary/20 font-bold group transition-all">
+                          <Button className="w-full h-12 rounded-none bg-gradient-to-t from-primary to-orange-400 border border-primary/20 font-bold group transition-all uppercase tracking-widest text-xs">
                             Enroll Now
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </Button>
                         </a>
                         <Link href={`/courses/${course.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full h-12 rounded-none border-white/10 bg-white/5 hover:bg-white/10 font-bold">
+                          <Button variant="outline" className="w-full h-12 rounded-none border-white/10 bg-white/5 hover:bg-white/10 font-bold uppercase tracking-widest text-xs">
                             Learn More
                           </Button>
                         </Link>
@@ -158,18 +162,18 @@ export default function CoursesPage() {
         <section className="py-32 bg-card relative overflow-hidden border-t border-white/5">
           <div className="absolute inset-0 bg-primary/5 blur-[120px] rounded-full -z-10" />
           <div className="container mx-auto px-4 text-center space-y-12">
-            <h2 className="text-4xl md:text-7xl font-headline font-bold max-w-5xl mx-auto">
+            <h2 className="text-4xl md:text-7xl font-headline font-bold max-w-5xl mx-auto uppercase">
               Learn Finance, Trading & Market <br />
               Analysis with Confidence
             </h2>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <Link href="/courses">
-                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-none">
+                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-none uppercase tracking-widest">
                   Get Started
                 </Button>
               </Link>
               <Link href="/contact">
-                <Button size="lg" variant="outline" className="h-16 px-12 text-xl font-bold rounded-none border-white/10 bg-white/5">
+                <Button size="lg" variant="outline" className="h-16 px-12 text-xl font-bold rounded-none border-white/10 bg-white/5 uppercase tracking-widest">
                   Contact Us
                 </Button>
               </Link>

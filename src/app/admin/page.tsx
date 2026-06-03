@@ -2,15 +2,21 @@
 'use client';
 
 import { useCollection, useFirestore } from "@/firebase";
-import { collection, query, limit, orderBy } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Headphones, TrendingUp, Users } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 export default function AdminDashboard() {
   const db = useFirestore();
-  const { data: courses } = useCollection(collection(db!, "courses"));
-  const { data: bookings } = useCollection(collection(db!, "bookings"));
+  
+  const coursesQuery = useMemo(() => db ? collection(db, "courses") : null, [db]);
+  const bookingsQuery = useMemo(() => db ? collection(db, "bookings") : null, [db]);
+  
+  const { data: courses } = useCollection(coursesQuery);
+  const { data: bookings } = useCollection(bookingsQuery);
 
   const stats = [
     { label: "Total Courses", value: courses?.length || 0, icon: BookOpen, color: "text-primary" },
@@ -22,13 +28,13 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Overview of your trading school performance.</p>
+        <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Admin Dashboard</h1>
+        <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Trading School Performance Overview</p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
-          <Card key={i} className="bg-card/40 border-white/5 rounded-none group hover:border-primary/20 transition-all">
+          <Card key={i} className="bg-card/40 border-white/5 rounded-none group hover:border-primary/20 transition-all shadow-none">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
                 <div className={cn("h-12 w-12 rounded-none bg-white/5 flex items-center justify-center", stat.color)}>
@@ -47,28 +53,28 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <Card className="bg-card/40 border-white/5 rounded-none">
+        <Card className="bg-card/40 border-white/5 rounded-none shadow-none">
           <CardHeader>
-            <CardTitle className="text-xl font-headline">Recent Activity</CardTitle>
+            <CardTitle className="text-xl font-headline uppercase font-bold">Recent Activity</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-muted-foreground py-10 text-center uppercase tracking-widest font-bold opacity-50">
+            <div className="text-sm text-muted-foreground py-10 text-center uppercase tracking-widest font-bold opacity-30">
               No recent activity to show
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card/40 border-white/5 rounded-none">
+        <Card className="bg-card/40 border-white/5 rounded-none shadow-none">
           <CardHeader>
-            <CardTitle className="text-xl font-headline">System Health</CardTitle>
+            <CardTitle className="text-xl font-headline uppercase font-bold">System Health</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center text-sm">
-                <span className="font-bold uppercase tracking-widest text-[10px]">Database Connection</span>
+                <span className="font-bold uppercase tracking-widest text-[10px] opacity-70">Database Connection</span>
                 <span className="text-accent font-bold uppercase tracking-widest text-[10px]">Stable</span>
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="font-bold uppercase tracking-widest text-[10px]">Instamojo Gateway</span>
+                <span className="font-bold uppercase tracking-widest text-[10px] opacity-70">Instamojo Gateway</span>
                 <span className="text-accent font-bold uppercase tracking-widest text-[10px]">Online</span>
               </div>
             </div>
@@ -78,5 +84,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-
-import { cn } from "@/lib/utils";

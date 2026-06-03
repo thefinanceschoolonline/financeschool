@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useCollection, useFirestore } from "@/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
@@ -9,14 +9,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Image as ImageIcon, Upload } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, Upload } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
 
 export default function AdminCoursesPage() {
   const db = useFirestore();
-  const coursesQuery = query(collection(db!, "courses"), orderBy("order", "asc"));
+  
+  const coursesQuery = useMemo(() => 
+    db ? query(collection(db, "courses"), orderBy("order", "asc")) : null, 
+  [db]);
+  
   const { data: courses, loading } = useCollection(coursesQuery);
   const [editingCourse, setEditingCourse] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -53,6 +57,8 @@ export default function AdminCoursesPage() {
   };
 
   const handleSave = () => {
+    if (!db) return;
+    
     const payload = {
       ...formData,
       price: parseFloat(formData.price) || 0,
@@ -62,12 +68,12 @@ export default function AdminCoursesPage() {
     };
 
     if (editingCourse) {
-      const docRef = doc(db!, "courses", editingCourse.id);
+      const docRef = doc(db, "courses", editingCourse.id);
       updateDoc(docRef, payload).catch(async (e) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({ path: docRef.path, operation: 'update', requestResourceData: payload }));
       });
     } else {
-      const colRef = collection(db!, "courses");
+      const colRef = collection(db, "courses");
       addDoc(colRef, payload).catch(async (e) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({ path: colRef.path, operation: 'create', requestResourceData: payload }));
       });
@@ -76,8 +82,9 @@ export default function AdminCoursesPage() {
   };
 
   const handleDelete = (id: string) => {
+    if (!db) return;
     if (confirm("Are you sure you want to delete this course?")) {
-      const docRef = doc(db!, "courses", id);
+      const docRef = doc(db, "courses", id);
       deleteDoc(docRef).catch(async (e) => {
         errorEmitter.emit('permission-error', new FirestorePermissionError({ path: docRef.path, operation: 'delete' }));
       });
@@ -102,9 +109,9 @@ export default function AdminCoursesPage() {
         ) : courses?.length === 0 ? (
           <div className="text-center py-20 bg-card/20 border border-dashed border-white/10 opacity-50 font-bold uppercase tracking-widest">No courses found. Add one to get started.</div>
         ) : courses?.map((course) => (
-          <Card key={course.id} className="bg-card/40 border-white/5 rounded-none overflow-hidden group">
+          <Card key={course.id} className="bg-card/40 border-white/5 rounded-none overflow-hidden group shadow-none">
             <div className="flex flex-col md:flex-row">
-              <div className="md:w-64 relative aspect-video md:aspect-square bg-muted">
+              <div className="md:w-64 relative aspect-video md:aspect-video bg-muted shrink-0">
                 {course.imageUrl && <Image src={course.imageUrl} alt={course.title} fill className="object-cover" />}
               </div>
               <CardContent className="flex-1 p-8 flex flex-col justify-between">
@@ -168,14 +175,14 @@ export default function AdminCoursesPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL (16:9 Scale)</label>
               <div className="flex gap-2">
                 <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12 flex-1" placeholder="https://..." />
                 <Button variant="outline" className="h-12 rounded-none border-white/10 opacity-50" disabled>
                   <Upload size={16} />
                 </Button>
               </div>
-              <p className="text-[9px] text-muted-foreground uppercase font-medium">Direct Upload available in production storage builds.</p>
+              <p className="text-[9px] text-muted-foreground uppercase font-medium">Use a direct image link for best results.</p>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Payment Link</label>

@@ -7,20 +7,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CalendarDays, Clock, User, Phone, Mail } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 export default function AdminConsultationsPage() {
   const db = useFirestore();
-  const bookingsQuery = query(collection(db!, "bookings"), orderBy("createdAt", "desc"));
+  
+  const bookingsQuery = useMemo(() => 
+    db ? query(collection(db, "bookings"), orderBy("createdAt", "desc")) : null, 
+  [db]);
+  
   const { data: bookings, loading } = useCollection(bookingsQuery);
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-headline font-bold">Consultation Bookings</h1>
-        <p className="text-muted-foreground">View and manage scheduled mentor sessions.</p>
+        <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Consultation Bookings</h1>
+        <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">View and Manage Scheduled Mentor Sessions</p>
       </div>
 
-      <Card className="bg-card/40 border-white/5 rounded-none overflow-hidden">
+      <Card className="bg-card/40 border-white/5 rounded-none overflow-hidden shadow-none">
         <CardContent className="p-0">
           <Table>
             <TableHeader className="bg-white/5">
@@ -35,13 +41,13 @@ export default function AdminConsultationsPage() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">Loading Bookings...</TableCell>
+                  <TableCell colSpan={5} className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">Syncing Bookings...</TableCell>
                 </TableRow>
               ) : bookings?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">No Bookings Found</TableCell>
+                  <TableCell colSpan={5} className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">No Bookings Found</TableCell>
                 </TableRow>
-              ) : bookings?.map((booking) => (
+              ) : bookings?.map((booking: any) => (
                 <TableRow key={booking.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell className="font-bold">
                     <div className="flex items-center gap-3">
@@ -64,10 +70,10 @@ export default function AdminConsultationsPage() {
                   <TableCell>
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 text-xs">
-                        <Mail size={12} className="text-muted-foreground" /> {booking.email}
+                        <Mail size={12} className="text-muted-foreground opacity-70" /> {booking.email}
                       </div>
                       <div className="flex items-center gap-2 text-xs">
-                        <Phone size={12} className="text-muted-foreground" /> {booking.phone || 'N/A'}
+                        <Phone size={12} className="text-muted-foreground opacity-70" /> {booking.phone || 'N/A'}
                       </div>
                     </div>
                   </TableCell>
@@ -91,5 +97,3 @@ export default function AdminConsultationsPage() {
     </div>
   );
 }
-
-import { cn } from "@/lib/utils";

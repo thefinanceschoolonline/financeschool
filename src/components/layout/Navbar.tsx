@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -43,9 +44,8 @@ export function Navbar() {
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center group relative">
-            {/* Professional dark glow for visibility */}
-            <div className="absolute inset-0 bg-black/80 blur-3xl rounded-full scale-125 -z-10" />
-            <div className="relative h-24 w-48 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+            <div className="absolute inset-0 bg-black/60 blur-3xl rounded-full scale-125 -z-10" />
+            <div className="relative h-28 w-56 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
               <Image 
                 src={logoUrl} 
                 alt="Logo" 
@@ -79,7 +79,7 @@ export function Navbar() {
             
             <div className="ml-6 pl-6 border-l border-white/10">
               <Link href="/courses">
-                <Button className="bg-primary hover:bg-primary/90 transition-all rounded-none px-8 h-12 font-bold shadow-xl shadow-primary/25 border border-primary/20">
+                <Button className="bg-primary hover:bg-primary/90 transition-all rounded-none px-8 h-12 font-bold shadow-xl shadow-primary/25 border border-primary/20 uppercase tracking-widest text-xs">
                   Get Started
                 </Button>
               </Link>
@@ -117,7 +117,7 @@ export function Navbar() {
               ))}
               <div className="pt-4">
                 <Link href="/courses" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-14 rounded-none bg-primary font-bold text-lg">
+                  <Button className="w-full h-14 rounded-none bg-primary font-bold text-lg uppercase tracking-widest">
                     Get Started
                   </Button>
                 </Link>
