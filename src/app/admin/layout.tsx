@@ -1,6 +1,10 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser, useAuth } from "@/firebase";
+import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark } from "lucide-react";
 import Link from "next/link";
@@ -16,8 +20,62 @@ const adminNavItems = [
   { label: "View Site", href: "/", icon: Home },
 ];
 
+const ALLOWED_ADMINS = [
+  "thefinanceschoolonline@gmail.com",
+  "venkateshchop14@gmail.com"
+];
+
+const DISPLAY_ADMIN_EMAIL = "thefinanceschoolonline@gmail.com";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading } = useUser();
+  const auth = useAuth();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        if (pathname !== '/admin/login') {
+          router.push('/admin/login');
+        }
+      } else {
+        if (ALLOWED_ADMINS.includes(user.email || "")) {
+          setIsAuthorized(true);
+          if (pathname === '/admin/login') {
+            router.push('/admin');
+          }
+        } else {
+          // Logged in but not an admin
+          signOut(auth!).then(() => router.push('/admin/login'));
+        }
+      }
+    }
+  }, [user, loading, pathname, router, auth]);
+
+  const handleLogout = async () => {
+    if (auth) {
+      await signOut(auth);
+      router.push('/admin/login');
+    }
+  };
+
+  // Don't show the layout if on login page
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  if (loading || !isAuthorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50">Authenticating Administrator...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -32,7 +90,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
                     <Link href={item.href} className={cn(
-                      "flex items-center gap-3 px-4 py-3 transition-all font-bold uppercase tracking-widest text-xs",
+                      "flex items-center gap-3 px-4 py-3 transition-all font-bold uppercase tracking-widest text-xs rounded-none",
                       pathname === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
                     )}>
                       <item.icon size={18} />
@@ -48,8 +106,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <header className="h-16 border-b border-white/5 flex items-center px-6 justify-between bg-card/50 backdrop-blur-md">
             <SidebarTrigger />
             <div className="flex items-center gap-4">
-              <span className="text-sm font-bold opacity-70">Administrator</span>
-              <Button variant="ghost" size="icon" className="hover:text-destructive">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{DISPLAY_ADMIN_EMAIL}</span>
+              <Button variant="ghost" size="icon" onClick={handleLogout} className="hover:text-destructive rounded-none">
                 <LogOut size={18} />
               </Button>
             </div>
