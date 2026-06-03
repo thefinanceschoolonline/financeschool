@@ -1,4 +1,3 @@
-
 {
   "entities": {
     "Course": {
@@ -75,21 +74,24 @@
     "providers": ["google.com"]
   },
   "firestore": {
-    "/courses/{courseId}": {
-      "schema": "Course",
-      "description": "List of courses managed by the admin"
-    },
-    "/books/{bookId}": {
-      "schema": "Book",
-      "description": "List of books managed by the admin"
-    },
-    "/bookings/{bookingId}": {
-      "schema": "Booking",
-      "description": "Customer consultation bookings"
-    },
-    "/settings/homepage": {
-      "schema": "HomepageSettings",
-      "description": "Configuration for the homepage hero section and social links"
+    "rules": "firestore.rules",
+    "collections": {
+      "/courses/{courseId}": {
+        "schema": "Course",
+        "description": "List of courses managed by the admin"
+      },
+      "/books/{bookId}": {
+        "schema": "Book",
+        "description": "List of books managed by the admin"
+      },
+      "/bookings/{bookingId}": {
+        "schema": "Booking",
+        "description": "Customer consultation bookings"
+      },
+      "/settings/homepage": {
+        "schema": "HomepageSettings",
+        "description": "Configuration for the homepage hero section and social links"
+      }
     }
   }
 }
