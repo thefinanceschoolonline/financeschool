@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useCollection, useFirestore } from "@/firebase";
@@ -13,9 +12,11 @@ import { useMemo } from "react";
 export default function AdminConsultationsPage() {
   const db = useFirestore();
   
-  const bookingsQuery = useMemo(() => 
-    db ? query(collection(db, "bookings"), orderBy("createdAt", "desc")) : null, 
-  [db]);
+  // Stabilize the query reference to prevent Firestore internal assertion errors
+  const bookingsQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, "bookings"), orderBy("createdAt", "desc"));
+  }, [db]);
   
   const { data: bookings, loading } = useCollection(bookingsQuery);
 
@@ -43,11 +44,11 @@ export default function AdminConsultationsPage() {
                 <TableRow>
                   <TableCell colSpan={5} className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">Syncing Bookings...</TableCell>
                 </TableRow>
-              ) : bookings?.length === 0 ? (
+              ) : !bookings || bookings.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">No Bookings Found</TableCell>
                 </TableRow>
-              ) : bookings?.map((booking: any) => (
+              ) : bookings.map((booking: any) => (
                 <TableRow key={booking.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell className="font-bold">
                     <div className="flex items-center gap-3">

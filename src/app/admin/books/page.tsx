@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Upload } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
@@ -17,9 +16,10 @@ import { FirestorePermissionError } from "@/firebase/errors";
 export default function AdminBooksPage() {
   const db = useFirestore();
   
-  const booksQuery = useMemo(() => 
-    db ? query(collection(db, "books"), orderBy("order", "asc")) : null, 
-  [db]);
+  const booksQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, "books"), orderBy("order", "asc"));
+  }, [db]);
   
   const { data: books, loading } = useCollection(booksQuery);
   const [editingBook, setEditingBook] = useState<any>(null);
@@ -103,9 +103,9 @@ export default function AdminBooksPage() {
       <div className="grid gap-6">
         {loading ? (
           <div className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">Syncing Books...</div>
-        ) : books?.length === 0 ? (
+        ) : !books || books.length === 0 ? (
           <div className="text-center py-20 bg-card/20 border border-dashed border-white/10 opacity-50 font-bold uppercase tracking-widest">No books found. Add one to get started.</div>
-        ) : books?.map((book) => (
+        ) : books.map((book) => (
           <Card key={book.id} className="bg-card/40 border-white/5 rounded-none overflow-hidden group shadow-none">
             <div className="flex flex-col md:flex-row">
               <div className="md:w-64 relative aspect-[16/9] bg-muted shrink-0">

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -10,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Info, Star, List } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, Info, Star } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
@@ -22,9 +21,10 @@ export default function AdminCoursesPage() {
   const searchParams = useSearchParams();
   const viewMode = searchParams.get('view') || 'all';
   
-  const coursesQuery = useMemo(() => 
-    db ? query(collection(db, "courses"), orderBy("order", "asc")) : null, 
-  [db]);
+  const coursesQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, "courses"), orderBy("order", "asc"));
+  }, [db]);
   
   const { data: allCourses, loading } = useCollection(coursesQuery);
   const [editingCourse, setEditingCourse] = useState<any>(null);
