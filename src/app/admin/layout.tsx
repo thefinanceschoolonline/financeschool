@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -46,31 +45,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             router.push('/admin');
           }
         } else {
-          // Logged in but not an admin
-          signOut(auth!).then(() => router.push('/admin/login'));
+          // Logged in but not an authorized admin
+          if (auth) {
+            signOut(auth).then(() => {
+              if (pathname !== '/admin/login') {
+                router.push('/admin/login');
+              }
+            });
+          }
         }
       }
     }
   }, [user, loading, pathname, router, auth]);
 
-  const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-      router.push('/admin/login');
-    }
-  };
-
-  // Don't show the layout if on login page
+  // Don't wrap the login page in the sidebar layout
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
-  if (loading || !isAuthorized) {
+  // Show loading state only when we are actually waiting for auth on protected routes
+  if (loading || (!user && pathname !== '/admin/login') || (user && !isAuthorized)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
           <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50">Authenticating Administrator...</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 text-white">Authenticating Administrator...</p>
         </div>
       </div>
     );
@@ -106,7 +105,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <SidebarTrigger />
             <div className="flex items-center gap-4">
               <span className="text-[10px] font-bold uppercase tracking-widest text-primary">{DISPLAY_ADMIN_EMAIL}</span>
-              <Button variant="ghost" size="icon" onClick={handleLogout} className="hover:text-destructive rounded-none">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={async () => {
+                  if (auth) {
+                    await signOut(auth);
+                    router.push('/admin/login');
+                  }
+                }} 
+                className="hover:text-destructive rounded-none"
+              >
                 <LogOut size={18} />
               </Button>
             </div>
