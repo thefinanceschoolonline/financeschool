@@ -1,0 +1,53 @@
+
+{
+  "entities": {
+    "Course": {
+      "title": "Course",
+      "description": "A dynamic learning program offered by The Finance School",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "oldPrice": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "instamojoLink": { "type": "string" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "description", "price", "imageUrl", "instamojoLink"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A scheduled consultation session",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "date": { "type": "string" },
+        "slot": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "failed"] },
+        "amount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "email", "date", "slot"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com"]
+  },
+  "firestore": {
+    "/courses/{courseId}": {
+      "schema": "Course",
+      "description": "List of courses managed by the admin"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Customer consultation bookings"
+    }
+  }
+}

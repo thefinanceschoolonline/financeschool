@@ -1,18 +1,30 @@
 
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
-import { Headphones, Clock, Users, CalendarDays, Star } from "lucide-react";
+import { Headphones, Clock, Users, CalendarDays, Star, CheckCircle2 } from "lucide-react";
+import { useFirestore } from "@/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const timeSlots = ["10:00 AM", "11:30 AM", "02:00 PM", "04:30 PM", "06:00 PM"];
+const CONSULTATION_PAYMENT_LINK = "https://imjo.in/pC6qZp"; // Fixed link for consultation
 
 export function ConsultationSection() {
+  const db = useFirestore();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [isBooking, setIsBooking] = useState(false);
+
+  const handleBooking = async () => {
+    if (!date || !selectedSlot) return;
+    
+    // Redirecting to Instamojo for payment
+    window.location.href = CONSULTATION_PAYMENT_LINK;
+  };
 
   return (
     <section id="consultation" className="py-24 bg-background">
@@ -29,7 +41,7 @@ export function ConsultationSection() {
             </div>
             <h2 className="text-4xl md:text-6xl font-headline font-bold mb-6">Need a <span className="text-accent">Personal Strategy</span>?</h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Sometimes classroom learning isn't enough. Schedule a one-on-one session with our senior mentors to review your portfolio, discuss advanced trading setups, or clarify complex derivatives concepts.
+              Schedule a one-on-one session with our senior mentors to review your portfolio, discuss advanced trading setups, or clarify complex concepts.
             </p>
             
             <div className="space-y-6">
@@ -39,7 +51,7 @@ export function ConsultationSection() {
                 { icon: Headphones, title: "Post-Session Support", desc: "Get session recordings and summary notes." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-card border border-white/5 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-none bg-card border border-white/5 flex items-center justify-center shrink-0">
                     <item.icon className="text-primary w-6 h-6" />
                   </div>
                   <div>
@@ -56,9 +68,9 @@ export function ConsultationSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Card className="border-white/5 bg-card/50 backdrop-blur-md shadow-2xl overflow-hidden rounded-[2.5rem]">
+            <Card className="border-white/5 bg-card/50 backdrop-blur-md shadow-2xl overflow-hidden rounded-none">
               <CardHeader className="bg-primary/5 border-b border-white/5 p-8">
-                <CardTitle className="flex items-center gap-2 text-2xl">
+                <CardTitle className="flex items-center gap-2 text-2xl font-headline">
                   <CalendarDays className="text-primary w-6 h-6" />
                   Schedule Your Session
                 </CardTitle>
@@ -67,7 +79,7 @@ export function ConsultationSection() {
               <CardContent className="p-8">
                 <div className="grid md:grid-cols-[1fr,240px] gap-10">
                   <div className="flex justify-center md:justify-start">
-                    <div className="bg-background rounded-2xl p-4 border border-white/5 shadow-inner inline-block">
+                    <div className="bg-background rounded-none p-4 border border-white/5 shadow-inner inline-block">
                       <Calendar
                         mode="single"
                         selected={date}
@@ -78,7 +90,7 @@ export function ConsultationSection() {
                   </div>
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <h5 className="font-bold text-xs uppercase tracking-[0.2em] text-primary">Time Slot</h5>
+                      <h5 className="font-bold text-[10px] uppercase tracking-[0.2em] text-primary">Time Slot</h5>
                       <p className="text-xs text-muted-foreground">Select one available slot</p>
                     </div>
                     <div className="grid grid-cols-1 gap-3">
@@ -86,7 +98,7 @@ export function ConsultationSection() {
                         <button
                           key={slot}
                           onClick={() => setSelectedSlot(slot)}
-                          className={`p-4 rounded-xl text-sm font-bold border transition-all text-center ${
+                          className={`p-4 rounded-none text-xs font-bold border transition-all text-center uppercase tracking-widest ${
                             selectedSlot === slot 
                               ? 'bg-primary border-primary text-white shadow-xl shadow-primary/20' 
                               : 'bg-background border-white/5 hover:border-primary/30 text-muted-foreground'
@@ -98,11 +110,15 @@ export function ConsultationSection() {
                     </div>
                     {selectedSlot && (
                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="pt-4">
-                        <Button className="w-full bg-gradient-to-t from-primary to-orange-400 h-14 font-bold rounded-xl shadow-2xl shadow-primary/25 border border-primary/20 text-base">
-                          Confirm Booking
+                        <Button 
+                          onClick={handleBooking}
+                          disabled={isBooking}
+                          className="w-full bg-gradient-to-t from-primary to-orange-400 h-14 font-bold rounded-none shadow-2xl shadow-primary/25 border border-primary/20 text-xs uppercase tracking-widest"
+                        >
+                          {isBooking ? "Redirecting..." : "Confirm & Pay"}
                         </Button>
                         <p className="text-[10px] text-center text-muted-foreground mt-4 uppercase tracking-widest font-bold">
-                          Confirmation sent to email
+                          Secure Payment via Instamojo
                         </p>
                       </motion.div>
                     )}
