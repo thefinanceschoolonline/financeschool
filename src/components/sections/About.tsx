@@ -18,7 +18,7 @@ export function AboutSection() {
             <div className="relative aspect-square rounded-none overflow-hidden border border-white/10 shadow-2xl">
               <Image 
                 src="https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png" 
-                alt="About" 
+                alt="The Finance School Mentor" 
                 fill 
                 className="object-cover"
                 data-ai-hint="stock trader mentor"
@@ -47,9 +47,9 @@ export function AboutSection() {
           >
             <div className="space-y-4 mb-8">
               <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Our Philosophy</span>
-              <h2 className="text-3xl md:text-5xl font-headline font-bold">Helping You Learn <span className="text-gradient">Stock Market Trading</span> the Right Way</h2>
+              <h2 className="text-3xl md:text-5xl font-headline font-bold uppercase tracking-tight">Helping You Learn <span className="text-gradient">Stock Market Trading</span> the Right Way</h2>
             </div>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-medium">
               At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.
             </p>
             
@@ -62,9 +62,9 @@ export function AboutSection() {
                 <div key={i} className="space-y-2">
                   <div className="flex items-center gap-3 mb-2">
                     <val.icon className="text-primary w-5 h-5" />
-                    <h4 className="font-bold text-lg">{val.title}</h4>
+                    <h4 className="font-bold text-lg uppercase tracking-tight">{val.title}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground">{val.desc}</p>
+                  <p className="text-sm text-muted-foreground font-medium">{val.desc}</p>
                 </div>
               ))}
             </div>

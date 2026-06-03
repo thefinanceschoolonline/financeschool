@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -19,7 +18,8 @@ import {
   Facebook,
   Instagram,
   Youtube,
-  Send
+  Send,
+  Quote
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -130,12 +130,12 @@ export default function AboutPage() {
 
                 <div className="flex flex-wrap gap-6 pt-4">
                   <Link href="/courses">
-                    <Button size="lg" className="h-14 px-10 text-lg font-bold bg-gradient-to-t from-primary to-orange-400 rounded-2xl shadow-xl shadow-primary/25 border border-primary/20">
+                    <Button size="lg" className="h-14 px-10 text-lg font-bold bg-gradient-to-t from-primary to-orange-400 rounded-none shadow-xl shadow-primary/25 border border-primary/20 uppercase tracking-widest">
                       Explore Courses
                     </Button>
                   </Link>
                   <Link href="https://youtube.com" target="_blank">
-                    <Button variant="outline" size="lg" className="h-14 px-10 text-lg font-bold rounded-2xl border-white/10 bg-white/5">
+                    <Button variant="outline" size="lg" className="h-14 px-10 text-lg font-bold rounded-none border-white/10 bg-white/5 uppercase tracking-widest">
                       Watch Free Content
                     </Button>
                   </Link>
@@ -143,22 +143,22 @@ export default function AboutPage() {
               </div>
 
               <div className="relative">
-                <div className="aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl relative">
+                <div className="aspect-square rounded-none overflow-hidden border border-white/10 shadow-2xl relative">
                   <Image 
-                    src="https://picsum.photos/seed/trading-about/800/800" 
-                    alt="Trading Lab" 
+                    src="https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png" 
+                    alt="The Finance School Mentor" 
                     fill 
                     className="object-cover"
-                    data-ai-hint="stock market trading office"
+                    data-ai-hint="stock trader"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
                 </div>
                 
                 {/* Floating Stats */}
-                <div className="absolute -bottom-10 -left-10 md:left-10 p-8 bg-card border border-white/10 rounded-[2rem] shadow-2xl space-y-6 min-w-[280px]">
+                <div className="absolute -bottom-10 -left-10 md:left-10 p-8 bg-card border border-white/10 rounded-none shadow-2xl space-y-6 min-w-[280px]">
                   {stats.map((stat, i) => (
                     <div key={i} className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                      <div className="h-12 w-12 rounded-none bg-primary/10 flex items-center justify-center text-primary">
                         <stat.icon size={24} />
                       </div>
                       <div>
@@ -180,7 +180,7 @@ export default function AboutPage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-20 space-y-4">
               <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Why Choose Us</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold">Why The Finance School</h2>
+              <h2 className="text-4xl md:text-6xl font-headline font-bold uppercase tracking-tight">Why The Finance School</h2>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -198,53 +198,14 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   viewport={{ once: true }}
-                  className="p-8 rounded-[2.5rem] bg-background border border-white/5 hover:border-primary/20 transition-all group"
+                  className="p-8 rounded-none bg-background border border-white/5 hover:border-primary/20 transition-all group"
                 >
-                  <div className="h-14 w-14 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                  <div className="h-14 w-14 rounded-none bg-primary/5 border border-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
                     <item.icon size={28} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <h3 className="text-2xl font-bold mb-4 uppercase tracking-tight">{item.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-sm font-medium">{item.desc}</p>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section className="py-32">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-20 space-y-4">
-              <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Our Team</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold">Meet Our Professionals</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {team.map((member, i) => (
-                <div key={i} className="space-y-6 group">
-                  <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/5">
-                    <Image 
-                      src={member.image} 
-                      alt={member.name} 
-                      fill 
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
-                    <div className="absolute bottom-8 left-8 flex gap-3">
-                      <Link href="#" className="h-10 w-10 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-primary transition-colors">
-                        <Facebook size={18} className="text-white" />
-                      </Link>
-                      <Link href="#" className="h-10 w-10 rounded-lg bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-primary transition-colors">
-                        <Mail size={18} className="text-white" />
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="px-4">
-                    <h4 className="text-2xl font-bold mb-1">{member.name}</h4>
-                    <p className="text-primary font-bold text-sm uppercase tracking-widest mb-4">{member.role}</p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>
-                  </div>
-                </div>
               ))}
             </div>
           </div>
@@ -255,16 +216,16 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="text-center mb-16 space-y-4">
               <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">FAQs</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold">Frequently Asked Questions</h2>
+              <h2 className="text-4xl md:text-6xl font-headline font-bold uppercase tracking-tight">Frequently Asked Questions</h2>
             </div>
             
             <Accordion type="single" collapsible className="w-full space-y-4">
               {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 rounded-2xl px-6 bg-background/50">
-                  <AccordionTrigger className="text-lg font-bold hover:no-underline hover:text-primary transition-colors">
+                <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 rounded-none px-6 bg-background/50">
+                  <AccordionTrigger className="text-lg font-bold hover:no-underline hover:text-primary transition-colors uppercase tracking-tight">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-6">
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-6 text-sm font-medium">
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -279,17 +240,17 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 text-center space-y-10">
             <div className="space-y-4">
               <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Consultation</span>
-              <h2 className="text-4xl md:text-7xl font-headline font-bold max-w-4xl mx-auto">
+              <h2 className="text-4xl md:text-7xl font-headline font-bold max-w-4xl mx-auto uppercase">
                 Still Confused Whether To <br />
                 <span className="text-gradient">Enroll Or Not?</span>
               </h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-medium">
                 Learn how markets work, build strong trading strategies, and develop real-world skills through structured, application-focused training.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-4">
               <Link href="/#consultation">
-                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-2xl shadow-2xl shadow-primary/25 border border-primary/20">
+                <Button size="lg" className="h-16 px-12 text-xl font-bold bg-gradient-to-t from-primary to-orange-400 rounded-none shadow-2xl shadow-primary/25 border border-primary/20 uppercase tracking-widest">
                   Book Free Consultation
                 </Button>
               </Link>
