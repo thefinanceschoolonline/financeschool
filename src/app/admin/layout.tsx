@@ -2,7 +2,7 @@
 'use client';
 
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Settings } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 const adminNavItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Manage Courses", href: "/admin/courses", icon: BookOpen },
+  { label: "Manage Books", href: "/admin/books", icon: Bookmark },
   { label: "Consultations", href: "/admin/consultations", icon: Headphones },
   { label: "View Site", href: "/", icon: Home },
 ];

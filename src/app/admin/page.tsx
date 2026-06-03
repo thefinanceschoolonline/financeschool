@@ -4,7 +4,7 @@
 import { useCollection, useFirestore } from "@/firebase";
 import { collection } from "firebase/firestore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Headphones, TrendingUp, Users } from "lucide-react";
+import { BookOpen, Headphones, TrendingUp, Bookmark } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
@@ -13,15 +13,17 @@ export default function AdminDashboard() {
   const db = useFirestore();
   
   const coursesQuery = useMemo(() => db ? collection(db, "courses") : null, [db]);
+  const booksQuery = useMemo(() => db ? collection(db, "books") : null, [db]);
   const bookingsQuery = useMemo(() => db ? collection(db, "bookings") : null, [db]);
   
   const { data: courses } = useCollection(coursesQuery);
+  const { data: books } = useCollection(booksQuery);
   const { data: bookings } = useCollection(bookingsQuery);
 
   const stats = [
     { label: "Total Courses", value: courses?.length || 0, icon: BookOpen, color: "text-primary" },
+    { label: "Total Books", value: books?.length || 0, icon: Bookmark, color: "text-blue-500" },
     { label: "Total Bookings", value: bookings?.length || 0, icon: Headphones, color: "text-accent" },
-    { label: "New Leads", value: 12, icon: Users, color: "text-blue-500" },
     { label: "Success Rate", value: 100, icon: TrendingUp, color: "text-green-500", suffix: "%" },
   ];
 
@@ -53,16 +55,6 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <Card className="bg-card/40 border-white/5 rounded-none shadow-none">
-          <CardHeader>
-            <CardTitle className="text-xl font-headline uppercase font-bold">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm text-muted-foreground py-10 text-center uppercase tracking-widest font-bold opacity-30">
-              No recent activity to show
-            </div>
-          </CardContent>
-        </Card>
         <Card className="bg-card/40 border-white/5 rounded-none shadow-none">
           <CardHeader>
             <CardTitle className="text-xl font-headline uppercase font-bold">System Health</CardTitle>
