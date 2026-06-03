@@ -12,6 +12,7 @@ import { useMemo } from "react";
 export default function AdminDashboard() {
   const db = useFirestore();
   
+  // Memoize collection references to prevent infinite loops in hooks
   const coursesQuery = useMemo(() => db ? collection(db, "courses") : null, [db]);
   const booksQuery = useMemo(() => db ? collection(db, "books") : null, [db]);
   const bookingsQuery = useMemo(() => db ? collection(db, "bookings") : null, [db]);

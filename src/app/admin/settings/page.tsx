@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useFirestore, useDoc } from "@/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,12 @@ import { toast } from "@/hooks/use-toast";
 
 export default function AdminSettingsPage() {
   const db = useFirestore();
-  const heroDocRef = db ? doc(db, "settings", "homepage") : null;
+  
+  // Stabilize the doc reference to prevent infinite render loops
+  const heroDocRef = useMemo(() => 
+    db ? doc(db, "settings", "homepage") : null, 
+  [db]);
+  
   const { data: heroData, loading } = useDoc(heroDocRef as any);
 
   const [formData, setFormData] = useState({
@@ -31,8 +36,11 @@ export default function AdminSettingsPage() {
     facebookUrl: ""
   });
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize form only once when data is first loaded to prevent overwriting user typing
   useEffect(() => {
-    if (heroData) {
+    if (heroData && !loading && !isInitialized) {
       setFormData({
         heroBadge: heroData.heroBadge || "Empowering 1,000+ Indian Traders",
         heroHeadline: heroData.heroHeadline || "Master Financial Markets",
@@ -47,8 +55,9 @@ export default function AdminSettingsPage() {
         telegramUrl: heroData.telegramUrl || "",
         facebookUrl: heroData.facebookUrl || ""
       });
+      setIsInitialized(true);
     }
-  }, [heroData]);
+  }, [heroData, loading, isInitialized]);
 
   const handleSave = async () => {
     if (!db) return;
@@ -67,7 +76,7 @@ export default function AdminSettingsPage() {
     }
   };
 
-  if (loading) {
+  if (loading && !isInitialized) {
     return <div className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">Syncing Settings...</div>;
   }
 
