@@ -1,6 +1,8 @@
+
 'use client';
 
 import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCollection, useFirestore } from "@/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
@@ -8,20 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Info } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, Info, Star, List } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 
 export default function AdminCoursesPage() {
   const db = useFirestore();
+  const searchParams = useSearchParams();
+  const viewMode = searchParams.get('view') || 'all';
   
   const coursesQuery = useMemo(() => 
     db ? query(collection(db, "courses"), orderBy("order", "asc")) : null, 
   [db]);
   
-  const { data: courses, loading } = useCollection(coursesQuery);
+  const { data: allCourses, loading } = useCollection(coursesQuery);
   const [editingCourse, setEditingCourse] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -35,6 +40,14 @@ export default function AdminCoursesPage() {
     features: "",
     order: 0
   });
+
+  const filteredCourses = useMemo(() => {
+    if (!allCourses) return [];
+    if (viewMode === 'featured') {
+      return allCourses.filter(c => (c.order !== undefined && c.order < 3));
+    }
+    return allCourses;
+  }, [allCourses, viewMode]);
 
   const handleOpenDialog = (course: any = null) => {
     if (course) {
@@ -51,7 +64,7 @@ export default function AdminCoursesPage() {
       });
     } else {
       setEditingCourse(null);
-      setFormData({ title: "", description: "", price: "", oldPrice: "", imageUrl: "", instamojoLink: "", features: "", order: courses?.length || 0 });
+      setFormData({ title: "", description: "", price: "", oldPrice: "", imageUrl: "", instamojoLink: "", features: "", order: allCourses?.length || 0 });
     }
     setIsDialogOpen(true);
   };
@@ -95,8 +108,12 @@ export default function AdminCoursesPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Manage Courses</h1>
-          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Dynamic Learning Content & Enrollments</p>
+          <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">
+            {viewMode === 'featured' ? "Home Page Featured" : "Course Catalog"}
+          </h1>
+          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">
+            {viewMode === 'featured' ? "Managing the top 3 slots for the home page" : "Managing all active learning programs"}
+          </p>
         </div>
         <Button onClick={() => handleOpenDialog()} className="bg-primary rounded-none h-12 px-8 font-bold uppercase tracking-widest text-xs">
           <Plus className="mr-2 h-4 w-4" /> Add New Course
@@ -105,27 +122,41 @@ export default function AdminCoursesPage() {
 
       <Alert className="bg-primary/5 border-primary/20 rounded-none">
         <Info className="h-4 w-4 text-primary" />
-        <AlertTitle className="text-[10px] font-bold uppercase tracking-widest">Dashboard Note</AlertTitle>
+        <AlertTitle className="text-[10px] font-bold uppercase tracking-widest">Sorting Logic</AlertTitle>
         <AlertDescription className="text-xs font-medium text-muted-foreground">
-          The Home Page displays the first 3 courses based on the <strong>Sort Order</strong>. The Courses Page displays all entries.
+          Courses with <strong>Sort Order 0, 1, and 2</strong> are automatically displayed in the "Featured" section on the Home Page.
         </AlertDescription>
       </Alert>
 
       <div className="grid gap-6">
         {loading ? (
-          <div className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">Syncing Courses...</div>
-        ) : courses?.length === 0 ? (
-          <div className="text-center py-20 bg-card/20 border border-dashed border-white/10 opacity-50 font-bold uppercase tracking-widest">No courses found. Add one to get started.</div>
-        ) : courses?.map((course) => (
-          <Card key={course.id} className="bg-card/40 border-white/5 rounded-none overflow-hidden group shadow-none">
+          <div className="text-center py-20 opacity-50 font-bold uppercase tracking-[0.3em]">Syncing Data...</div>
+        ) : filteredCourses.length === 0 ? (
+          <div className="text-center py-20 bg-card/20 border border-dashed border-white/10 opacity-50 font-bold uppercase tracking-widest">
+            {viewMode === 'featured' ? "No featured courses found (Order < 3)." : "No courses found."}
+          </div>
+        ) : filteredCourses.map((course) => (
+          <Card key={course.id} className={cn(
+            "bg-card/40 border-white/5 rounded-none overflow-hidden group shadow-none",
+            course.order < 3 && "border-primary/20 bg-primary/5"
+          )}>
             <div className="flex flex-col md:flex-row">
               <div className="md:w-64 relative aspect-[16/9] bg-muted shrink-0">
                 {course.imageUrl && <Image src={course.imageUrl} alt={course.title} fill className="object-cover" />}
+                {course.order < 3 && (
+                  <div className="absolute top-2 left-2 bg-primary px-2 py-1 text-[8px] font-bold text-white uppercase tracking-tighter">Home Featured</div>
+                )}
               </div>
               <CardContent className="flex-1 p-8 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-2xl font-headline font-bold">{course.title}</h3>
+                    <div className="space-y-1">
+                       <h3 className="text-2xl font-headline font-bold">{course.title}</h3>
+                       <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 border border-white/10 opacity-60">Order: {course.order}</span>
+                          {course.order < 3 && <Star size={12} className="text-primary fill-primary" />}
+                       </div>
+                    </div>
                     <div className="flex gap-2">
                       <Button variant="outline" size="icon" onClick={() => handleOpenDialog(course)} className="rounded-none border-white/10 hover:bg-primary hover:text-white">
                         <Edit3 size={16} />
@@ -138,12 +169,11 @@ export default function AdminCoursesPage() {
                   <p className="text-muted-foreground text-sm line-clamp-2 mb-4 font-medium">{course.description}</p>
                   <div className="flex items-center gap-4 mb-4">
                     <span className="text-xl font-bold">₹{course.price}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-white/5 border border-white/10">Order: {course.order}</span>
                   </div>
                 </div>
                 <div className="flex gap-6">
                   <a href={course.instamojoLink} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold text-primary flex items-center gap-2 hover:underline uppercase tracking-widest">
-                    <ExternalLink size={14} /> Instamojo Gateway
+                    <ExternalLink size={14} /> View Gateway
                   </a>
                 </div>
               </CardContent>
@@ -161,43 +191,43 @@ export default function AdminCoursesPage() {
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Course Title</label>
-                <Input value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="e.g. NISM Series 8" />
+                <Input value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Sort Order (0-2 for Home)</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Sort Order (0, 1, 2 for Home)</label>
                 <Input type="number" value={formData.order} onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
-              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="Detailed description of the course..." />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Short Description</label>
+              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" />
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Current Price (₹)</label>
-                <Input type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="599" />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Price (₹)</label>
+                <Input type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Old Price (₹)</label>
-                <Input type="number" value={formData.oldPrice} onChange={(e) => setFormData({ ...formData, oldPrice: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="1499" />
+                <Input type="number" value={formData.oldPrice} onChange={(e) => setFormData({ ...formData, oldPrice: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL (16:9 Cinematic)</label>
-              <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://..." />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
+              <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Payment Link</label>
-              <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://imjo.in/..." />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Link</label>
+              <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Highlights (One per line)</label>
-              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" placeholder="Live Sessions&#10;Study Material&#10;Mock Tests" />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Key Features (One per line)</label>
+              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" />
             </div>
           </div>
           <DialogFooter className="p-8 border-t border-white/10 bg-white/5 gap-3">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-none border-white/10 h-12 px-8 font-bold uppercase tracking-widest text-[10px]">Cancel</Button>
-            <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Course</Button>
+            <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

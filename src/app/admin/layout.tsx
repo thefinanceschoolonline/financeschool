@@ -6,14 +6,15 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, List } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const adminNavItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Manage Courses", href: "/admin/courses", icon: BookOpen },
+  { label: "Featured (Home)", href: "/admin/courses?view=featured", icon: Star },
+  { label: "Full Course Catalog", href: "/admin/courses", icon: BookOpen },
   { label: "Manage Books", href: "/admin/books", icon: Bookmark },
   { label: "Consultations", href: "/admin/consultations", icon: Headphones },
   { label: "View Site", href: "/", icon: Home },
@@ -52,7 +53,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             router.push('/admin');
           }
         } else {
-          // Logged in but not an authorized admin
           if (auth) {
             signOut(auth).then(() => {
               if (pathname !== '/admin/login') {
@@ -65,7 +65,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [user, loading, pathname, router, auth, mounted]);
 
-  // Handle Missing Config Case
   if (mounted && !auth && pathname !== '/admin/login') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -83,12 +82,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  // Don't wrap the login page in the sidebar layout
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
-  // Show loading state only when we are actually waiting for auth
   if (!mounted || loading || (user && !isAuthorized)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -100,7 +97,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  // If not logged in and not on login page, we'll be redirecting, so show nothing or loading
   if (!user && pathname !== '/admin/login') {
     return null;
   }
@@ -110,7 +106,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex min-h-screen w-full bg-background text-foreground font-body">
         <Sidebar className="border-r border-white/5 bg-card">
           <SidebarHeader className="p-6 border-b border-white/5">
-            <h2 className="text-xl font-headline font-bold text-primary">TFS Admin</h2>
+            <h2 className="text-xl font-headline font-bold text-primary uppercase tracking-tight">TFS Admin</h2>
           </SidebarHeader>
           <SidebarContent className="p-4">
             <SidebarMenu>
