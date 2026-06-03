@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -44,12 +43,12 @@ export function Navbar() {
       >
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center group relative">
-            {/* Dark glow backdrop for the logo visibility */}
-            <div className="absolute inset-0 bg-black/60 blur-2xl rounded-full scale-150 -z-10" />
-            <div className="relative h-20 w-20 md:h-32 md:w-32 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+            {/* Professional dark glow for visibility */}
+            <div className="absolute inset-0 bg-black/80 blur-3xl rounded-full scale-125 -z-10" />
+            <div className="relative h-24 w-48 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
               <Image 
                 src={logoUrl} 
-                alt="The Finance School Logo" 
+                alt="Logo" 
                 fill 
                 className="object-contain"
                 priority
@@ -71,7 +70,7 @@ export function Navbar() {
                   {pathname === item.href && (
                     <motion.div 
                       layoutId="nav-underline"
-                      className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent glow-green rounded-full"
+                      className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent rounded-none"
                     />
                   )}
                 </Link>
@@ -80,7 +79,7 @@ export function Navbar() {
             
             <div className="ml-6 pl-6 border-l border-white/10">
               <Link href="/courses">
-                <Button className="bg-primary hover:bg-primary/90 hover:glow-orange transition-all rounded-2xl px-8 h-12 font-bold shadow-xl shadow-primary/25 border border-primary/20">
+                <Button className="bg-primary hover:bg-primary/90 transition-all rounded-none px-8 h-12 font-bold shadow-xl shadow-primary/25 border border-primary/20">
                   Get Started
                 </Button>
               </Link>
@@ -88,7 +87,7 @@ export function Navbar() {
           </div>
 
           <button 
-            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-foreground md:hidden border border-white/10"
+            className="flex h-12 w-12 items-center justify-center rounded-none bg-white/5 text-foreground md:hidden border border-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -96,7 +95,6 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -119,7 +117,7 @@ export function Navbar() {
               ))}
               <div className="pt-4">
                 <Link href="/courses" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-14 rounded-2xl bg-primary font-bold text-lg">
+                  <Button className="w-full h-14 rounded-none bg-primary font-bold text-lg">
                     Get Started
                   </Button>
                 </Link>

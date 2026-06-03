@@ -1,14 +1,10 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import { Shield, Target, Award, Quote } from "lucide-react";
 import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export function AboutSection() {
-  const aboutImage = PlaceHolderImages.find(img => img.id === "about-main");
-
   return (
     <section id="about" className="py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4">
@@ -20,15 +16,13 @@ export function AboutSection() {
             className="relative"
           >
             <div className="relative aspect-square rounded-none overflow-hidden border border-white/10 shadow-2xl">
-              {aboutImage && (
-                <Image 
-                  src={aboutImage.imageUrl} 
-                  alt={aboutImage.description} 
-                  fill 
-                  className="object-cover"
-                  data-ai-hint={aboutImage.imageHint}
-                />
-              )}
+              <Image 
+                src="https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png" 
+                alt="About" 
+                fill 
+                className="object-cover"
+                data-ai-hint="stock trader mentor"
+              />
               <div className="absolute inset-0 bg-primary/20 mix-blend-overlay" />
             </div>
             <div className="absolute -bottom-10 -right-10 w-64 p-6 bg-card rounded-none border border-white/10 shadow-2xl hidden md:block">

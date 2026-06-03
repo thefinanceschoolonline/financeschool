@@ -1,11 +1,9 @@
-
 'use client';
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCheck, ArrowRight, Zap, BookOpen, BarChart3 } from "lucide-react";
+import { CheckCheck, ArrowRight, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import NumberFlow from "@number-flow/react";
@@ -14,7 +12,7 @@ import { collection, query, orderBy, limit } from "firebase/firestore";
 
 export function CoursesSection() {
   const db = useFirestore();
-  const coursesQuery = query(collection(db!, "courses"), orderBy("order", "asc"), limit(3));
+  const coursesQuery = db ? query(collection(db, "courses"), orderBy("order", "asc"), limit(3)) : null;
   const { data: courses, loading } = useCollection(coursesQuery);
 
   return (
@@ -33,7 +31,7 @@ export function CoursesSection() {
         {loading ? (
           <div className="grid lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-[400px] bg-card/40 animate-pulse" />
+              <div key={i} className="aspect-video bg-card/40 animate-pulse rounded-none" />
             ))}
           </div>
         ) : (
@@ -46,13 +44,14 @@ export function CoursesSection() {
                 transition={{ delay: idx * 0.15, duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Card className="relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-none">
-                  <div className="relative aspect-video overflow-hidden">
+                <Card className="relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-none shadow-none">
+                  <div className="relative aspect-[16/9] overflow-hidden">
                     <Image 
-                      src={course.imageUrl || "https://picsum.photos/seed/finance/800/600"} 
+                      src={course.imageUrl || "https://picsum.photos/seed/finance/800/450"} 
                       alt={course.title}
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                      data-ai-hint="stock trading"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
                   </div>
@@ -96,7 +95,7 @@ export function CoursesSection() {
 
                   <div className="p-6 pt-0 mt-auto">
                     <a href={course.instamojoLink} target="_blank" rel="noopener noreferrer">
-                      <Button className="w-full h-12 rounded-none text-base font-bold bg-primary hover:glow-orange shadow-xl shadow-primary/25 border-primary/20 group transition-all duration-300">
+                      <Button className="w-full h-12 rounded-none text-base font-bold bg-primary shadow-xl shadow-primary/25 border-primary/20 group transition-all duration-300">
                         Enroll Now
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </Button>
