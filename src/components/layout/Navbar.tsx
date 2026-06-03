@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ShoppingBag, BookOpen, Headphones, Home } from "lucide-react";
+import { Menu, X, BookOpen, Headphones, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -39,21 +39,22 @@ export function Navbar() {
           scrolled ? "bg-background/90 backdrop-blur-xl shadow-2xl border-white/5 py-1" : "bg-transparent border-transparent py-4"
         )}
       >
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center group relative">
+        <div className="max-w-[1400px] mx-auto flex h-16 items-center justify-between px-6 md:px-10">
+          <Link href="/" className="flex items-center group relative z-30">
             {/* Darkish background glow for logo clarity */}
-            <div className="absolute inset-0 bg-black/80 blur-3xl rounded-full scale-125 -z-10" />
-            <div className="relative h-32 w-64 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+            <div className="absolute inset-0 bg-black/60 blur-2xl rounded-full scale-110 -z-10" />
+            <div className="relative h-20 w-40 md:h-32 md:w-64 flex items-center justify-start transition-transform duration-500 group-hover:scale-105">
               <Image 
                 src={logoUrl} 
                 alt="Logo" 
                 fill 
-                className="object-contain"
+                className="object-contain object-left"
                 priority
               />
             </div>
           </Link>
 
+          {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 md:flex">
             {mainNavItems.map((item) => (
               <div key={item.label} className="relative">
@@ -84,38 +85,41 @@ export function Navbar() {
             </div>
           </div>
 
+          {/* Mobile Menu Toggle */}
           <button 
-            className="flex h-12 w-12 items-center justify-center rounded-none bg-white/5 text-foreground md:hidden border border-white/10"
+            className="flex h-10 w-10 items-center justify-center rounded-none bg-white/5 text-foreground md:hidden border border-white/10 relative z-30 hover:bg-white/10 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-white/5 overflow-hidden"
+            className="md:hidden bg-background/98 backdrop-blur-2xl border-b border-white/5 overflow-hidden absolute top-0 left-0 w-full pt-20"
           >
-            <div className="container mx-auto px-4 py-8 space-y-4">
+            <div className="container mx-auto px-6 py-10 space-y-4">
               {mainNavItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 text-lg font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors py-2"
+                  className="flex items-center gap-4 text-xl font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors py-3 border-b border-white/5"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <item.icon size={20} className="text-primary" />
+                  <item.icon size={22} className="text-primary" />
                   {item.label}
                 </Link>
               ))}
-              <div className="pt-4">
+              <div className="pt-6">
                 <Link href="/courses" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full h-14 rounded-none bg-primary font-bold text-lg uppercase tracking-widest">
+                  <Button className="w-full h-16 rounded-none bg-primary font-bold text-lg uppercase tracking-widest shadow-2xl shadow-primary/20">
                     Get Started
                   </Button>
                 </Link>
