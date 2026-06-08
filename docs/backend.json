@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "Course": {
@@ -52,7 +53,7 @@
     },
     "HomepageSettings": {
       "title": "Homepage Settings",
-      "description": "Hero section content and social links configuration",
+      "description": "Hero section content, social links, and consultation text configuration",
       "type": "object",
       "properties": {
         "heroBadge": { "type": "string" },
@@ -66,7 +67,18 @@
         "instagramUrl": { "type": "string" },
         "youtubeUrl": { "type": "string" },
         "telegramUrl": { "type": "string" },
-        "facebookUrl": { "type": "string" }
+        "facebookUrl": { "type": "string" },
+        "consultationHeadline": { "type": "string" },
+        "consultationDescription": { "type": "string" },
+        "consultationF1Title": { "type": "string" },
+        "consultationF1Desc": { "type": "string" },
+        "consultationF2Title": { "type": "string" },
+        "consultationF2Desc": { "type": "string" },
+        "consultationF3Title": { "type": "string" },
+        "consultationF3Desc": { "type": "string" },
+        "consultationCardTitle": { "type": "string" },
+        "consultationCardDesc": { "type": "string" },
+        "consultationPaymentLink": { "type": "string" }
       }
     }
   },

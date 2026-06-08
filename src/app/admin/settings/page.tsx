@@ -8,13 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook } from "lucide-react";
+import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminSettingsPage() {
   const db = useFirestore();
   
-  // Stabilize the doc reference to prevent infinite render loops
   const heroDocRef = useMemo(() => 
     db ? doc(db, "settings", "homepage") : null, 
   [db]);
@@ -33,12 +32,22 @@ export default function AdminSettingsPage() {
     instagramUrl: "",
     youtubeUrl: "",
     telegramUrl: "",
-    facebookUrl: ""
+    facebookUrl: "",
+    consultationHeadline: "Need a Personal Strategy?",
+    consultationDescription: "Schedule a one-on-one session with our senior mentors to review your portfolio, discuss advanced trading setups, or clarify complex concepts.",
+    consultationF1Title: "Flexible Timing",
+    consultationF1Desc: "Choose a slot that fits your busy schedule.",
+    consultationF2Title: "1-on-1 Focused",
+    consultationF2Desc: "Zero distractions, just you and the mentor.",
+    consultationF3Title: "Post-Session Support",
+    consultationF3Desc: "Get session recordings and summary notes.",
+    consultationCardTitle: "Schedule Your Session",
+    consultationCardDesc: "Select your preferred date and time slot below.",
+    consultationPaymentLink: "https://imjo.in/pC6qZp"
   });
 
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize form only once when data is first loaded to prevent overwriting user typing
   useEffect(() => {
     if (heroData && !loading && !isInitialized) {
       setFormData({
@@ -53,7 +62,18 @@ export default function AdminSettingsPage() {
         instagramUrl: heroData.instagramUrl || "",
         youtubeUrl: heroData.youtubeUrl || "",
         telegramUrl: heroData.telegramUrl || "",
-        facebookUrl: heroData.facebookUrl || ""
+        facebookUrl: heroData.facebookUrl || "",
+        consultationHeadline: heroData.consultationHeadline || "Need a Personal Strategy?",
+        consultationDescription: heroData.consultationDescription || "Schedule a one-on-one session with our senior mentors to review your portfolio, discuss advanced trading setups, or clarify complex concepts.",
+        consultationF1Title: heroData.consultationF1Title || "Flexible Timing",
+        consultationF1Desc: heroData.consultationF1Desc || "Choose a slot that fits your busy schedule.",
+        consultationF2Title: heroData.consultationF2Title || "1-on-1 Focused",
+        consultationF2Desc: heroData.consultationF2Desc || "Zero distractions, just you and the mentor.",
+        consultationF3Title: heroData.consultationF3Title || "Post-Session Support",
+        consultationF3Desc: heroData.consultationF3Desc || "Get session recordings and summary notes.",
+        consultationCardTitle: heroData.consultationCardTitle || "Schedule Your Session",
+        consultationCardDesc: heroData.consultationCardDesc || "Select your preferred date and time slot below.",
+        consultationPaymentLink: heroData.consultationPaymentLink || "https://imjo.in/pC6qZp"
       });
       setIsInitialized(true);
     }
@@ -81,11 +101,11 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-20">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Site Settings</h1>
-          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Manage Homepage Hero & Social Media</p>
+          <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Manage Homepage Content & Global Links</p>
         </div>
         <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">
           <Save className="mr-2 h-4 w-4" /> Save Changes
@@ -108,7 +128,6 @@ export default function AdminSettingsPage() {
                 value={formData.heroBadge} 
                 onChange={(e) => setFormData({...formData, heroBadge: e.target.value})}
                 className="bg-background rounded-none border-white/5 h-12"
-                placeholder="Empowering 1,000+ Indian Traders"
               />
             </div>
 
@@ -119,7 +138,6 @@ export default function AdminSettingsPage() {
                   value={formData.heroHeadline} 
                   onChange={(e) => setFormData({...formData, heroHeadline: e.target.value})}
                   className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="Master Financial Markets"
                 />
               </div>
               <div className="space-y-4">
@@ -128,7 +146,6 @@ export default function AdminSettingsPage() {
                   value={formData.heroSubheadline} 
                   onChange={(e) => setFormData({...formData, heroSubheadline: e.target.value})}
                   className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="With Precision"
                 />
               </div>
             </div>
@@ -139,63 +156,79 @@ export default function AdminSettingsPage() {
                 value={formData.heroDescription} 
                 onChange={(e) => setFormData({...formData, heroDescription: e.target.value})}
                 className="bg-background rounded-none border-white/5 min-h-[120px]"
-                placeholder="Learn practical strategies..."
               />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Primary Button Label</label>
+                <Input value={formData.cta1Text} onChange={(e) => setFormData({...formData, cta1Text: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                <label className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">Link URL</label>
+                <Input value={formData.cta1Link} onChange={(e) => setFormData({...formData, cta1Link: e.target.value})} className="bg-background rounded-none border-white/5 h-10" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Secondary Button Label</label>
+                <Input value={formData.cta2Text} onChange={(e) => setFormData({...formData, cta2Text: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                <label className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">Link URL</label>
+                <Input value={formData.cta2Link} onChange={(e) => setFormData({...formData, cta2Link: e.target.value})} className="bg-background rounded-none border-white/5 h-10" />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* CTA Buttons Card */}
+        {/* Consultation Content Card */}
         <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
-              Call To Action Buttons
+              <Headphones className="h-5 w-5 text-primary" />
+              Consultation Section Content
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8 space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Primary Button (Left)</label>
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Label</label>
-                    <Input 
-                      value={formData.cta1Text} 
-                      onChange={(e) => setFormData({...formData, cta1Text: e.target.value})}
-                      className="bg-background rounded-none border-white/5 h-12"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Link URL / Anchor</label>
-                    <Input 
-                      value={formData.cta1Link} 
-                      onChange={(e) => setFormData({...formData, cta1Link: e.target.value})}
-                      className="bg-background rounded-none border-white/5 h-12"
-                    />
-                  </div>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Main Headline</label>
+                  <Input value={formData.consultationHeadline} onChange={(e) => setFormData({...formData, consultationHeadline: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
+                  <Textarea value={formData.consultationDescription} onChange={(e) => setFormData({...formData, consultationDescription: e.target.value})} className="bg-background rounded-none border-white/5 min-h-[100px]" />
                 </div>
               </div>
-
               <div className="space-y-6">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Secondary Button (Right)</label>
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Label</label>
-                    <Input 
-                      value={formData.cta2Text} 
-                      onChange={(e) => setFormData({...formData, cta2Text: e.target.value})}
-                      className="bg-background rounded-none border-white/5 h-12"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Link URL / Anchor</label>
-                    <Input 
-                      value={formData.cta2Link} 
-                      onChange={(e) => setFormData({...formData, cta2Link: e.target.value})}
-                      className="bg-background rounded-none border-white/5 h-12"
-                    />
-                  </div>
+                 <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Booking Card Title</label>
+                  <Input value={formData.consultationCardTitle} onChange={(e) => setFormData({...formData, consultationCardTitle: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
                 </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Booking Card Desc</label>
+                  <Input value={formData.consultationCardDesc} onChange={(e) => setFormData({...formData, consultationCardDesc: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Instamojo Payment Link</label>
+                  <Input value={formData.consultationPaymentLink} onChange={(e) => setFormData({...formData, consultationPaymentLink: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+              </div>
+            </div>
+
+            <div className="h-px bg-white/5" />
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 1</label>
+                <Input value={formData.consultationF1Title} onChange={(e) => setFormData({...formData, consultationF1Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF1Desc} onChange={(e) => setFormData({...formData, consultationF1Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 2</label>
+                <Input value={formData.consultationF2Title} onChange={(e) => setFormData({...formData, consultationF2Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF2Desc} onChange={(e) => setFormData({...formData, consultationF2Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 3</label>
+                <Input value={formData.consultationF3Title} onChange={(e) => setFormData({...formData, consultationF3Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF3Desc} onChange={(e) => setFormData({...formData, consultationF3Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
               </div>
             </div>
           </CardContent>
@@ -216,12 +249,7 @@ export default function AdminSettingsPage() {
                   <Instagram size={16} className="text-primary" />
                   <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instagram URL</label>
                 </div>
-                <Input 
-                  value={formData.instagramUrl} 
-                  onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})}
-                  className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="https://instagram.com/yourprofile"
-                />
+                <Input value={formData.instagramUrl} onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
               </div>
 
               <div className="space-y-4">
@@ -229,12 +257,7 @@ export default function AdminSettingsPage() {
                   <Youtube size={16} className="text-primary" />
                   <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">YouTube URL</label>
                 </div>
-                <Input 
-                  value={formData.youtubeUrl} 
-                  onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})}
-                  className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="https://youtube.com/@yourchannel"
-                />
+                <Input value={formData.youtubeUrl} onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
               </div>
 
               <div className="space-y-4">
@@ -242,12 +265,7 @@ export default function AdminSettingsPage() {
                   <Send size={16} className="text-primary" />
                   <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Telegram URL</label>
                 </div>
-                <Input 
-                  value={formData.telegramUrl} 
-                  onChange={(e) => setFormData({...formData, telegramUrl: e.target.value})}
-                  className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="https://t.me/yourgroup"
-                />
+                <Input value={formData.telegramUrl} onChange={(e) => setFormData({...formData, telegramUrl: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
               </div>
 
               <div className="space-y-4">
@@ -255,12 +273,7 @@ export default function AdminSettingsPage() {
                   <Facebook size={16} className="text-primary" />
                   <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Facebook URL</label>
                 </div>
-                <Input 
-                  value={formData.facebookUrl} 
-                  onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})}
-                  className="bg-background rounded-none border-white/5 h-12"
-                  placeholder="https://facebook.com/yourpage"
-                />
+                <Input value={formData.facebookUrl} onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
           </CardContent>
