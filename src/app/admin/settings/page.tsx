@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones } from "lucide-react";
+import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminSettingsPage() {
@@ -43,7 +43,17 @@ export default function AdminSettingsPage() {
     consultationF3Desc: "Get session recordings and summary notes.",
     consultationCardTitle: "Schedule Your Session",
     consultationCardDesc: "Select your preferred date and time slot below.",
-    consultationPaymentLink: "https://imjo.in/pC6qZp"
+    consultationPaymentLink: "https://imjo.in/pC6qZp",
+    aboutHeadline: "Helping You Learn Stock Market Trading the Right Way",
+    aboutDescription: "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+    aboutPhilosophy1Title: "Ethical Learning",
+    aboutPhilosophy1Desc: "No hype, no shortcuts. Just pure market logic and data-driven strategies.",
+    aboutPhilosophy2Title: "Goal Oriented",
+    aboutPhilosophy2Desc: "Whether it's NISM certification or wealth building, we stay focused on your target.",
+    aboutPhilosophy3Title: "Verified Skills",
+    aboutPhilosophy3Desc: "Our curriculum is vetted by industry experts with 6+ years of active trading experience.",
+    aboutStat1Value: 1200,
+    aboutStat2Value: 6
   });
 
   const [isInitialized, setIsInitialized] = useState(false);
@@ -73,7 +83,17 @@ export default function AdminSettingsPage() {
         consultationF3Desc: heroData.consultationF3Desc || "Get session recordings and summary notes.",
         consultationCardTitle: heroData.consultationCardTitle || "Schedule Your Session",
         consultationCardDesc: heroData.consultationCardDesc || "Select your preferred date and time slot below.",
-        consultationPaymentLink: heroData.consultationPaymentLink || "https://imjo.in/pC6qZp"
+        consultationPaymentLink: heroData.consultationPaymentLink || "https://imjo.in/pC6qZp",
+        aboutHeadline: heroData.aboutHeadline || "Helping You Learn Stock Market Trading the Right Way",
+        aboutDescription: heroData.aboutDescription || "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+        aboutPhilosophy1Title: heroData.aboutPhilosophy1Title || "Ethical Learning",
+        aboutPhilosophy1Desc: heroData.aboutPhilosophy1Desc || "No hype, no shortcuts. Just pure market logic and data-driven strategies.",
+        aboutPhilosophy2Title: heroData.aboutPhilosophy2Title || "Goal Oriented",
+        aboutPhilosophy2Desc: heroData.aboutPhilosophy2Desc || "Whether it's NISM certification or wealth building, we stay focused on your target.",
+        aboutPhilosophy3Title: heroData.aboutPhilosophy3Title || "Verified Skills",
+        aboutPhilosophy3Desc: heroData.aboutPhilosophy3Desc || "Our curriculum is vetted by industry experts with 6+ years of active trading experience.",
+        aboutStat1Value: heroData.aboutStat1Value || 1200,
+        aboutStat2Value: heroData.aboutStat2Value || 6
       });
       setIsInitialized(true);
     }
@@ -114,7 +134,7 @@ export default function AdminSettingsPage() {
 
       <div className="grid gap-8">
         {/* Hero Section Card */}
-        <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
+        <Card id="hero" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
               <Home className="h-5 w-5 text-primary" />
@@ -176,8 +196,75 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
+        {/* About Section Card */}
+        <Card id="about" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
+          <CardHeader className="bg-white/5 border-b border-white/5">
+            <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
+              <Info className="h-5 w-5 text-primary" />
+              About Section Content
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-8 space-y-8">
+            <div className="space-y-4">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Main Headline</label>
+              <Input 
+                value={formData.aboutHeadline} 
+                onChange={(e) => setFormData({...formData, aboutHeadline: e.target.value})}
+                className="bg-background rounded-none border-white/5 h-12"
+              />
+            </div>
+            <div className="space-y-4">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">About Description</label>
+              <Textarea 
+                value={formData.aboutDescription} 
+                onChange={(e) => setFormData({...formData, aboutDescription: e.target.value})}
+                className="bg-background rounded-none border-white/5 min-h-[120px]"
+              />
+            </div>
+
+            <div className="h-px bg-white/5" />
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Philosophy 1</label>
+                <Input value={formData.aboutPhilosophy1Title} onChange={(e) => setFormData({...formData, aboutPhilosophy1Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.aboutPhilosophy1Desc} onChange={(e) => setFormData({...formData, aboutPhilosophy1Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Philosophy 2</label>
+                <Input value={formData.aboutPhilosophy2Title} onChange={(e) => setFormData({...formData, aboutPhilosophy2Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.aboutPhilosophy2Desc} onChange={(e) => setFormData({...formData, aboutPhilosophy2Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Philosophy 3</label>
+                <Input value={formData.aboutPhilosophy3Title} onChange={(e) => setFormData({...formData, aboutPhilosophy3Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.aboutPhilosophy3Desc} onChange={(e) => setFormData({...formData, aboutPhilosophy3Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+            </div>
+
+            <div className="h-px bg-white/5" />
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Students Trained Count</label>
+                </div>
+                <Input type="number" value={formData.aboutStat1Value} onChange={(e) => setFormData({...formData, aboutStat1Value: parseInt(e.target.value)})} className="bg-background rounded-none border-white/5 h-12" />
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp size={16} className="text-primary" />
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Years Experience Count</label>
+                </div>
+                <Input type="number" value={formData.aboutStat2Value} onChange={(e) => setFormData({...formData, aboutStat2Value: parseInt(e.target.value)})} className="bg-background rounded-none border-white/5 h-12" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Consultation Content Card */}
-        <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
+        <Card id="consultation" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
               <Headphones className="h-5 w-5 text-primary" />
@@ -235,7 +322,7 @@ export default function AdminSettingsPage() {
         </Card>
 
         {/* Social Media Card */}
-        <Card className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden">
+        <Card id="socials" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
           <CardHeader className="bg-white/5 border-b border-white/5">
             <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
               <Share2 className="h-5 w-5 text-primary" />

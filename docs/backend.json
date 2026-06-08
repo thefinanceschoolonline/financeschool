@@ -78,7 +78,17 @@
         "consultationF3Desc": { "type": "string" },
         "consultationCardTitle": { "type": "string" },
         "consultationCardDesc": { "type": "string" },
-        "consultationPaymentLink": { "type": "string" }
+        "consultationPaymentLink": { "type": "string" },
+        "aboutHeadline": { "type": "string" },
+        "aboutDescription": { "type": "string" },
+        "aboutPhilosophy1Title": { "type": "string" },
+        "aboutPhilosophy1Desc": { "type": "string" },
+        "aboutPhilosophy2Title": { "type": "string" },
+        "aboutPhilosophy2Desc": { "type": "string" },
+        "aboutPhilosophy3Title": { "type": "string" },
+        "aboutPhilosophy3Desc": { "type": "string" },
+        "aboutStat1Value": { "type": "number" },
+        "aboutStat2Value": { "type": "number" }
       }
     }
   },

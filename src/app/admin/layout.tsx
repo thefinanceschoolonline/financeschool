@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, Settings } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, Settings, Info, Share2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,10 @@ const adminNavItems = [
   { label: "Full Course Catalog", href: "/admin/courses", icon: BookOpen },
   { label: "Manage Books", href: "/admin/books", icon: Bookmark },
   { label: "Consultations", href: "/admin/consultations", icon: Headphones },
-  { label: "Site Settings", href: "/admin/settings", icon: Settings },
+  { label: "Hero Settings", href: "/admin/settings#hero", icon: Home },
+  { label: "About Content", href: "/admin/settings#about", icon: Info },
+  { label: "Consultation Content", href: "/admin/settings#consultation", icon: Headphones },
+  { label: "Social Links", href: "/admin/settings#socials", icon: Share2 },
   { label: "View Site", href: "/", icon: Home },
 ];
 
@@ -113,10 +116,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <SidebarMenu>
               {adminNavItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
+                  <SidebarMenuButton asChild isActive={pathname + (window.location.hash ? window.location.hash : '') === item.href}>
                     <Link href={item.href} className={cn(
                       "flex items-center gap-3 px-4 py-3 transition-all font-bold uppercase tracking-widest text-xs rounded-none",
-                      pathname === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
+                      pathname + (window.location.hash ? window.location.hash : '') === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
                     )}>
                       <item.icon size={18} />
                       {item.label}
