@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users, Link as LinkIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { errorEmitter } from "@/firebase/error-emitter";
+import { FirestorePermissionError } from "@/firebase/errors";
 
 export default function AdminSettingsPage() {
   const db = useFirestore();
@@ -58,6 +60,7 @@ export default function AdminSettingsPage() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Only initialize once when data arrives
     if (heroData && !loading && !isInitialized) {
       setFormData({
         heroBadge: heroData.heroBadge || "Empowering 1,000+ Indian Traders",
@@ -98,21 +101,24 @@ export default function AdminSettingsPage() {
     }
   }, [heroData, loading, isInitialized]);
 
-  const handleSave = async () => {
-    if (!db) return;
-    try {
-      await setDoc(doc(db, "settings", "homepage"), formData);
-      toast({
-        title: "Settings Saved",
-        description: "Site content and social links have been updated successfully.",
+  const handleSave = () => {
+    if (!db || !heroDocRef) return;
+    
+    // Non-blocking mutation call to ensure local cache updates immediately
+    setDoc(heroDocRef, formData, { merge: true })
+      .then(() => {
+        toast({
+          title: "Settings Saved",
+          description: "Site content and social links have been updated successfully.",
+        });
+      })
+      .catch(async (error) => {
+        errorEmitter.emit('permission-error', new FirestorePermissionError({
+          path: heroDocRef.path,
+          operation: 'write',
+          requestResourceData: formData,
+        }));
       });
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to save settings.",
-      });
-    }
   };
 
   if (loading && !isInitialized) {
