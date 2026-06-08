@@ -3,8 +3,27 @@
 import { motion } from "framer-motion";
 import { Shield, Target, Award, Quote } from "lucide-react";
 import Image from "next/image";
+import NumberFlow from "@number-flow/react";
+import { useState, useEffect } from "react";
 
 export function AboutSection() {
+  const [stats, setStats] = useState({
+    students: 0,
+    years: 0
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStats({
+        students: 1200,
+        years: 6
+      });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const numberTransition = { duration: 2500, easing: 'ease-out' };
+
   return (
     <section id="about" className="py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-4">
@@ -71,11 +90,15 @@ export function AboutSection() {
             
             <div className="mt-10 pt-10 border-t border-white/5 flex gap-12">
                <div>
-                 <p className="text-3xl font-bold">1,200+</p>
+                 <p className="text-3xl font-bold flex items-center">
+                    <NumberFlow value={stats.students} transition={numberTransition} />+
+                 </p>
                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Students Trained</p>
                </div>
                <div>
-                 <p className="text-3xl font-bold">6+</p>
+                 <p className="text-3xl font-bold flex items-center">
+                    <NumberFlow value={stats.years} transition={numberTransition} />+
+                 </p>
                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Years Experience</p>
                </div>
             </div>

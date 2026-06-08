@@ -31,24 +31,42 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useState, useEffect } from "react";
 
-const stats = [
-  { label: "Students Trained", value: 1200, icon: Users },
-  { label: "Years Of Experience", value: 6, icon: TrendingUp },
-  { label: "Live Sessions", value: 100, icon: Video },
-];
-
-const faqs = [
-  { q: "Do I need prior knowledge to start learning trading?", a: "No. Our basic modules start from absolute zero, covering market foundations before moving to advanced strategies." },
-  { q: "Which course is best for beginners?", a: "We recommend starting with NISM Series 8 or our Crypto A-Z course depending on your asset preference." },
-  { q: "Will I get access to recorded lectures?", a: "Yes, all our certificate courses come with lifetime access to high-quality recorded lectures." },
-  { q: "Do you provide live trading sessions?", a: "Yes, our advanced mentorship and 1-on-1 programs include regular live market analysis sessions." },
-  { q: "Is this course helpful for NISM certification?", a: "Absolutely. Our NISM prep courses are specifically designed to help you clear SEBI-mandated exams." },
-  { q: "How can I enroll in a course?", a: "Simply visit our Courses page, select your desired program, and click Enroll Now to get instant access." }
+const rawStats = [
+  { label: "Students Trained", key: "students", value: 1200, icon: Users },
+  { label: "Years Of Experience", key: "years", value: 6, icon: TrendingUp },
+  { label: "Live Sessions", key: "sessions", value: 100, icon: Video },
 ];
 
 export default function AboutPage() {
   const bannerImage = PlaceHolderImages.find(img => img.id === "banner-about");
+  
+  const [stats, setStats] = useState({
+    students: 0,
+    years: 0,
+    sessions: 0
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStats({
+        students: 1200,
+        years: 6,
+        sessions: 100
+      });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const faqs = [
+    { q: "Do I need prior knowledge to start learning trading?", a: "No. Our basic modules start from absolute zero, covering market foundations before moving to advanced strategies." },
+    { q: "Which course is best for beginners?", a: "We recommend starting with NISM Series 8 or our Crypto A-Z course depending on your asset preference." },
+    { q: "Will I get access to recorded lectures?", a: "Yes, all our certificate courses come with lifetime access to high-quality recorded lectures." },
+    { q: "Do you provide live trading sessions?", a: "Yes, our advanced mentorship and 1-on-1 programs include regular live market analysis sessions." },
+    { q: "Is this course helpful for NISM certification?", a: "Absolutely. Our NISM prep courses are specifically designed to help you clear SEBI-mandated exams." },
+    { q: "How can I enroll in a course?", a: "Simply visit our Courses page, select your desired program, and click Enroll Now to get instant access." }
+  ];
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -135,14 +153,17 @@ export default function AboutPage() {
                 
                 {/* Floating Stats */}
                 <div className="absolute -bottom-10 -left-10 md:left-10 p-8 bg-card border border-white/10 rounded-none shadow-2xl space-y-6 min-w-[280px]">
-                  {stats.map((stat, i) => (
+                  {rawStats.map((stat, i) => (
                     <div key={i} className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-none bg-primary/10 flex items-center justify-center text-primary">
                         <stat.icon size={24} />
                       </div>
                       <div>
                         <div className="text-2xl font-bold flex items-baseline">
-                          <NumberFlow value={stat.value} />+
+                          <NumberFlow 
+                            value={stats[stat.key as keyof typeof stats]} 
+                            transition={{ duration: 2500, easing: 'ease-out' }}
+                          />+
                         </div>
                         <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>
                       </div>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -48,7 +47,7 @@ export function HeroSection() {
         sessions: 42,
         practical: 100
       });
-    }, 200);
+    }, 500); // Slightly longer delay before starting
     return () => clearTimeout(timer);
   }, []);
 
@@ -94,6 +93,9 @@ export function HeroSection() {
     { icon: Send, href: content.telegramUrl, label: "Telegram", colorClass: "group-hover:text-sky-400 group-hover:border-sky-400/50" },
     { icon: Facebook, href: content.facebookUrl, label: "Facebook", colorClass: "group-hover:text-blue-600 group-hover:border-blue-600/50" }
   ];
+
+  // Slower transition for the numbers
+  const numberTransition = { duration: 2500, easing: 'ease-out' };
 
   return (
     <section
@@ -205,7 +207,7 @@ export function HeroSection() {
         >
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
-              <NumberFlow value={stats.students} />
+              <NumberFlow value={stats.students} transition={numberTransition} />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -214,7 +216,7 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-primary/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors flex items-center">
-              <NumberFlow value={stats.years} />
+              <NumberFlow value={stats.years} transition={numberTransition} />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -223,7 +225,7 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-destructive/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-destructive transition-colors flex items-center">
-              <NumberFlow value={stats.sessions} />
+              <NumberFlow value={stats.sessions} transition={numberTransition} />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -232,7 +234,7 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
-              <NumberFlow value={stats.practical} />
+              <NumberFlow value={stats.practical} transition={numberTransition} />
               <span>%</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold text-accent">Practical</div>
