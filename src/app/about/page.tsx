@@ -49,15 +49,19 @@ export default function AboutPage() {
   });
 
   useEffect(() => {
+    // Increased delay for slow climb animation start
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
         years: 6,
         sessions: 100
       });
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // 6 second climb duration
+  const numberTransition = { duration: 6000, easing: 'ease-out' };
 
   const faqs = [
     { q: "Do I need prior knowledge to start learning trading?", a: "No. Our basic modules start from absolute zero, covering market foundations before moving to advanced strategies." },
@@ -162,7 +166,7 @@ export default function AboutPage() {
                         <div className="text-2xl font-bold flex items-baseline">
                           <NumberFlow 
                             value={stats[stat.key as keyof typeof stats]} 
-                            transition={{ duration: 6000, easing: 'ease-out' }}
+                            transition={numberTransition}
                           />+
                         </div>
                         <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>

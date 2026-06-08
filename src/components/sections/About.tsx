@@ -13,12 +13,13 @@ export function AboutSection() {
   });
 
   useEffect(() => {
+    // Increased delay to ensure the numbers start from zero visibly
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
         years: 6
       });
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 

@@ -40,6 +40,7 @@ export function HeroSection() {
   });
 
   useEffect(() => {
+    // Increased delay to 1.5s to ensure entry animations finish and 0 state is painted
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
@@ -47,7 +48,7 @@ export function HeroSection() {
         sessions: 42,
         practical: 100
       });
-    }, 300); 
+    }, 1500); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -93,6 +94,7 @@ export function HeroSection() {
     { icon: Facebook, href: content.facebookUrl, label: "Facebook", colorClass: "group-hover:text-blue-600 group-hover:border-blue-600/50" }
   ];
 
+  // Very slow duration (6 seconds) for a premium feel
   const numberTransition = { duration: 6000, easing: 'ease-out' };
 
   return (
