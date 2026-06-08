@@ -162,7 +162,7 @@ export default function AboutPage() {
                         <div className="text-2xl font-bold flex items-baseline">
                           <NumberFlow 
                             value={stats[stat.key as keyof typeof stats]} 
-                            transition={{ duration: 2500, easing: 'ease-out' }}
+                            transition={{ duration: 6000, easing: 'ease-out' }}
                           />+
                         </div>
                         <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>

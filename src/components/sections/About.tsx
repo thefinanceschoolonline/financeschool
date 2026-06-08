@@ -22,7 +22,7 @@ export function AboutSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  const numberTransition = { duration: 2500, easing: 'ease-out' };
+  const numberTransition = { duration: 6000, easing: 'ease-out' };
 
   return (
     <section id="about" className="py-24 bg-background overflow-hidden">

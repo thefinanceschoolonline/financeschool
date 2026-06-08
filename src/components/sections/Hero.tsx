@@ -47,7 +47,7 @@ export function HeroSection() {
         sessions: 42,
         practical: 100
       });
-    }, 500); // Slightly longer delay before starting
+    }, 300); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -71,7 +71,6 @@ export function HeroSection() {
     },
   };
 
-  // Default content fallbacks
   const content = {
     badge: heroSettings?.heroBadge || "Empowering 1,000+ Indian Traders",
     headline: heroSettings?.heroHeadline || "Master Financial Markets",
@@ -94,8 +93,7 @@ export function HeroSection() {
     { icon: Facebook, href: content.facebookUrl, label: "Facebook", colorClass: "group-hover:text-blue-600 group-hover:border-blue-600/50" }
   ];
 
-  // Slower transition for the numbers
-  const numberTransition = { duration: 2500, easing: 'ease-out' };
+  const numberTransition = { duration: 6000, easing: 'ease-out' };
 
   return (
     <section
@@ -113,7 +111,6 @@ export function HeroSection() {
         animate="visible"
         className="container mx-auto flex flex-col items-center justify-center px-4 text-center relative z-10"
       >
-        {/* Badge */}
         <motion.div variants={itemVariants} className="mb-4">
           <span className="inline-flex items-center gap-2 rounded-none border border-accent/30 bg-accent/10 px-4 py-1.5 text-[10px] md:text-xs font-bold text-accent glow-green backdrop-blur-sm uppercase tracking-widest">
             <Sparkles className="h-3.5 w-3.5" />
@@ -121,7 +118,6 @@ export function HeroSection() {
           </span>
         </motion.div>
 
-        {/* Heading */}
         <motion.h1
           variants={itemVariants}
           className="mb-4 font-headline text-4xl font-bold tracking-tight md:text-7xl lg:text-8xl leading-[1.1] text-white uppercase"
@@ -133,7 +129,6 @@ export function HeroSection() {
           </span>
         </motion.h1>
 
-        {/* Description */}
         <motion.p
           variants={itemVariants}
           className="mb-8 max-w-2xl text-sm md:text-base text-white/90 font-bold leading-relaxed px-4 uppercase tracking-wider"
@@ -141,7 +136,6 @@ export function HeroSection() {
           {content.description}
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div variants={itemVariants} className="mb-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={content.cta1Link}>
@@ -158,7 +152,6 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Dynamic Social Icons */}
         <motion.div variants={itemVariants} className="mb-10 flex gap-4 justify-center">
           {socials.map((social, i) => (
             <a 
@@ -177,7 +170,6 @@ export function HeroSection() {
           ))}
         </motion.div>
 
-        {/* Social Proof Marquee */}
         <motion.div 
           variants={itemVariants}
           className="w-full relative py-3 bg-black/40 backdrop-blur-md border-y border-white/10 mb-10 overflow-hidden flex"
@@ -200,7 +192,6 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Stats Row */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-4xl px-2"
