@@ -40,7 +40,7 @@ export function HeroSection() {
   });
 
   useEffect(() => {
-    // Increased delay to 1.5s to ensure entry animations finish and 0 state is painted
+    // 2 second delay before starting the climb to ensure user sees it from 0
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
@@ -48,7 +48,7 @@ export function HeroSection() {
         sessions: 42,
         practical: 100
       });
-    }, 1500); 
+    }, 2000); 
     return () => clearTimeout(timer);
   }, []);
 
@@ -94,8 +94,11 @@ export function HeroSection() {
     { icon: Facebook, href: content.facebookUrl, label: "Facebook", colorClass: "group-hover:text-blue-600 group-hover:border-blue-600/50" }
   ];
 
-  // Very slow duration (6 seconds) for a premium feel
-  const numberTransition = { duration: 6000, easing: 'ease-out' };
+  // Ultra-slow 10 second duration with a prestigious ease for that premium institutional feel
+  const numberTransition = { 
+    duration: 10000, 
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)' 
+  };
 
   return (
     <section
@@ -200,7 +203,10 @@ export function HeroSection() {
         >
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
-              <NumberFlow value={stats.students} transition={numberTransition} />
+              <NumberFlow 
+                value={stats.students} 
+                transition={numberTransition}
+              />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -209,7 +215,10 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-primary/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors flex items-center">
-              <NumberFlow value={stats.years} transition={numberTransition} />
+              <NumberFlow 
+                value={stats.years} 
+                transition={numberTransition}
+              />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -218,7 +227,10 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-destructive/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-destructive transition-colors flex items-center">
-              <NumberFlow value={stats.sessions} transition={numberTransition} />
+              <NumberFlow 
+                value={stats.sessions} 
+                transition={numberTransition}
+              />
               <span>+</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold flex items-center gap-1.5">
@@ -227,7 +239,10 @@ export function HeroSection() {
           </div>
           <div className="flex flex-col items-center gap-1 group bg-black/40 p-4 md:p-6 rounded-none backdrop-blur-sm border border-white/5 transition-all hover:border-accent/20">
             <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-accent transition-colors flex items-center">
-              <NumberFlow value={stats.practical} transition={numberTransition} />
+              <NumberFlow 
+                value={stats.practical} 
+                transition={numberTransition}
+              />
               <span>%</span>
             </div>
             <div className="text-[9px] md:text-[10px] text-white/80 uppercase tracking-widest font-bold text-accent">Practical</div>

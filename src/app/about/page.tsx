@@ -49,19 +49,22 @@ export default function AboutPage() {
   });
 
   useEffect(() => {
-    // Increased delay for slow climb animation start
+    // 2 second delay for slow climb animation start
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
         years: 6,
         sessions: 100
       });
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // 6 second climb duration
-  const numberTransition = { duration: 6000, easing: 'ease-out' };
+  // 10 second ultra-slow climb duration
+  const numberTransition = { 
+    duration: 10000, 
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)' 
+  };
 
   const faqs = [
     { q: "Do I need prior knowledge to start learning trading?", a: "No. Our basic modules start from absolute zero, covering market foundations before moving to advanced strategies." },

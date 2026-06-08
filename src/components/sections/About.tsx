@@ -13,17 +13,21 @@ export function AboutSection() {
   });
 
   useEffect(() => {
-    // Increased delay to ensure the numbers start from zero visibly
+    // Increased delay for visibility
     const timer = setTimeout(() => {
       setStats({
         students: 1200,
         years: 6
       });
-    }, 1000);
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  const numberTransition = { duration: 6000, easing: 'ease-out' };
+  // ultra slow 10s climb
+  const numberTransition = { 
+    duration: 10000, 
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)' 
+  };
 
   return (
     <section id="about" className="py-24 bg-background overflow-hidden">
@@ -91,15 +95,21 @@ export function AboutSection() {
             
             <div className="mt-10 pt-10 border-t border-white/5 flex gap-12">
                <div>
-                 <p className="text-3xl font-bold flex items-center">
-                    <NumberFlow value={stats.students} transition={numberTransition} />+
-                 </p>
+                 <div className="text-3xl font-bold flex items-center">
+                    <NumberFlow 
+                      value={stats.students} 
+                      transition={numberTransition} 
+                    />+
+                 </div>
                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Students Trained</p>
                </div>
                <div>
-                 <p className="text-3xl font-bold flex items-center">
-                    <NumberFlow value={stats.years} transition={numberTransition} />+
-                 </p>
+                 <div className="text-3xl font-bold flex items-center">
+                    <NumberFlow 
+                      value={stats.years} 
+                      transition={numberTransition} 
+                    />+
+                 </div>
                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Years Experience</p>
                </div>
             </div>
