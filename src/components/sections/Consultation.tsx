@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from "framer-motion";
@@ -37,12 +36,12 @@ export function ConsultationSection() {
   const handleBooking = async () => {
     if (!date || !selectedSlot) return;
     setIsBooking(true);
-    // In a real app, you might save the intention to DB here first.
+    // Use the dynamic payment link from Firestore settings
     window.location.href = content.paymentLink;
   };
 
   return (
-    <section id="consultation" className="py-24 bg-background">
+    <section id="consultation" className="py-24 bg-background scroll-mt-24">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <motion.div

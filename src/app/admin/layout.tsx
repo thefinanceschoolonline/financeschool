@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, Settings, Info, Share2 } from "lucide-react";
+import { LayoutDashboard, BookOpen, Headphones, Home, LogOut, Bookmark, AlertCircle, Star, Settings, Info, Share2, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ const adminNavItems = [
   { label: "Consultations", href: "/admin/consultations", icon: Headphones },
   { label: "Hero Settings", href: "/admin/settings#hero", icon: Home },
   { label: "About Content", href: "/admin/settings#about", icon: Info },
-  { label: "Consultation Content", href: "/admin/settings#consultation", icon: Headphones },
+  { label: "Consultation Content", href: "/admin/settings#consultation", icon: LinkIcon },
   { label: "Social Links", href: "/admin/settings#socials", icon: Share2 },
   { label: "View Site", href: "/", icon: Home },
 ];
@@ -119,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <SidebarMenuButton asChild isActive={pathname + (window.location.hash ? window.location.hash : '') === item.href}>
                     <Link href={item.href} className={cn(
                       "flex items-center gap-3 px-4 py-3 transition-all font-bold uppercase tracking-widest text-xs rounded-none",
-                      pathname + (window.location.hash ? window.location.hash : '') === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
+                      (pathname + (typeof window !== 'undefined' ? window.location.hash : '')) === item.href ? "bg-primary text-white" : "text-muted-foreground hover:bg-white/5 hover:text-primary"
                     )}>
                       <item.icon size={18} />
                       {item.label}

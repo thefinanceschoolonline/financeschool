@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from "react";
@@ -8,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users } from "lucide-react";
+import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users, Link as LinkIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminSettingsPage() {
@@ -127,9 +126,14 @@ export default function AdminSettingsPage() {
           <h1 className="text-3xl font-headline font-bold uppercase tracking-tight">Site Settings</h1>
           <p className="text-muted-foreground text-sm uppercase tracking-widest font-bold opacity-60">Manage Homepage Content & Global Links</p>
         </div>
-        <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">
-          <Save className="mr-2 h-4 w-4" /> Save Changes
-        </Button>
+        <div className="flex gap-4">
+          <Button variant="ghost" className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest hover:text-primary" onClick={() => window.location.reload()}>
+            <RefreshCcw className="mr-2 h-3 w-3" /> Revert
+          </Button>
+          <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">
+            <Save className="mr-2 h-4 w-4" /> Save Changes
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-8">
@@ -191,6 +195,75 @@ export default function AdminSettingsPage() {
                 <Input value={formData.cta2Text} onChange={(e) => setFormData({...formData, cta2Text: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
                 <label className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground">Link URL</label>
                 <Input value={formData.cta2Link} onChange={(e) => setFormData({...formData, cta2Link: e.target.value})} className="bg-background rounded-none border-white/5 h-10" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Consultation Content Card */}
+        <Card id="consultation" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
+          <CardHeader className="bg-white/5 border-b border-white/5">
+            <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
+              <Headphones className="h-5 w-5 text-primary" />
+              Consultation & Calendar Settings
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-8 space-y-10">
+            {/* Payment Link Section - High Visibility */}
+            <div className="bg-primary/5 p-6 border border-primary/20 space-y-4">
+              <div className="flex items-center gap-2">
+                <LinkIcon size={16} className="text-primary" />
+                <label className="text-xs font-bold uppercase tracking-widest text-primary">Instamojo Payment Gateway Link</label>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mb-2">This link is used when customers click "Confirm & Pay" on the calendar.</p>
+              <Input 
+                value={formData.consultationPaymentLink} 
+                onChange={(e) => setFormData({...formData, consultationPaymentLink: e.target.value})} 
+                className="bg-background rounded-none border-white/10 h-14 text-sm font-bold placeholder:opacity-30" 
+                placeholder="https://imjo.in/..."
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Strategy Headline</label>
+                  <Input value={formData.consultationHeadline} onChange={(e) => setFormData({...formData, consultationHeadline: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Strategy Description</label>
+                  <Textarea value={formData.consultationDescription} onChange={(e) => setFormData({...formData, consultationDescription: e.target.value})} className="bg-background rounded-none border-white/5 min-h-[100px]" />
+                </div>
+              </div>
+              <div className="space-y-6">
+                 <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Calendar Card Title</label>
+                  <Input value={formData.consultationCardTitle} onChange={(e) => setFormData({...formData, consultationCardTitle: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Calendar Card Description</label>
+                  <Input value={formData.consultationCardDesc} onChange={(e) => setFormData({...formData, consultationCardDesc: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
+                </div>
+              </div>
+            </div>
+
+            <div className="h-px bg-white/5" />
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Highlight 1</label>
+                <Input value={formData.consultationF1Title} onChange={(e) => setFormData({...formData, consultationF1Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF1Desc} onChange={(e) => setFormData({...formData, consultationF1Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Highlight 2</label>
+                <Input value={formData.consultationF2Title} onChange={(e) => setFormData({...formData, consultationF2Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF2Desc} onChange={(e) => setFormData({...formData, consultationF2Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Highlight 3</label>
+                <Input value={formData.consultationF3Title} onChange={(e) => setFormData({...formData, consultationF3Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
+                <Textarea value={formData.consultationF3Desc} onChange={(e) => setFormData({...formData, consultationF3Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
               </div>
             </div>
           </CardContent>
@@ -263,64 +336,6 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Consultation Content Card */}
-        <Card id="consultation" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
-          <CardHeader className="bg-white/5 border-b border-white/5">
-            <CardTitle className="flex items-center gap-2 text-xl font-headline font-bold uppercase tracking-tight">
-              <Headphones className="h-5 w-5 text-primary" />
-              Consultation Section Content
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8 space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Main Headline</label>
-                  <Input value={formData.consultationHeadline} onChange={(e) => setFormData({...formData, consultationHeadline: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
-                  <Textarea value={formData.consultationDescription} onChange={(e) => setFormData({...formData, consultationDescription: e.target.value})} className="bg-background rounded-none border-white/5 min-h-[100px]" />
-                </div>
-              </div>
-              <div className="space-y-6">
-                 <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Booking Card Title</label>
-                  <Input value={formData.consultationCardTitle} onChange={(e) => setFormData({...formData, consultationCardTitle: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Booking Card Desc</label>
-                  <Input value={formData.consultationCardDesc} onChange={(e) => setFormData({...formData, consultationCardDesc: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Instamojo Payment Link</label>
-                  <Input value={formData.consultationPaymentLink} onChange={(e) => setFormData({...formData, consultationPaymentLink: e.target.value})} className="bg-background rounded-none border-white/5 h-12" />
-                </div>
-              </div>
-            </div>
-
-            <div className="h-px bg-white/5" />
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 1</label>
-                <Input value={formData.consultationF1Title} onChange={(e) => setFormData({...formData, consultationF1Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
-                <Textarea value={formData.consultationF1Desc} onChange={(e) => setFormData({...formData, consultationF1Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
-              </div>
-              <div className="space-y-4">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 2</label>
-                <Input value={formData.consultationF2Title} onChange={(e) => setFormData({...formData, consultationF2Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
-                <Textarea value={formData.consultationF2Desc} onChange={(e) => setFormData({...formData, consultationF2Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
-              </div>
-              <div className="space-y-4">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Feature 3</label>
-                <Input value={formData.consultationF3Title} onChange={(e) => setFormData({...formData, consultationF3Title: e.target.value})} className="bg-background rounded-none border-white/5 h-10" placeholder="Title" />
-                <Textarea value={formData.consultationF3Desc} onChange={(e) => setFormData({...formData, consultationF3Desc: e.target.value})} className="bg-background rounded-none border-white/5 text-xs" placeholder="Description" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Social Media Card */}
         <Card id="socials" className="bg-card/40 border-white/5 rounded-none shadow-none overflow-hidden scroll-mt-24">
           <CardHeader className="bg-white/5 border-b border-white/5">
@@ -365,12 +380,6 @@ export default function AdminSettingsPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      <div className="flex justify-end pt-4">
-         <Button variant="ghost" className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest hover:text-primary" onClick={() => window.location.reload()}>
-           <RefreshCcw className="mr-2 h-3 w-3" /> Revert Local Changes
-         </Button>
       </div>
     </div>
   );
