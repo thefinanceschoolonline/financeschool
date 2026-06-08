@@ -65,18 +65,6 @@ export default function CoursesPage() {
 
         <section className="py-20">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-4xl mx-auto space-y-4 text-center mb-20"
-            >
-              <span className="text-xs font-bold text-primary uppercase tracking-[0.3em]">Full Curriculum</span>
-              <h2 className="text-4xl md:text-6xl font-headline font-bold leading-tight uppercase">
-                Advance Your <span className="text-gradient">Financial Career</span>
-              </h2>
-            </motion.div>
-
             {loading ? (
               <div className="text-center py-20 opacity-30 font-bold uppercase tracking-[0.3em]">Syncing All Courses...</div>
             ) : courses?.length === 0 ? (
