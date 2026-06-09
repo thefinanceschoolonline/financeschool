@@ -85,6 +85,7 @@
         "consultationPaymentLink": { "type": "string" },
         "aboutHeadline": { "type": "string" },
         "aboutDescription": { "type": "string" },
+        "aboutImageUrl": { "type": "string" },
         "aboutPhilosophy1Title": { "type": "string" },
         "aboutPhilosophy1Desc": { "type": "string" },
         "aboutPhilosophy2Title": { "type": "string" },

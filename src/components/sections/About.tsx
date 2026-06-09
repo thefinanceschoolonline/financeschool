@@ -22,6 +22,7 @@ export function AboutSection() {
   const content = {
     headline: heroSettings?.aboutHeadline || "Helping You Learn Stock Market Trading the Right Way",
     description: heroSettings?.aboutDescription || "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+    imageUrl: heroSettings?.aboutImageUrl || "https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png",
     points: [
       { 
         icon: Shield, 
@@ -70,7 +71,7 @@ export function AboutSection() {
           >
             <div className="relative aspect-square rounded-none overflow-hidden border border-white/10 shadow-2xl">
               <Image 
-                src="https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png" 
+                src={content.imageUrl} 
                 alt="The Finance School Mentor" 
                 fill 
                 className="object-cover"

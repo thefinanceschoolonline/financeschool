@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from "react";
@@ -7,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users, Link as LinkIcon } from "lucide-react";
+import { Save, RefreshCcw, Home, Share2, Instagram, Youtube, Send, Facebook, Headphones, Info, TrendingUp, Users, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
@@ -47,6 +48,7 @@ export default function AdminSettingsPage() {
     consultationPaymentLink: "https://imjo.in/pC6qZp",
     aboutHeadline: "Helping You Learn Stock Market Trading the Right Way",
     aboutDescription: "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+    aboutImageUrl: "https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png",
     aboutPhilosophy1Title: "Ethical Learning",
     aboutPhilosophy1Desc: "No hype, no shortcuts. Just pure market logic and data-driven strategies.",
     aboutPhilosophy2Title: "Goal Oriented",
@@ -60,7 +62,6 @@ export default function AdminSettingsPage() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Only initialize once when data arrives
     if (heroData && !loading && !isInitialized) {
       setFormData({
         heroBadge: heroData.heroBadge || "Empowering 1,000+ Indian Traders",
@@ -88,6 +89,7 @@ export default function AdminSettingsPage() {
         consultationPaymentLink: heroData.consultationPaymentLink || "https://imjo.in/pC6qZp",
         aboutHeadline: heroData.aboutHeadline || "Helping You Learn Stock Market Trading the Right Way",
         aboutDescription: heroData.aboutDescription || "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+        aboutImageUrl: heroData.aboutImageUrl || "https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png",
         aboutPhilosophy1Title: heroData.aboutPhilosophy1Title || "Ethical Learning",
         aboutPhilosophy1Desc: heroData.aboutPhilosophy1Desc || "No hype, no shortcuts. Just pure market logic and data-driven strategies.",
         aboutPhilosophy2Title: heroData.aboutPhilosophy2Title || "Goal Oriented",
@@ -104,7 +106,6 @@ export default function AdminSettingsPage() {
   const handleSave = () => {
     if (!db || !heroDocRef) return;
     
-    // Non-blocking mutation call to ensure local cache updates immediately
     setDoc(heroDocRef, formData, { merge: true })
       .then(() => {
         toast({
@@ -215,7 +216,6 @@ export default function AdminSettingsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-8 space-y-10">
-            {/* Payment Link Section - High Visibility */}
             <div className="bg-primary/5 p-6 border border-primary/20 space-y-4">
               <div className="flex items-center gap-2">
                 <LinkIcon size={16} className="text-primary" />
@@ -299,6 +299,20 @@ export default function AdminSettingsPage() {
                 onChange={(e) => setFormData({...formData, aboutDescription: e.target.value})}
                 className="bg-background rounded-none border-white/5 min-h-[120px]"
               />
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <ImageIcon size={16} className="text-primary" />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">About Section Image URL</label>
+              </div>
+              <Input 
+                value={formData.aboutImageUrl} 
+                onChange={(e) => setFormData({...formData, aboutImageUrl: e.target.value})}
+                className="bg-background rounded-none border-white/5 h-12"
+                placeholder="https://..."
+              />
+              <p className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest">This image is used on both the Homepage and About Us page.</p>
             </div>
 
             <div className="h-px bg-white/5" />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -31,7 +32,9 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useFirestore, useDoc } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 const rawStats = [
   { label: "Students Trained", key: "students", value: 1200, icon: Users },
@@ -40,6 +43,10 @@ const rawStats = [
 ];
 
 export default function AboutPage() {
+  const db = useFirestore();
+  const heroDocRef = useMemo(() => db ? doc(db, "settings", "homepage") : null, [db]);
+  const { data: heroSettings } = useDoc(heroDocRef as any);
+
   const bannerImage = PlaceHolderImages.find(img => img.id === "banner-about");
   
   const [stats, setStats] = useState({
@@ -48,17 +55,25 @@ export default function AboutPage() {
     sessions: 0
   });
 
+  const content = {
+    headline: heroSettings?.aboutHeadline || "Helping You Learn Stock Market Trading the Right Way",
+    description: heroSettings?.aboutDescription || "At The Finance School, we focus on practical stock market education designed for real-world results. Our goal is to help beginners and aspiring traders understand market fundamentals, technical analysis, and risk management with clarity.",
+    imageUrl: heroSettings?.aboutImageUrl || "https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png",
+    stat1Value: heroSettings?.aboutStat1Value || 1200,
+    stat2Value: heroSettings?.aboutStat2Value || 6
+  };
+
   useEffect(() => {
     // 2 second delay for slow climb animation start
     const timer = setTimeout(() => {
       setStats({
-        students: 1200,
-        years: 6,
+        students: content.stat1Value,
+        years: content.stat2Value,
         sessions: 100
       });
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [content.stat1Value, content.stat2Value]);
 
   // 10 second ultra-slow climb duration
   const numberTransition = { 
@@ -149,7 +164,7 @@ export default function AboutPage() {
               <div className="relative">
                 <div className="aspect-square rounded-none overflow-hidden border border-white/10 shadow-2xl relative">
                   <Image 
-                    src="https://financeschool.sirv.com/ChatGPT%20Image%20Jun%203%2C%202026%2C%2002_32_14%20PM.png" 
+                    src={content.imageUrl} 
                     alt="The Finance School Mentor" 
                     fill 
                     className="object-cover"
