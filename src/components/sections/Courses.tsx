@@ -51,15 +51,15 @@ export function CoursesSection() {
                 viewport={{ once: true }}
               >
                 <Card className="relative h-full overflow-hidden border-white/5 bg-card/40 flex flex-col group hover:border-accent/30 transition-all duration-500 rounded-none shadow-none">
-                  <div className="relative aspect-[16/9] overflow-hidden">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-black/20 flex items-center justify-center">
                     <Image 
                       src={course.imageUrl || "https://picsum.photos/seed/finance/800/450"} 
                       alt={course.title}
                       fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                      className="object-contain transition-transform duration-1000 group-hover:scale-105"
                       data-ai-hint="stock trading chart"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent pointer-events-none" />
                   </div>
 
                   <CardHeader className="space-y-3 p-8">
@@ -99,7 +99,6 @@ export function CoursesSection() {
                   </CardContent>
 
                   <div className="p-8 pt-0 mt-auto">
-                    {/* Redirect to main courses page as requested */}
                     <Link href="/courses">
                       <Button className="w-full h-14 rounded-none text-xs font-bold bg-primary shadow-xl shadow-primary/25 border-primary/20 group transition-all duration-300 uppercase tracking-widest">
                         Enroll Now

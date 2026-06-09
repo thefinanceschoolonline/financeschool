@@ -81,12 +81,12 @@ export default function CoursesPage() {
                   >
                     <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-none">
                       <div className="flex flex-col lg:flex-row min-h-full">
-                        <div className="lg:w-2/5 relative aspect-video lg:aspect-auto min-h-[300px] overflow-hidden">
+                        <div className="lg:w-2/5 relative aspect-video lg:aspect-auto min-h-[300px] overflow-hidden bg-black/20 flex items-center justify-center">
                           <Image 
                             src={course.imageUrl} 
                             alt={course.title}
                             fill
-                            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                            className="object-contain transition-transform duration-1000 group-hover:scale-105"
                           />
                         </div>
 
