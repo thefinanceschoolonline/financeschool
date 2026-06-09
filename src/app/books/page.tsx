@@ -12,7 +12,8 @@ import {
   ShoppingCart,
   BookMarked,
   ChevronRight,
-  CheckCheck
+  CheckCheck,
+  Eye
 } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NumberFlow from "@number-flow/react";
@@ -98,14 +99,14 @@ export default function BooksPage() {
                     viewport={{ once: true }}
                   >
                     <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-none flex flex-col h-full">
-                      <div className="relative aspect-[16/9] overflow-hidden bg-black/20 flex items-center justify-center">
+                      <Link href={`/books/${book.id}`} className="relative aspect-[16/9] overflow-hidden bg-black/20 flex items-center justify-center">
                         <Image 
                           src={book.imageUrl} 
                           alt={book.title}
                           fill
                           className="object-contain transition-transform duration-1000 group-hover:scale-105"
                         />
-                      </div>
+                      </Link>
 
                       <div className="p-8 flex flex-col flex-grow space-y-6">
                         <div className="space-y-3">
@@ -114,27 +115,27 @@ export default function BooksPage() {
                             <span className="text-[10px] font-bold uppercase tracking-widest">Study Material</span>
                           </div>
                           <h3 className="text-2xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">
-                            {book.title}
+                            <Link href={`/books/${book.id}`}>{book.title}</Link>
                           </h3>
-                          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 font-medium">
+                          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 font-medium">
                             {book.description}
                           </p>
 
                           {book.features && book.features.length > 0 && (
                             <div className="pt-4 space-y-2">
-                              {book.features.map((feature: string, i: number) => (
+                              {book.features.slice(0, 3).map((feature: string, i: number) => (
                                 <div key={i} className="flex items-center gap-2">
                                   <div className="h-4 w-4 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                                     <CheckCheck className="h-2.5 w-2.5 text-primary" />
                                   </div>
-                                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{feature}</span>
+                                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground line-clamp-1">{feature}</span>
                                 </div>
                               ))}
                             </div>
                           )}
                         </div>
 
-                        <div className="mt-auto space-y-6">
+                        <div className="mt-auto space-y-4">
                           <div className="flex items-baseline gap-4">
                             <span className="text-2xl font-bold text-foreground">
                               ₹<NumberFlow value={book.price} />
@@ -144,12 +145,20 @@ export default function BooksPage() {
                             )}
                           </div>
 
-                          <a href={book.instamojoLink} target="_blank" rel="noopener noreferrer">
-                            <Button className="w-full h-12 rounded-none bg-gradient-to-t from-primary to-orange-400 border border-primary/20 font-bold group transition-all uppercase tracking-widest text-xs">
-                              Buy Now
-                              <ShoppingCart className="ml-2 h-4 w-4" />
-                            </Button>
-                          </a>
+                          <div className="flex flex-col gap-3">
+                            <a href={book.instamojoLink} target="_blank" rel="noopener noreferrer">
+                              <Button className="w-full h-12 rounded-none bg-gradient-to-t from-primary to-orange-400 border border-primary/20 font-bold group transition-all uppercase tracking-widest text-xs">
+                                Buy Now
+                                <ShoppingCart className="ml-2 h-4 w-4" />
+                              </Button>
+                            </a>
+                            <Link href={`/books/${book.id}`}>
+                              <Button variant="outline" className="w-full h-12 rounded-none border-white/10 bg-white/5 hover:bg-white/10 font-bold uppercase tracking-widest text-xs">
+                                Explore Details
+                                <Eye className="ml-2 h-4 w-4" />
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </Card>
