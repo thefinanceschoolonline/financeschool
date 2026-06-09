@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from "react";
@@ -8,10 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, ListChecks } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
+import { cn } from "@/lib/utils";
 
 export default function AdminBooksPage() {
   const db = useFirestore();
@@ -32,6 +34,7 @@ export default function AdminBooksPage() {
     oldPrice: "",
     imageUrl: "",
     instamojoLink: "",
+    features: "",
     order: 0
   });
 
@@ -45,11 +48,21 @@ export default function AdminBooksPage() {
         oldPrice: book.oldPrice?.toString() || "",
         imageUrl: book.imageUrl || "",
         instamojoLink: book.instamojoLink || "",
+        features: (book.features || []).join("\n"),
         order: book.order || 0
       });
     } else {
       setEditingBook(null);
-      setFormData({ title: "", description: "", price: "", oldPrice: "", imageUrl: "", instamojoLink: "", order: books?.length || 0 });
+      setFormData({ 
+        title: "", 
+        description: "", 
+        price: "", 
+        oldPrice: "", 
+        imageUrl: "", 
+        instamojoLink: "", 
+        features: "",
+        order: books?.length || 0 
+      });
     }
     setIsDialogOpen(true);
   };
@@ -61,6 +74,7 @@ export default function AdminBooksPage() {
       ...formData,
       price: parseFloat(formData.price) || 0,
       oldPrice: formData.oldPrice ? parseFloat(formData.oldPrice) : null,
+      features: formData.features.split("\n").filter(f => f.trim() !== ""),
       order: Number(formData.order)
     };
 
@@ -108,13 +122,16 @@ export default function AdminBooksPage() {
         ) : books.map((book) => (
           <Card key={book.id} className="bg-card/40 border-white/5 rounded-none overflow-hidden group shadow-none">
             <div className="flex flex-col md:flex-row">
-              <div className="md:w-64 relative aspect-[16/9] bg-muted shrink-0">
-                {book.imageUrl && <Image src={book.imageUrl} alt={book.title} fill className="object-cover" />}
+              <div className="md:w-64 relative aspect-[16/9] bg-muted shrink-0 flex items-center justify-center overflow-hidden">
+                {book.imageUrl && <Image src={book.imageUrl} alt={book.title} fill className="object-contain" />}
               </div>
               <CardContent className="flex-1 p-8 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-2xl font-headline font-bold">{book.title}</h3>
+                    <div className="space-y-1">
+                      <h3 className="text-2xl font-headline font-bold">{book.title}</h3>
+                      <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 border border-white/10 opacity-60">Order: {book.order}</span>
+                    </div>
                     <div className="flex gap-2">
                       <Button variant="outline" size="icon" onClick={() => handleOpenDialog(book)} className="rounded-none border-white/10 hover:bg-primary hover:text-white">
                         <Edit3 size={16} />
@@ -124,7 +141,18 @@ export default function AdminBooksPage() {
                       </Button>
                     </div>
                   </div>
-                  <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{book.description}</p>
+                  <p className="text-muted-foreground text-sm line-clamp-2 mb-4 font-medium">{book.description}</p>
+                  
+                  {book.features && book.features.length > 0 && (
+                    <div className="mb-4 space-y-1 opacity-60">
+                      {book.features.slice(0, 2).map((f: string, i: number) => (
+                        <div key={i} className="flex items-center gap-2 text-[10px] font-bold uppercase">
+                          <ListChecks size={12} className="text-primary" /> {f}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="flex items-center gap-4 mb-4">
                     <span className="text-xl font-bold">₹{book.price}</span>
                     {book.oldPrice && <span className="text-sm text-muted-foreground line-through opacity-50">₹{book.oldPrice}</span>}
@@ -142,11 +170,11 @@ export default function AdminBooksPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
+          <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
             <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">{editingBook ? "Edit Book" : "Add New Book"}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-6 py-6">
+          <div className="space-y-6 p-8">
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Book Title</label>
@@ -158,8 +186,8 @@ export default function AdminBooksPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Description</label>
-              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="Brief summary of the book..." />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Short Description</label>
+              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" placeholder="Brief summary of the book..." />
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -172,15 +200,19 @@ export default function AdminBooksPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL (16:9 Scale)</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
               <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://..." />
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Link</label>
               <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://imjo.in/..." />
             </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Specifications / Features (One per line)</label>
+              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="High Quality Print&#10;Topic-wise breakdown&#10;Exam-ready notes" />
+            </div>
           </div>
-          <DialogFooter className="gap-3">
+          <DialogFooter className="p-8 border-t border-white/10 bg-white/5 gap-3">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-none border-white/10 h-12 px-8 font-bold uppercase tracking-widest text-[10px]">Cancel</Button>
             <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Book</Button>
           </DialogFooter>

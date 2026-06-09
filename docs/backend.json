@@ -31,6 +31,10 @@
         "oldPrice": { "type": "number" },
         "imageUrl": { "type": "string" },
         "instamojoLink": { "type": "string" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "order": { "type": "number" }
       },
       "required": ["title", "description", "price", "imageUrl", "instamojoLink"]

@@ -9,10 +9,10 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { 
-  ArrowRight, 
-  ChevronRight, 
   ShoppingCart,
-  BookMarked
+  BookMarked,
+  ChevronRight,
+  CheckCheck
 } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NumberFlow from "@number-flow/react";
@@ -98,12 +98,12 @@ export default function BooksPage() {
                     viewport={{ once: true }}
                   >
                     <Card className="overflow-hidden border-white/5 bg-card/40 hover:border-primary/50 transition-all duration-500 rounded-none group shadow-none flex flex-col h-full">
-                      <div className="relative aspect-[16/9] overflow-hidden">
+                      <div className="relative aspect-[16/9] overflow-hidden bg-black/20 flex items-center justify-center">
                         <Image 
                           src={book.imageUrl} 
                           alt={book.title}
                           fill
-                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          className="object-contain transition-transform duration-1000 group-hover:scale-105"
                         />
                       </div>
 
@@ -116,9 +116,22 @@ export default function BooksPage() {
                           <h3 className="text-2xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">
                             {book.title}
                           </h3>
-                          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 font-medium">
                             {book.description}
                           </p>
+
+                          {book.features && book.features.length > 0 && (
+                            <div className="pt-4 space-y-2">
+                              {book.features.map((feature: string, i: number) => (
+                                <div key={i} className="flex items-center gap-2">
+                                  <div className="h-4 w-4 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                                    <CheckCheck className="h-2.5 w-2.5 text-primary" />
+                                  </div>
+                                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{feature}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
 
                         <div className="mt-auto space-y-6">
