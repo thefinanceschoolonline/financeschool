@@ -29,152 +29,41 @@ import {
   PlayCircle,
   FileText
 } from "lucide-react";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useDoc, useFirestore } from "@/firebase";
+import { doc } from "firebase/firestore";
 import NumberFlow from "@number-flow/react";
-
-const coursesData = {
-  "nism-series-8": {
-    title: "NISM Series 8 — Equity and Derivatives",
-    fullTitle: "NISM (SEBI) Series 8 — Equity and Derivatives Lectures with Books Combo",
-    price: 599,
-    oldPrice: 1499,
-    description: "Master the concepts of equity derivatives and prepare for the NISM Series 8 certification. This comprehensive package includes high-quality video lectures and printed study materials delivered to your doorstep.",
-    longDescription: "This course is specifically designed for students and professionals looking to build a career in the financial markets. We cover everything from the basics of derivatives to complex hedging and trading strategies required for the SEBI NISM Series 8 examination.\n\nYou will gain deep insights into the forward and futures market, option pricing, and various risk management techniques used by institutional traders.",
-    duration: "20+ Hours",
-    students: "850+",
-    rating: "4.9/5",
-    image: PlaceHolderImages.find(img => img.id === "course-nism8-full")?.imageUrl,
-    enrollLink: "https://imjo.in/tZhckj",
-    curriculum: [
-      { title: "Introduction to Derivatives", duration: "2h 15m", lessons: ["What are Derivatives?", "History & Evolution", "Market Participants", "Economic Function"] },
-      { title: "Understanding Forwards & Futures", duration: "3h 45m", lessons: ["Forward Contracts", "Futures Terminology", "Pricing of Futures", "Hedged vs Speculative Trades"] },
-      { title: "Options Trading Strategies", duration: "5h 20m", lessons: ["Call vs Put", "Option Greeks", "Spreads & Straddles", "Institutional Entry Models"] },
-      { title: "Risk Management in Derivatives", duration: "4h 10m", lessons: ["Value at Risk (VaR)", "Margining System", "Risk Exposure Levels", "Stop Loss Strategies"] },
-      { title: "Clearing and Settlement Process", duration: "2h 30m", lessons: ["Clearing Corporations", "Mark-to-Market", "Settlement Mechanism"] },
-      { title: "Legal and Regulatory Environment", duration: "2h 00m", lessons: ["SEBI Act", "Exchange Regulations", "Client Protection"] }
-    ],
-    highlights: ["Official NISM Syllabus", "Recorded High-Quality Lectures", "Study Material Books Combo", "Mock Test Guidance"]
-  },
-  "nism-series-15": {
-    title: "NISM Series 15 — Research Analyst",
-    fullTitle: "NISM Series 15 — Research Analyst Certification Preparation",
-    price: 599,
-    oldPrice: 1499,
-    description: "A complete guide to becoming a certified Research Analyst. Learn equity research, financial statement analysis, and valuation techniques in easy-to-understand Hindi.",
-    longDescription: "Become an expert in analyzing companies and making data-driven investment recommendations. Our Hindi-medium course breaks down complex financial concepts into simple, actionable steps for anyone wanting to work in equity research.\n\nWe focus on the practical side of research analysis, helping you build your own research reports and understand industry dynamics.",
-    duration: "15+ Hours",
-    students: "420+",
-    rating: "4.8/5",
-    image: PlaceHolderImages.find(img => img.id === "course-nism15-full")?.imageUrl,
-    enrollLink: "https://imjo.in/yKSphX",
-    curriculum: [
-      { title: "Introduction to Research Analysis", duration: "1h 45m", lessons: ["Role of a Research Analyst", "Types of Research", "Market Sentiment"] },
-      { title: "Economic & Industry Analysis", duration: "2h 30m", lessons: ["Top-Down Approach", "Sectoral Analysis", "Macro Factors"] },
-      { title: "Financial Statement Analysis", duration: "4h 00m", lessons: ["Balance Sheet Deep Dive", "P&L Interpretation", "Cash Flow Analysis"] },
-      { title: "Valuation Principles & Models", duration: "3h 30m", lessons: ["DCF Method", "Relative Valuation", "Intrinsic Value Calculation"] },
-      { title: "Fundamentals of Corporate Actions", duration: "1h 50m", lessons: ["Dividends & Splits", "Rights Issue", "Buybacks"] },
-      { title: "Ethics and Regulations", duration: "1h 30m", lessons: ["SEBI (Research Analyst) Regs", "Code of Conduct", "Conflicts of Interest"] }
-    ],
-    highlights: ["Hindi Language Medium", "Equity Research Modules", "Valuation Models Included", "SEBI Exam Focused"]
-  },
-  "crypto-az": {
-    title: "Ultimate Crypto Course — A to Z",
-    fullTitle: "The Ultimate Crypto Trading Course — Beginner to Advanced",
-    price: 2999,
-    oldPrice: 9999,
-    description: "The most complete cryptocurrency trading journey from absolute basics to institutional execution using our proprietary LW Strategy.",
-    longDescription: "Go beyond basic chart patterns. This course teaches you how to read market liquidity, understand the intent of large players, and execute trades with precision using our proprietary LW Strategy. Perfect for anyone serious about crypto trading.",
-    duration: "40+ Hours",
-    students: "1200+",
-    rating: "5.0/5",
-    image: PlaceHolderImages.find(img => img.id === "course-crypto-az-full")?.imageUrl,
-    enrollLink: "https://imjo.in/QgnbDY",
-    curriculum: [
-      { title: "Crypto Basics & Market Structure", duration: "4h 00m", lessons: ["Blockchain Fundamentals", "Exchanges vs DEXs", "Order Books & Liquidity"] },
-      { title: "Advanced Liquidity Concepts", duration: "6h 30m", lessons: ["Institutional Footprints", "Liquidity Voids", "Premium vs Discount Zones"] },
-      { title: "The Proprietary LW Strategy", duration: "10h 00m", lessons: ["Strategy Mechanics", "Entry Checklists", "Timeframe Alignment", "Stop Loss Placement"] },
-      { title: "Risk Management & Psychology", duration: "8h 00m", lessons: ["Position Sizing", "The Trader's Mindset", "Overtrading & Recovery"] },
-      { title: "Real-time Trade Execution", duration: "6h 00m", lessons: ["Live Chart Mapping", "Identifying Setups", "Managing Active Trades"] },
-      { title: "Security & Portfolio Management", duration: "5h 30m", lessons: ["Cold Storage", "Security Audits", "Diversification Strategy"] }
-    ],
-    highlights: ["Complete A to Z Roadmap", "Exclusive LW Strategy", "Liquidity & Order Blocks", "Community Trade Access"]
-  },
-  "lw-strategy": {
-    title: "LW Strategy: Master Course",
-    fullTitle: "LW Strategy — Advanced Liquidity and Market Structure Mastery",
-    price: null,
-    description: "The crown jewel of our curriculum. Learn the precise strategy that identifies institutional footprints in the market.",
-    longDescription: "The LW Strategy is a systematic trading methodology focused on high-probability entries based on institutional liquidity and market structure. This course is for experienced traders who want to transition from retail mindset to institutional understanding.",
-    duration: "30+ Hours",
-    students: "250+",
-    rating: "5.0/5",
-    image: PlaceHolderImages.find(img => img.id === "course-lw-strategy")?.imageUrl,
-    enrollLink: "https://imjo.in/evyGME",
-    curriculum: [
-      { title: "Defining the Institutional Narrative", duration: "4h 00m", lessons: ["Smart Money Theory", "Market Cycle Archetypes", "The Institutional Narrative"] },
-      { title: "HTF vs LTF Alignment", duration: "5h 00m", lessons: ["Top-Down Narrative", "Structural Shifts", "Point of Interest (POI)"] },
-      { title: "Entry Models (Precision Focus)", duration: "8h 00m", lessons: ["BOS vs CHoCH", "Order Blocks & Breakers", "FVG Entry Models"] },
-      { title: "Dealing with Stop Hunts", duration: "5h 00m", lessons: ["Liquidity Grabs", "Inducement Areas", "Wicks vs Bodies"] },
-      { title: "Advanced Scaling Strategies", duration: "4h 00m", lessons: ["Scaling In", "Partial Profits", "Trailing with Structure"] },
-      { title: "Psychology of Professional Trading", duration: "4h 00m", lessons: ["Performance Tracking", "The Professional Edge", "Systematic Discipline"] }
-    ],
-    highlights: ["High-Precision Entries", "Institutional Narrative", "Institutional Liquidity", "Private Alpha Group"]
-  },
-  "crypto-live": {
-    title: "Crypto Live Classes — 1 to 1",
-    fullTitle: "Personalized 1 to 1 Live Crypto Mentorship Classes",
-    price: null,
-    description: "Direct mentorship with an expert trader. A tailored learning experience focused on your specific goals and pace.",
-    longDescription: "No more watching generic videos. Get direct access to a mentor who analyzes your trades, identifies your mistakes, and builds a custom curriculum for you. This is the fastest way to master the crypto markets.",
-    duration: "Flexible (1 Month)",
-    students: "50+ (Limited Seats)",
-    rating: "5.0/5",
-    image: PlaceHolderImages.find(img => img.id === "course-crypto-live")?.imageUrl,
-    enrollLink: "https://imjo.in/pC6qZp",
-    curriculum: [
-      { title: "Customized Learning Goals", duration: "Variable", lessons: ["Goal Setting", "Initial Assessment", "Skill Mapping"] },
-      { title: "Live Chart Analysis Sessions", duration: "Variable", lessons: ["Screen Sharing Sessions", "Real-time Setup Scanning", "Market Analysis"] },
-      { title: "Personalized Strategy Tuning", duration: "Variable", lessons: ["Optimizing Entry rules", "Risk Adjustment", "Strategy Refinement"] },
-      { title: "Direct Doubt Solving", duration: "Variable", lessons: ["Concept Clarification", "Q&A Workshops", "Case Studies"] },
-      { title: "Trade Review Workshops", duration: "Variable", lessons: ["Analyzing Past Trades", "Fixing Psychology Errors", "Execution Review"] },
-      { title: "1-on-1 Mentorship Calls", duration: "Variable", lessons: ["Weekly Review", "Psychological Coaching", "Career Advice"] }
-    ],
-    highlights: ["100% Personalized", "Flexible Scheduling", "Direct Mentor Access", "Practical Trade Feedback"]
-  },
-  "combo-personalized": {
-    title: "Crypto + Stock Combo Classes",
-    fullTitle: "The Ultimate Crypto + Stock Market Personalized Combo",
-    price: null,
-    description: "Master both worlds. A comprehensive 1-to-1 mentorship program covering both Stocks and Cryptocurrencies.",
-    longDescription: "Why choose when you can master both? This program bridges the gap between traditional stock market fundamentals and the fast-paced world of crypto. Learn to apply professional trading strategies across any asset class.",
-    duration: "Flexible (2 Months)",
-    students: "30+ (Exclusive)",
-    rating: "5.0/5",
-    image: PlaceHolderImages.find(img => img.id === "course-combo-personalized")?.imageUrl,
-    enrollLink: "https://imjo.in/AcxnDv",
-    curriculum: [
-      { title: "Inter-market Fundamentals", duration: "Variable", lessons: ["Stocks vs Crypto", "Correlation Analysis", "Market Sentiment"] },
-      { title: "Stock Technical Analysis", duration: "Variable", lessons: ["Price Action Basics", "Indicator Strategy", "Sector Rotation"] },
-      { title: "Crypto Market Cycles", duration: "Variable", lessons: ["Bitcoin Cycles", "Altcoin Analysis", "Stablecoins & Yield"] },
-      { title: "Cross-Asset Risk Management", duration: "Variable", lessons: ["Balanced Allocation", "Hedged Strategies", "Global Risk Outlook"] },
-      { title: "Building a Hybrid Portfolio", duration: "Variable", lessons: ["Long-term Wealth", "Active Income Trading", "Taxation Basics"] },
-      { title: "Advanced Mentorship Access", duration: "Variable", lessons: ["Executive Coaching", "Market Alpha Access", "VIP Community"] }
-    ],
-    highlights: ["Dual Market Mastery", "Cross-Asset Strategy", "Personalized Coaching", "Full Portfolio Guidance"]
-  }
-};
+import { useMemo } from "react";
 
 export default function CourseDetailPage() {
   const { id } = useParams();
-  const course = coursesData[id as keyof typeof coursesData];
+  const db = useFirestore();
+  
+  const courseRef = useMemo(() => 
+    db && id ? doc(db, "courses", id as string) : null, 
+  [db, id]);
+  
+  const { data: course, loading } = useDoc(courseRef as any);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50">Syncing Syllabus...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-headline font-bold">Course Not Found</h1>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-6">
+          <h1 className="text-4xl font-headline font-bold uppercase">Course Not Found</h1>
           <Link href="/courses">
-            <Button variant="outline">Back to Courses</Button>
+            <Button variant="outline" className="rounded-none uppercase tracking-widest font-bold">
+              Back to Catalog
+            </Button>
           </Link>
         </div>
       </div>
@@ -200,16 +89,16 @@ export default function CourseDetailPage() {
               <div className="space-y-8 order-2 lg:order-1">
                 <div className="flex flex-wrap gap-3">
                   <Badge variant="outline" className="text-primary border-primary/20 bg-primary/10 font-bold uppercase tracking-widest px-4 py-1.5 rounded-none">
-                    Course Overview
+                    Course Syllabus
                   </Badge>
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-none bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
-                    <Star size={16} fill="currentColor" />
-                    <span className="text-sm font-bold">{course.rating}</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest">
+                    <Star size={14} className="text-primary fill-primary" />
+                    Premium Content
                   </div>
                 </div>
                 
                 <h1 className="text-3xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight">
-                  {course.fullTitle}
+                  {course.title}
                 </h1>
                 
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
@@ -222,8 +111,8 @@ export default function CourseDetailPage() {
                       <Clock size={20} />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Duration</p>
-                      <p className="text-sm font-bold">{course.duration}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Chapters</p>
+                      <p className="text-sm font-bold">{course.curriculum?.length || 0} Modules</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -232,7 +121,7 @@ export default function CourseDetailPage() {
                     </div>
                     <div>
                       <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Learners</p>
-                      <p className="text-sm font-bold">{course.students}</p>
+                      <p className="text-sm font-bold">1,000+ Enrolled</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -253,7 +142,7 @@ export default function CourseDetailPage() {
                 className="relative aspect-video order-1 lg:order-2 rounded-none overflow-hidden border border-white/10 shadow-2xl"
               >
                 <Image 
-                  src={course.image || "https://picsum.photos/seed/course/800/450"} 
+                  src={course.imageUrl || "https://picsum.photos/seed/course/800/450"} 
                   alt={course.title} 
                   fill 
                   className="object-cover"
@@ -273,96 +162,87 @@ export default function CourseDetailPage() {
         <section className="py-20 border-t border-white/5">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-3 gap-12">
-              {/* Left Column: Details & Curriculum */}
               <div className="lg:col-span-2 space-y-16">
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
                     <Award className="text-primary w-6 h-6" />
                     <h2 className="text-2xl md:text-3xl font-headline font-bold">About this Course</h2>
                   </div>
-                  <div className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line bg-card/30 p-6 md:p-8 rounded-none border border-white/5">
-                    {course.longDescription}
+                  <div className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line bg-card/30 p-6 md:p-8 rounded-none border border-white/5 font-medium">
+                    {course.longDescription || "This comprehensive course is designed to take you from fundamentals to advanced trading setups. Learn with precision and master the institutional narrative."}
                   </div>
                 </div>
 
-                <div className="space-y-8">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <BarChart className="text-primary w-6 h-6" />
-                      <h2 className="text-2xl md:text-3xl font-headline font-bold">Course Curriculum</h2>
+                {course.curriculum && course.curriculum.length > 0 && (
+                  <div className="space-y-8">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <BarChart className="text-primary w-6 h-6" />
+                        <h2 className="text-2xl md:text-3xl font-headline font-bold">Course Curriculum</h2>
+                      </div>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                        {course.curriculum.length} Chapters
+                      </p>
                     </div>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                      {course.curriculum.length} Chapters
-                    </p>
-                  </div>
-                  
-                  <Accordion type="single" collapsible className="w-full space-y-3">
-                    {course.curriculum.map((chapter, i) => (
-                      <AccordionItem 
-                        key={i} 
-                        value={`chapter-${i}`} 
-                        className="border border-white/5 rounded-none bg-card/40 overflow-hidden hover:border-primary/20 transition-all data-[state=open]:border-primary/30"
-                      >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                          <div className="flex items-center gap-4 text-left w-full pr-4">
-                            <span className="text-xl font-bold text-primary/20 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-                            <div className="flex-grow">
-                              <h4 className="text-base font-bold">{chapter.title}</h4>
-                              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">
-                                {chapter.lessons.length} Lessons • {chapter.duration}
-                              </p>
-                            </div>
-                            <div className="shrink-0 text-muted-foreground">
-                              {i === 0 ? <PlayCircle size={16} className="text-primary" /> : <Lock size={16} />}
-                            </div>
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-5 pt-1">
-                          <div className="space-y-2 pl-8 border-l border-white/5">
-                            {chapter.lessons.map((lesson, j) => (
-                              <div key={j} className="flex items-center justify-between py-2.5 px-4 rounded-none bg-background/30 border border-white/5 hover:border-white/10 transition-colors group">
-                                <div className="flex items-center gap-3">
-                                  <FileText size={12} className="text-muted-foreground group-hover:text-primary transition-colors" />
-                                  <span className="text-sm font-medium">{lesson}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                   {i === 0 && j === 0 ? (
-                                     <Badge variant="outline" className="text-[9px] text-primary border-primary/20 bg-primary/5 uppercase font-bold tracking-tighter">Preview</Badge>
-                                   ) : (
-                                     <Lock size={12} className="text-muted-foreground opacity-30" />
-                                   )}
-                                </div>
+                    
+                    <Accordion type="single" collapsible className="w-full space-y-3">
+                      {course.curriculum.map((chapter: any, i: number) => (
+                        <AccordionItem 
+                          key={i} 
+                          value={`chapter-${i}`} 
+                          className="border border-white/5 rounded-none bg-card/40 overflow-hidden hover:border-primary/20 transition-all data-[state=open]:border-primary/30"
+                        >
+                          <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                            <div className="flex items-center gap-4 text-left w-full pr-4">
+                              <span className="text-xl font-bold text-primary/20 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                              <div className="flex-grow">
+                                <h4 className="text-base font-bold">{chapter.title}</h4>
+                                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">
+                                  {chapter.lessons?.length || 0} Lessons • {chapter.duration}
+                                </p>
                               </div>
-                            ))}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
+                              <div className="shrink-0 text-muted-foreground">
+                                {i === 0 ? <PlayCircle size={16} className="text-primary" /> : <Lock size={16} />}
+                              </div>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="px-6 pb-5 pt-1">
+                            <div className="space-y-2 pl-8 border-l border-white/5">
+                              {chapter.lessons?.map((lesson: string, j: number) => (
+                                <div key={j} className="flex items-center justify-between py-2.5 px-4 rounded-none bg-background/30 border border-white/5 hover:border-white/10 transition-colors group">
+                                  <div className="flex items-center gap-3">
+                                    <FileText size={12} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                                    <span className="text-sm font-medium">{lesson}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </div>
+                )}
               </div>
 
-              {/* Right Column: Sticky Pricing & CTA */}
               <div className="relative">
                 <div className="lg:sticky lg:top-24 space-y-8">
                   <div className="p-8 rounded-none bg-gradient-to-b from-card to-card/50 border border-white/10 shadow-2xl">
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <p className="text-xs font-bold text-primary uppercase tracking-widest">Enrollment Fee</p>
-                        {course.price ? (
-                          <div className="flex items-baseline gap-3">
-                            <span className="text-4xl font-bold">₹<NumberFlow value={course.price} /></span>
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-4xl font-bold">₹<NumberFlow value={course.price} /></span>
+                          {course.oldPrice && (
                             <span className="text-xl text-muted-foreground line-through opacity-50">₹{course.oldPrice}</span>
-                          </div>
-                        ) : (
-                          <h3 className="text-2xl font-bold">Contact for Pricing</h3>
-                        )}
+                          )}
+                        </div>
                       </div>
 
                       <div className="pt-6 border-t border-white/5 space-y-5">
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Features:</p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Included:</p>
                         <div className="space-y-3">
-                          {course.highlights.map((highlight, i) => (
+                          {(course.features || []).map((highlight: string, i: number) => (
                             <div key={i} className="flex items-center gap-3">
                               <div className="h-5 w-5 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                                 <CheckCheck className="h-3 w-3 text-primary" />
@@ -380,9 +260,9 @@ export default function CourseDetailPage() {
                       </div>
 
                       <div className="pt-6">
-                        <Link href={course.enrollLink} target="_blank">
-                          <Button className="w-full h-14 rounded-none bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-[0_20px_40px_-12px_rgba(249,115,22,0.3)] hover:translate-y-[-2px] transition-all">
-                            Get Started Now
+                        <Link href={course.instamojoLink} target="_blank">
+                          <Button className="w-full h-14 rounded-none bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-2xl shadow-primary/25 hover:translate-y-[-2px] transition-all uppercase tracking-widest">
+                            Enroll Now
                           </Button>
                         </Link>
                         <p className="text-[9px] text-center text-muted-foreground mt-4 uppercase tracking-[0.1em] font-bold">
@@ -390,16 +270,6 @@ export default function CourseDetailPage() {
                         </p>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="p-6 rounded-none bg-card/20 border border-white/5">
-                    <h4 className="font-bold text-sm mb-2">Need Assistance?</h4>
-                    <p className="text-xs text-muted-foreground mb-5">Our advisors can help you choose the right path.</p>
-                    <Link href="/contact">
-                      <Button variant="outline" className="w-full rounded-none border-white/10 h-11 text-sm font-bold">
-                        Talk to an Advisor
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </div>

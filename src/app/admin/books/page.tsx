@@ -9,11 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, ListChecks } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, ListChecks, BookOpen } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
-import { cn } from "@/lib/utils";
 
 export default function AdminBooksPage() {
   const db = useFirestore();
@@ -30,52 +29,73 @@ export default function AdminBooksPage() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    longDescription: "",
     price: "",
     oldPrice: "",
     imageUrl: "",
     instamojoLink: "",
     features: "",
-    order: 0
+    order: 0,
+    chaptersRaw: "" // Format: Title | Description per line
   });
 
   const handleOpenDialog = (book: any = null) => {
     if (book) {
       setEditingBook(book);
+      const chapRaw = (book.chapters || []).map((c: any) => `${c.title} | ${c.description}`).join('\n');
       setFormData({
         title: book.title || "",
         description: book.description || "",
+        longDescription: book.longDescription || "",
         price: book.price?.toString() || "",
         oldPrice: book.oldPrice?.toString() || "",
         imageUrl: book.imageUrl || "",
         instamojoLink: book.instamojoLink || "",
         features: (book.features || []).join("\n"),
-        order: book.order || 0
+        order: book.order || 0,
+        chaptersRaw: chapRaw
       });
     } else {
       setEditingBook(null);
       setFormData({ 
         title: "", 
         description: "", 
+        longDescription: "",
         price: "", 
         oldPrice: "", 
         imageUrl: "", 
         instamojoLink: "", 
         features: "",
-        order: books?.length || 0 
+        order: books?.length || 0,
+        chaptersRaw: ""
       });
     }
     setIsDialogOpen(true);
   };
 
+  const parseChapters = (raw: string) => {
+    if (!raw.trim()) return [];
+    return raw.split('\n').filter(l => l.trim().includes('|')).map(l => {
+      const [title, description] = l.split('|');
+      return { title: title?.trim(), description: description?.trim() };
+    });
+  };
+
   const handleSave = () => {
     if (!db) return;
     
+    const chapters = parseChapters(formData.chaptersRaw);
     const payload = {
-      ...formData,
+      title: formData.title,
+      description: formData.description,
+      longDescription: formData.longDescription,
       price: parseFloat(formData.price) || 0,
       oldPrice: formData.oldPrice ? parseFloat(formData.oldPrice) : null,
+      imageUrl: formData.imageUrl,
+      instamojoLink: formData.instamojoLink,
       features: formData.features.split("\n").filter(f => f.trim() !== ""),
-      order: Number(formData.order)
+      order: Number(formData.order),
+      chapters: chapters
     };
 
     if (editingBook) {
@@ -142,20 +162,8 @@ export default function AdminBooksPage() {
                     </div>
                   </div>
                   <p className="text-muted-foreground text-sm line-clamp-2 mb-4 font-medium">{book.description}</p>
-                  
-                  {book.features && book.features.length > 0 && (
-                    <div className="mb-4 space-y-1 opacity-60">
-                      {book.features.slice(0, 2).map((f: string, i: number) => (
-                        <div key={i} className="flex items-center gap-2 text-[10px] font-bold uppercase">
-                          <ListChecks size={12} className="text-primary" /> {f}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
                   <div className="flex items-center gap-4 mb-4">
                     <span className="text-xl font-bold">₹{book.price}</span>
-                    {book.oldPrice && <span className="text-sm text-muted-foreground line-through opacity-50">₹{book.oldPrice}</span>}
                   </div>
                 </div>
                 <div className="flex gap-6">
@@ -170,7 +178,7 @@ export default function AdminBooksPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
+        <DialogContent className="max-w-4xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
           <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
             <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">{editingBook ? "Edit Book" : "Add New Book"}</DialogTitle>
           </DialogHeader>
@@ -185,10 +193,17 @@ export default function AdminBooksPage() {
                 <Input type="number" value={formData.order} onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
+            
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Short Description</label>
-              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" placeholder="Brief summary of the book..." />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Main Description (For List Cards)</label>
+              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[80px]" />
             </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Detailed Content (About Section on Details Page)</label>
+              <Textarea value={formData.longDescription} onChange={(e) => setFormData({ ...formData, longDescription: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[150px]" />
+            </div>
+
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Current Price (₹)</label>
@@ -199,22 +214,39 @@ export default function AdminBooksPage() {
                 <Input type="number" value={formData.oldPrice} onChange={(e) => setFormData({ ...formData, oldPrice: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="999" />
               </div>
             </div>
+            
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
-              <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://..." />
+              <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
+
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Link</label>
-              <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" placeholder="https://imjo.in/..." />
+              <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
+
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Specifications / Features (One per line)</label>
-              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" placeholder="High Quality Print&#10;Topic-wise breakdown&#10;Exam-ready notes" />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Key Features (One per line)</label>
+              <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[120px]" />
+            </div>
+
+            <div className="space-y-4 border-t border-white/5 pt-6">
+              <div className="flex items-center gap-2">
+                <BookOpen className="text-primary h-4 w-4" />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Table of Contents / Chapters (Senior Dev UX)</label>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium">Format: <strong>Chapter Title | Brief Description</strong> per line.</p>
+              <Textarea 
+                value={formData.chaptersRaw} 
+                onChange={(e) => setFormData({ ...formData, chaptersRaw: e.target.value })} 
+                className="bg-background rounded-none border-white/5 min-h-[200px] font-mono text-xs" 
+                placeholder="Introduction | Basic overview of the material&#10;Core Concepts | Deep dive into fundamentals"
+              />
             </div>
           </div>
           <DialogFooter className="p-8 border-t border-white/10 bg-white/5 gap-3">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="rounded-none border-white/10 h-12 px-8 font-bold uppercase tracking-widest text-[10px]">Cancel</Button>
-            <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Book</Button>
+            <Button onClick={handleSave} className="bg-primary rounded-none h-12 px-10 font-bold uppercase tracking-widest text-[10px]">Save Changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -10,6 +10,12 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/accordion";
+import { 
   ArrowLeft, 
   BookMarked, 
   ShoppingCart, 
@@ -17,7 +23,8 @@ import {
   CheckCheck,
   FileText,
   Star,
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from "lucide-react";
 import { useDoc, useFirestore } from "@/firebase";
 import { doc } from "firebase/firestore";
@@ -131,16 +138,44 @@ export default function BookDetailPage() {
                   </p>
                 </div>
 
+                {book.longDescription && (
+                  <div className="space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Overview</h3>
+                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line font-medium">
+                      {book.longDescription}
+                    </p>
+                  </div>
+                )}
+
+                {book.chapters && book.chapters.length > 0 && (
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="text-primary w-5 h-5" />
+                      <h3 className="text-xl font-headline font-bold uppercase">Table of Contents</h3>
+                    </div>
+                    <Accordion type="single" collapsible className="w-full space-y-2">
+                      {book.chapters.map((chapter: any, i: number) => (
+                        <AccordionItem key={i} value={`chapter-${i}`} className="border border-white/5 rounded-none bg-white/5 px-6">
+                          <AccordionTrigger className="text-sm font-bold hover:no-underline uppercase tracking-tight">
+                            {chapter.title}
+                          </AccordionTrigger>
+                          <AccordionContent className="text-muted-foreground leading-relaxed pb-6 text-xs font-medium">
+                            {chapter.description}
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </div>
+                )}
+
                 {/* Features / Specifications */}
                 {book.features && book.features.length > 0 && (
                   <div className="space-y-6">
-                    <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Specifications & Features</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-primary">Key Specifications</h3>
                     <div className="grid sm:grid-cols-2 gap-4">
                       {book.features.map((feature: string, i: number) => (
-                        <div key={i} className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 transition-colors hover:border-primary/30">
-                          <div className="h-6 w-6 rounded-none bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                            <CheckCheck className="h-3.5 w-3.5 text-primary" />
-                          </div>
+                        <div key={i} className="flex items-center gap-3 p-4 bg-white/5 border border-white/10">
+                          <CheckCheck className="h-4 w-4 text-primary shrink-0" />
                           <span className="text-[10px] font-bold uppercase tracking-widest text-foreground">{feature}</span>
                         </div>
                       ))}
@@ -150,14 +185,12 @@ export default function BookDetailPage() {
 
                 {/* Actions */}
                 <div className="pt-8 border-t border-white/5 space-y-6">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <a href={book.instamojoLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-                      <Button className="w-full h-16 rounded-none bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-2xl shadow-primary/25 border border-primary/20 uppercase tracking-widest">
-                        Purchase Now
-                        <ShoppingCart className="ml-2 h-5 w-5" />
-                      </Button>
-                    </a>
-                  </div>
+                  <a href={book.instamojoLink} target="_blank" rel="noopener noreferrer">
+                    <Button className="w-full h-16 rounded-none bg-gradient-to-t from-primary to-orange-400 font-bold text-lg shadow-2xl shadow-primary/25 border border-primary/20 uppercase tracking-widest">
+                      Purchase Now
+                      <ShoppingCart className="ml-2 h-5 w-5" />
+                    </Button>
+                  </a>
 
                   <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
                     <div className="flex items-center gap-3">
@@ -170,28 +203,9 @@ export default function BookDetailPage() {
                     </div>
                   </div>
                 </div>
-
-                <div className="bg-card/50 p-6 border border-white/5 space-y-2">
-                  <h4 className="font-bold text-sm uppercase tracking-tight">Need a Sample Chapter?</h4>
-                  <p className="text-xs text-muted-foreground font-medium">Contact our support to receive a preview of our premium materials.</p>
-                  <Link href="/contact" className="inline-block text-[10px] font-bold text-primary uppercase tracking-widest hover:underline mt-2">
-                    Request Preview →
-                  </Link>
-                </div>
               </div>
 
             </div>
-          </div>
-        </section>
-
-        {/* Bottom Disclaimer */}
-        <section className="py-20 bg-card/20 border-t border-white/5">
-          <div className="container mx-auto px-4 text-center">
-            <p className="text-[10px] text-muted-foreground max-w-3xl mx-auto uppercase tracking-widest leading-loose">
-              Educational materials are digital or printed resources intended for skill-building. 
-              The Finance School provides research-backed study content focused on market fundamentals and NISM prep. 
-              All sales are governed by our standard terms and conditions.
-            </p>
           </div>
         </section>
       </main>

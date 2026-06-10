@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from "react";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Trash2, Edit3, Plus, ExternalLink, Info, Star } from "lucide-react";
+import { Trash2, Edit3, Plus, ExternalLink, Info, Star, BookOpen, Clock } from "lucide-react";
 import Image from "next/image";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
@@ -33,12 +34,14 @@ export default function AdminCoursesPage() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    longDescription: "",
     price: "",
     oldPrice: "",
     imageUrl: "",
     instamojoLink: "",
     features: "",
-    order: 0
+    order: 0,
+    curriculumRaw: "" // For senior dev UX: Chapters separated by empty line, lessons starting with -
   });
 
   const filteredCourses = useMemo(() => {
@@ -52,32 +55,71 @@ export default function AdminCoursesPage() {
   const handleOpenDialog = (course: any = null) => {
     if (course) {
       setEditingCourse(course);
+      // Format curriculum back to raw text for editing
+      const raw = (course.curriculum || []).map((chap: any) => {
+        return `${chap.title} | ${chap.duration}\n${(chap.lessons || []).map((l: string) => `- ${l}`).join('\n')}`;
+      }).join('\n\n');
+
       setFormData({
         title: course.title || "",
         description: course.description || "",
+        longDescription: course.longDescription || "",
         price: course.price?.toString() || "",
         oldPrice: course.oldPrice?.toString() || "",
         imageUrl: course.imageUrl || "",
         instamojoLink: course.instamojoLink || "",
         features: (course.features || []).join("\n"),
-        order: course.order || 0
+        order: course.order || 0,
+        curriculumRaw: raw
       });
     } else {
       setEditingCourse(null);
-      setFormData({ title: "", description: "", price: "", oldPrice: "", imageUrl: "", instamojoLink: "", features: "", order: allCourses?.length || 0 });
+      setFormData({ 
+        title: "", 
+        description: "", 
+        longDescription: "",
+        price: "", 
+        oldPrice: "", 
+        imageUrl: "", 
+        instamojoLink: "", 
+        features: "", 
+        order: allCourses?.length || 0,
+        curriculumRaw: ""
+      });
     }
     setIsDialogOpen(true);
+  };
+
+  const parseCurriculum = (raw: string) => {
+    if (!raw.trim()) return [];
+    const chapters = raw.split('\n\n');
+    return chapters.map(chapStr => {
+      const lines = chapStr.split('\n');
+      const header = lines[0].split('|');
+      const title = header[0]?.trim() || "Untitled Chapter";
+      const duration = header[1]?.trim() || "0h 0m";
+      const lessons = lines.slice(1)
+        .filter(l => l.trim().startsWith('-'))
+        .map(l => l.trim().substring(1).trim());
+      return { title, duration, lessons };
+    });
   };
 
   const handleSave = () => {
     if (!db) return;
     
+    const curriculum = parseCurriculum(formData.curriculumRaw);
     const payload = {
-      ...formData,
+      title: formData.title,
+      description: formData.description,
+      longDescription: formData.longDescription,
       price: parseFloat(formData.price) || 0,
       oldPrice: formData.oldPrice ? parseFloat(formData.oldPrice) : null,
+      imageUrl: formData.imageUrl,
+      instamojoLink: formData.instamojoLink,
       features: formData.features.split("\n").filter(f => f.trim() !== ""),
-      order: Number(formData.order)
+      order: Number(formData.order),
+      curriculum: curriculum
     };
 
     if (editingCourse) {
@@ -167,8 +209,14 @@ export default function AdminCoursesPage() {
                     </div>
                   </div>
                   <p className="text-muted-foreground text-sm line-clamp-2 mb-4 font-medium">{course.description}</p>
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="text-xl font-bold">₹{course.price}</span>
+                  
+                  <div className="flex items-center gap-6 mb-4">
+                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-primary">
+                      <BookOpen size={14} /> {course.curriculum?.length || 0} Chapters
+                    </div>
+                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-accent">
+                      <Clock size={14} /> ₹{course.price}
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-6">
@@ -183,11 +231,11 @@ export default function AdminCoursesPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
+        <DialogContent className="max-w-4xl bg-card border-white/10 rounded-none max-h-[90vh] overflow-y-auto p-0">
           <DialogHeader className="p-8 border-b border-white/10 bg-white/5">
             <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">{editingCourse ? "Edit Course" : "Add New Course"}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-6 p-8">
+          <div className="space-y-8 p-8">
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Course Title</label>
@@ -198,10 +246,17 @@ export default function AdminCoursesPage() {
                 <Input type="number" value={formData.order} onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
+            
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Short Description</label>
-              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Main Description (For List Cards)</label>
+              <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[80px]" />
             </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Detailed Content (About Section on Syllabus Page)</label>
+              <Textarea value={formData.longDescription} onChange={(e) => setFormData({ ...formData, longDescription: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[150px]" placeholder="Deep dive into what the course covers..." />
+            </div>
+
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Price (₹)</label>
@@ -212,17 +267,34 @@ export default function AdminCoursesPage() {
                 <Input type="number" value={formData.oldPrice} onChange={(e) => setFormData({ ...formData, oldPrice: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
               </div>
             </div>
+
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Image URL</label>
               <Input value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
+
             <div className="space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Instamojo Link</label>
               <Input value={formData.instamojoLink} onChange={(e) => setFormData({ ...formData, instamojoLink: e.target.value })} className="bg-background rounded-none border-white/5 h-12" />
             </div>
+
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Key Features (One per line)</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Key Highlights (One per line)</label>
               <Textarea value={formData.features} onChange={(e) => setFormData({ ...formData, features: e.target.value })} className="bg-background rounded-none border-white/5 min-h-[100px]" />
+            </div>
+
+            <div className="space-y-4 border-t border-white/5 pt-6">
+              <div className="flex items-center gap-2">
+                <BookOpen className="text-primary h-4 w-4" />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Curriculum Editor (Senior Dev UX)</label>
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium">Format: <strong>Title | Duration</strong> followed by <strong>- Lesson Name</strong>. Separate chapters with an empty line.</p>
+              <Textarea 
+                value={formData.curriculumRaw} 
+                onChange={(e) => setFormData({ ...formData, curriculumRaw: e.target.value })} 
+                className="bg-background rounded-none border-white/5 min-h-[300px] font-mono text-xs leading-relaxed" 
+                placeholder="Introduction | 1h 30m&#10;- Lesson One Name&#10;- Lesson Two Name&#10;&#10;Advanced Module | 4h 00m&#10;- Deep Dive Lesson"
+              />
             </div>
           </div>
           <DialogFooter className="p-8 border-t border-white/10 bg-white/5 gap-3">

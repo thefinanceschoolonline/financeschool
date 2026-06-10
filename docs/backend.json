@@ -8,6 +8,7 @@
       "properties": {
         "title": { "type": "string" },
         "description": { "type": "string" },
+        "longDescription": { "type": "string" },
         "price": { "type": "number" },
         "oldPrice": { "type": "number" },
         "imageUrl": { "type": "string" },
@@ -15,6 +16,20 @@
         "features": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "curriculum": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "duration": { "type": "string" },
+              "lessons": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
         },
         "order": { "type": "number" }
       },
@@ -27,6 +42,7 @@
       "properties": {
         "title": { "type": "string" },
         "description": { "type": "string" },
+        "longDescription": { "type": "string" },
         "price": { "type": "number" },
         "oldPrice": { "type": "number" },
         "imageUrl": { "type": "string" },
@@ -34,6 +50,16 @@
         "features": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "chapters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
         },
         "order": { "type": "number" }
       },
