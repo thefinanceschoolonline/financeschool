@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -36,7 +35,7 @@ export default function AdminBooksPage() {
     instamojoLink: "",
     features: "",
     order: 0,
-    chaptersRaw: "" // Format: Title | Description per line
+    chaptersRaw: "" 
   });
 
   const handleOpenDialog = (book: any = null) => {
@@ -75,10 +74,17 @@ export default function AdminBooksPage() {
 
   const parseChapters = (raw: string) => {
     if (!raw.trim()) return [];
-    return raw.split('\n').filter(l => l.trim().includes('|')).map(l => {
-      const [title, description] = l.split('|');
-      return { title: title?.trim(), description: description?.trim() };
-    });
+    // Robust parsing for books: split by lines, trim, filter for valid data
+    return raw.split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0 && line.includes('|'))
+      .map(line => {
+        const [title, description] = line.split('|');
+        return { 
+          title: title?.trim() || "Untitled Section", 
+          description: description?.trim() || "No description provided." 
+        };
+      });
   };
 
   const handleSave = () => {

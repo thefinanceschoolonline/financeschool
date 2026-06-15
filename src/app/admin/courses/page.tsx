@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo } from "react";
@@ -41,7 +40,7 @@ export default function AdminCoursesPage() {
     instamojoLink: "",
     features: "",
     order: 0,
-    curriculumRaw: "" // For senior dev UX: Chapters separated by empty line, lessons starting with -
+    curriculumRaw: "" 
   });
 
   const filteredCourses = useMemo(() => {
@@ -55,9 +54,10 @@ export default function AdminCoursesPage() {
   const handleOpenDialog = (course: any = null) => {
     if (course) {
       setEditingCourse(course);
-      // Format curriculum back to raw text for editing
       const raw = (course.curriculum || []).map((chap: any) => {
-        return `${chap.title} | ${chap.duration}\n${(chap.lessons || []).map((l: string) => `- ${l}`).join('\n')}`;
+        const header = `${chap.title || "Untitled Chapter"} | ${chap.duration || "0h 0m"}`;
+        const lessons = (chap.lessons || []).map((l: string) => `- ${l}`).join('\n');
+        return lessons ? `${header}\n${lessons}` : header;
       }).join('\n\n');
 
       setFormData({
@@ -92,17 +92,25 @@ export default function AdminCoursesPage() {
 
   const parseCurriculum = (raw: string) => {
     if (!raw.trim()) return [];
-    const chapters = raw.split('\n\n');
-    return chapters.map(chapStr => {
-      const lines = chapStr.split('\n');
-      const header = lines[0].split('|');
-      const title = header[0]?.trim() || "Untitled Chapter";
-      const duration = header[1]?.trim() || "0h 0m";
+    
+    // Split into blocks by double-newline (or more), ignoring whitespace-only lines
+    const blocks = raw.split(/\n\s*\n/).map(b => b.trim()).filter(b => b.length > 0);
+    
+    return blocks.map(block => {
+      const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) return null;
+      
+      const headerLine = lines[0];
+      const headerParts = headerLine.split('|');
+      const title = headerParts[0]?.trim() || "Untitled Chapter";
+      const duration = headerParts[1]?.trim() || "0h 0m";
+      
       const lessons = lines.slice(1)
-        .filter(l => l.trim().startsWith('-'))
-        .map(l => l.trim().substring(1).trim());
+        .filter(l => l.startsWith('-'))
+        .map(l => l.substring(1).trim());
+        
       return { title, duration, lessons };
-    });
+    }).filter(c => c !== null);
   };
 
   const handleSave = () => {
