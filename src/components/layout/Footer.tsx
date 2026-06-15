@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -107,9 +106,14 @@ export function Footer() {
         </div>
         
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs text-muted-foreground font-medium">
-            Copyright © {currentYear} The Finance School. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-xs text-muted-foreground font-medium">
+              Copyright © {currentYear} The Finance School. All rights reserved.
+            </p>
+            <p className="text-[10px] text-muted-foreground/60 font-medium">
+              Designed and Developed by <a href="https://budgetdev.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">BudgetDev Software Solutions</a>
+            </p>
+          </div>
           <div className="flex gap-8 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
             <span>Empowering Traders</span>
             <span>Built for Results</span>
